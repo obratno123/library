@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html class="light" lang="ru"><head>
@@ -73,7 +74,7 @@
       }
     </script>
 
-<link href="css/index.css" rel="stylesheet"/></head>
+<link href="{% static 'css/index.css' %}" rel="stylesheet"/></head>
 <body class="min-h-screen flex flex-col selection:bg-secondary-container selection:text-on-secondary-container">
 <!-- TopAppBar -->
 <header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm opacity-95">
@@ -310,7 +311,7 @@
 </div>
 </div>
 </footer>
-<script src="js/config.js"></script>
-<script src="js/auth-common.js"></script>
-<script src="js/auth-links.js"></script>
+<script src="{% static 'js/config.js' %}"></script>
+<script src="{% static 'js/auth-common.js' %}"></script>
+<script src="{% static 'js/auth-links.js' %}"></script>
 </body></html>

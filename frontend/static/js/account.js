@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const guestOnly = document.querySelectorAll('[data-auth-guest-only]');
 
   if (!user) {
-    window.location.href = 'login.html';
+    window.location.href = '/login/';
     return;
   }
 
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.warn(error);
       } finally {
         AuthAPI.clearAuthUser();
-        window.location.href = 'login.html';
+        window.location.href = '/login/';
       }
     });
   }

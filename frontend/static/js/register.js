@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const password = passwordInput.value;
     const passwordConfirm = confirmInput.value;
 
+    if (!username || !password) {
+      AuthAPI.setMessage(message, 'Логин и пароль обязательны', true);
+      return;
+    }
+
     if (password !== passwordConfirm) {
       AuthAPI.setMessage(message, 'Пароли не совпадают', true);
       return;
@@ -37,10 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
         email
       });
 
-      AuthAPI.setMessage(message, data.message || 'Аккаунт создан', false);
-      window.location.href = 'account.html';
+      AuthAPI.setMessage(message, data.message || 'Пользователь зарегистрирован', false);
+      window.location.href = '/profile/';
     } catch (error) {
       AuthAPI.setMessage(message, error.message || 'Ошибка регистрации', true);
+      console.error('REGISTER ERROR:', error);
     } finally {
       submitButton.disabled = false;
     }

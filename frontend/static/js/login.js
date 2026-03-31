@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       AuthAPI.setMessage(message, data.message || 'Вход выполнен', false);
-      window.location.href = 'account.html';
+      window.location.href = '/profile/';
     } catch (error) {
       AuthAPI.setMessage(message, error.message || 'Ошибка входа', true);
     } finally {
