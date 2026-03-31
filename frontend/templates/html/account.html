@@ -80,7 +80,7 @@
 <div class="flex justify-between items-center px-8 h-20 w-full max-w-7xl mx-auto">
 <a class="text-2xl font-serif font-bold text-[#1b1c19] dark:text-[#fbf9f4]" href="index.html">Букинист</a>
 <div class="hidden md:flex items-center space-x-8">
-<a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="#">Каталог</a>
+<a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="catalog.html">Каталог</a>
 <a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="#">Новинки</a>
 <a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="#">Коллекции</a>
 <a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="#">Скидки</a>
@@ -122,6 +122,10 @@
 <span class="text-sm">Настройки</span>
 </a>
 </nav>
+<button class="mt-6 w-full flex items-center justify-center gap-3 px-4 py-3 bg-primary text-on-primary rounded-lg font-semibold hover:bg-primary-container transition-colors" id="logout-btn" type="button">
+<span class="material-symbols-outlined text-lg">logout</span>
+<span class="text-sm">Выйти</span>
+</button>
 </div>
 </aside>
 <!-- Content Area -->
@@ -138,11 +142,11 @@
 </button>
 </div>
 <div class="flex-1">
-<h1 class="font-serif text-3xl text-on-surface mb-2">Александр Пушкин</h1>
+<h1 class="font-serif text-3xl text-on-surface mb-2" data-auth="username">Александр Пушкин</h1>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 <div class="space-y-1">
 <p class="text-[0.6875rem] font-bold text-outline uppercase tracking-wider">Электронная почта</p>
-<p class="text-on-surface font-medium">reader@archive.ru</p>
+<p class="text-on-surface font-medium" data-auth="email">reader@archive.ru</p>
 </div>
 <div class="space-y-1">
 <p class="text-[0.6875rem] font-bold text-outline uppercase tracking-wider">Телефон</p>
@@ -302,4 +306,8 @@
 </div>
 </div>
 </footer>
+<script src="js/config.js"></script>
+<script src="js/auth-common.js"></script>
+<script src="js/account.js"></script>
+<script src="js/auth-links.js"></script>
 </body></html>

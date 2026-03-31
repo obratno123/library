@@ -93,32 +93,31 @@
 <h1 class="text-4xl font-serif text-on-surface mb-3 leading-none">С возвращением</h1>
 <p class="text-on-surface-variant font-body">Войдите в свой личный архив</p>
 </header>
-<form class="space-y-6">
+<form class="space-y-6" id="login-form">
 <!-- Email Input -->
 <div class="space-y-1.5">
-<label class="text-xs font-label uppercase tracking-wider text-on-surface-variant" for="email">Электронная почта</label>
+<label class="text-xs font-label uppercase tracking-wider text-on-surface-variant" for="login-username">Логин</label>
 <div class="relative">
-<input class="w-full bg-surface-container-high border-none px-4 py-3.5 focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary/20 transition-all font-body text-on-surface placeholder-outline/50" id="email" name="email" placeholder="example@mail.ru" required="" type="email"/>
+<input class="w-full bg-surface-container-high border-none px-4 py-3.5 focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary/20 transition-all font-body text-on-surface placeholder-outline/50" id="login-username" name="username" placeholder="Ваш логин" required="" type="text"/>
 </div>
 </div>
 <!-- Password Input -->
 <div class="space-y-1.5">
 <div class="flex justify-between items-end">
-<label class="text-xs font-label uppercase tracking-wider text-on-surface-variant" for="password">Пароль</label>
+<label class="text-xs font-label uppercase tracking-wider text-on-surface-variant" for="login-password">Пароль</label>
 <a class="text-xs font-label text-primary hover:text-primary-container transition-colors" href="register.html">Забыли пароль?</a>
 </div>
 <div class="relative">
-<input class="w-full bg-surface-container-high border-none px-4 py-3.5 focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary/20 transition-all font-body text-on-surface placeholder-outline/50" id="password" name="password" placeholder="••••••••" required="" type="password"/>
-<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" type="button">
+<input class="w-full bg-surface-container-high border-none px-4 py-3.5 focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary/20 transition-all font-body text-on-surface placeholder-outline/50" id="login-password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" data-toggle-password="login-password" type="button">
 <span class="material-symbols-outlined text-xl">visibility</span>
 </button>
 </div>
 </div>
 <!-- Submit Button (Letterpress Style) -->
 <div class="pt-4">
-<a class="w-full bg-primary text-on-primary py-4 px-6 font-label font-bold tracking-wide shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:bg-primary-container active:scale-[0.98] transition-all duration-200" href="account.html">
-                                Войти
-                            </a>
+<button class="w-full bg-primary text-on-primary py-4 px-6 font-label font-bold tracking-wide shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:bg-primary-container active:scale-[0.98] transition-all duration-200" id="login-submit" type="submit">Войти</button>
+<p class="hidden mt-4 text-sm font-body" id="login-message"></p>
 </div>
 </form>
 <!-- Registration Link -->
@@ -137,4 +136,8 @@
 <p class="text-outline text-[11px] font-label uppercase tracking-[0.2em]">© 2024 Букинист. Цифровой Куратор Ваших Знаний.</p>
 </footer>
 <!-- BottomNavBar Suppressed: Focus on Login Task -->
+<script src="js/config.js"></script>
+<script src="js/auth-common.js"></script>
+<script src="js/login.js"></script>
+<script src="js/auth-links.js"></script>
 </body></html>
