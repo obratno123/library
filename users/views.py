@@ -71,3 +71,21 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return JsonResponse({"message": "Выход выполнен"})
+
+
+@require_http_methods(["GET"])
+def user_profile(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "Не авторизован"}, status=401)
+
+    profile = request.user.profile
+
+    return JsonResponse({
+        "user_id": request.user.id,
+        "username": request.user.username,
+        "email": request.user.email,
+        "full_name": profile.full_name,
+        "city": profile.city,
+        "delivery_address": profile.delivery_address,
+        "postal_code": profile.postal_code,
+    })
