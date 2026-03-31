@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Букинист — Эстетика печатного слова</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "background": "#fbf9f4",
+              "primary-container": "#b15f00",
+              "secondary-fixed-dim": "#f7ba8a",
+              "on-primary-container": "#fffbff",
+              "tertiary": "#006096",
+              "surface-container-high": "#eae8e3",
+              "tertiary-fixed-dim": "#96ccff",
+              "secondary-container": "#fdbf8f",
+              "inverse-surface": "#30312e",
+              "on-primary-fixed": "#2f1500",
+              "on-secondary-fixed-variant": "#673d17",
+              "primary": "#8d4b00",
+              "primary-fixed": "#ffdcc3",
+              "surface-bright": "#fbf9f4",
+              "tertiary-fixed": "#cee5ff",
+              "on-surface": "#1b1c19",
+              "on-tertiary-fixed": "#001d32",
+              "on-error-container": "#93000a",
+              "secondary-fixed": "#ffdcc3",
+              "on-primary-fixed-variant": "#6e3900",
+              "surface-container": "#f0eee9",
+              "tertiary-container": "#007abd",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#ffb77d",
+              "primary-fixed-dim": "#ffb77d",
+              "on-surface-variant": "#554336",
+              "on-tertiary-fixed-variant": "#004a75",
+              "secondary": "#82542c",
+              "surface-container-low": "#f5f3ee",
+              "outline-variant": "#dbc2b0",
+              "outline": "#887364",
+              "error": "#ba1a1a",
+              "surface": "#fbf9f4",
+              "on-secondary-container": "#784c25",
+              "on-secondary-fixed": "#2f1500",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e4e2dd",
+              "surface-container-highest": "#e4e2dd",
+              "inverse-on-surface": "#f2f1ec",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#904d00",
+              "on-background": "#1b1c19",
+              "on-secondary": "#ffffff",
+              "on-tertiary-container": "#fdfcff",
+              "surface-dim": "#dbdad5"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Manrope', sans-serif; background-color: #fbf9f4; color: #1b1c19; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .letterpress-btn {
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopAppBar -->
+<header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm opacity-95">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Бестселлеры</a>
+<a class="font-label text-sm tracking-tight text-[#8d4b00] border-b-2 border-[#8d4b00] pb-1 font-bold" href="#">Новинки</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Коллекции</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Распродажа</a>
+</nav>
+<div class="flex items-center gap-6 text-[#8d4b00] dark:text-[#fdbf8f]">
+<div class="hidden lg:flex items-center bg-surface-container-high px-4 py-2 rounded-full gap-2">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm font-label w-48 placeholder:text-outline" placeholder="Поиск книг..." type="text"/>
+</div>
+<button class="hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+<button class="hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</div>
+<div class="bg-[#e4e2dd] dark:bg-stone-800 h-[1px] w-full"></div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative bg-surface-container-low overflow-hidden">
+<div class="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-12 py-20 px-8">
+<div class="z-10">
+<span class="font-label text-xs uppercase tracking-widest text-primary mb-4 block">Впервые на русском</span>
+<h1 class="font-headline text-6xl lg:text-7xl mb-6 text-on-surface leading-tight italic">Искусство <br/>медленной жизни</h1>
+<p class="text-on-surface-variant font-body text-lg mb-10 max-w-md leading-relaxed">
+                        Глубокое исследование философии осознанности в современном мире от лауреата литературных премий Эммы Сарьян.
+                    </p>
+<div class="flex items-center gap-8">
+<button class="letterpress-btn bg-primary text-on-primary px-8 py-4 rounded-md font-body font-bold text-lg hover:opacity-90 transition-all scale-95 active:scale-90">
+                            Купить за 1 500 ₽
+                        </button>
+<div class="flex flex-col">
+<span class="text-xs text-outline font-label uppercase tracking-tighter">Наличие</span>
+<span class="font-bold text-on-surface">В магазине и онлайн</span>
+</div>
+</div>
+</div>
+<div class="relative flex justify-center">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-3xl -z-10"></div>
+<img alt="book cover" class="w-80 h-[500px] object-cover shadow-2xl rounded-sm transform rotate-3 hover:rotate-0 transition-transform duration-700" data-alt="high-quality book cover with elegant typography and abstract minimalist art, standing at an angle with soft atmospheric shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkFmtcJbwE1uC2p0459-C68N2L29PgeRv1Wdv06Yzpsuf_VR7IzDkomviaND7fbFSIU5J_eFJDks192VsL_X9-EDXOgk5R13nuz63Ap7wt-W9xGxIrzxhhSubBtFE5AH7cLu0bO1eiLS0plMs48s7LbAbAVlUDGUqHVflfN5qkoNS9yfSaJko_1hylh9Q5sYxVdqqG5kWeBEl02xV6ldyo9cX9eHAEpBt-CkgIkWGP9SudwHnq8jS5JJC_Bzda6jtorzNmsFh4HBU"/>
+</div>
+</div>
+</section>
+<!-- Popular Categories: Bento Grid -->
+<section class="max-w-7xl mx-auto px-8 py-24">
+<h2 class="font-headline text-4xl mb-12 text-on-surface italic">Популярные категории</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[600px]">
+<div class="md:col-span-2 md:row-span-2 bg-surface-container-highest relative overflow-hidden group">
+<img alt="fiction" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" data-alt="atmospheric library shelf with leather bound books and a single warm lamp light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3RUgVNxtbuDG3LQYjmlhFyk2gX9FywcDv0zXqeKKilvAIRIbmAE7WdrC5nOTkldBoG5T_xeeTajfcQxD7BdZ5sMxRgPwnTZs07Se9XCFy-6T7LPDdhd_I0-5Ksh3vtVAtiaYIzKXTdEsCCuQdp3EH_P_bzNSm9mcL1RQOOUj3LXInle5ddr-5hpyXV9kcVALKfdrZp-QA_9a80EjRfGN4t5z1odky6m61IesjoZyODVlcc6NeH6zBvmQxHTYROJbLImnMRE4TJkM"/>
+<div class="absolute bottom-0 left-0 p-8">
+<h3 class="font-headline text-3xl text-on-surface mb-2">Художественная литература</h3>
+<p class="font-body text-on-surface-variant">От классики до современных романов</p>
+</div>
+</div>
+<div class="md:col-span-2 bg-surface-container relative overflow-hidden group">
+<img alt="art" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500" data-alt="modern art studio with canvases and paint brushes in soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAidqb0qWWw_BlFEKhoEuKFX8fPQIf6PyoWxAmfLRX3itZCW1JSQ4GSQkgpszHNAIUoPVEz0dBOEqngz38i4zMtSPFhw9fvtVRLPq0u6-_4MPN5wZFOtiN-HARXBF-OrGzoDG4CIYMG1rTlI9Gg73TMSgG9mYvIDQcM0Vx-R_HRsPHQRZzx53ElsoUN8Dp_Sntpq_FkulWlFCF4QiqRY92RVL0eJyh1ztioJQdAbWXwSqIF-YyA5BrxqRSy8oC-gHldx_iwakIoZjA"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<h3 class="font-headline text-2xl text-on-surface">Искусство и дизайн</h3>
+</div>
+</div>
+<div class="bg-primary-container/20 relative overflow-hidden flex items-end p-6 group">
+<h3 class="font-headline text-xl text-primary z-10">Психология</h3>
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+</div>
+<div class="bg-surface-container-high relative overflow-hidden flex items-end p-6 group">
+<h3 class="font-headline text-xl text-on-surface z-10">Детские книги</h3>
+</div>
+</div>
+</section>
+<!-- New Arrivals & Bestsellers -->
+<section class="bg-surface-container-lowest py-24">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="font-headline text-4xl text-on-surface italic">Новинки и Бестселлеры</h2>
+<p class="text-on-surface-variant font-body mt-2">То, что читают прямо сейчас</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-high p-3 rounded-full hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="bg-surface-container-high p-3 rounded-full hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-16">
+<!-- Book Item 1 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
+<img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="book cover with floral pattern and golden title typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhyrjxpYrK3V13IeeSCOVOT6KJTIScIfloHWY6zGNJEeRfUZT8SImOSL731kzEQcurlXjRLRNK48xDFW-1xIxEQa3SiCupldPcOz2oKQvKsi_uq5gvulGTCVnf2uuZPLEN1MiLrXvGqtuM-rYRMmaDXP7ybje6tBye4ROtJRBPhWIyy9I8Ppvm1kRZyEfcfqUqGPzJZm_gUSpGZcfF-9ZZ6GHWBjiIAslNbmn7vynjOWNiFVvqRN5ygmaIAoZrx-K9nl7v-aSx4CQ"/>
+<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+</div>
+<span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Кристофер Нолан</span>
+<h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Межзвездное время</h4>
+<span class="font-body font-bold text-on-surface">890 ₽</span>
+</div>
+<!-- Book Item 2 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
+<img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="minimalist blue book cover with a simple white line illustration of a mountain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3rELGsXT6FlCIUJK945eFoHGfvrUAsxs53bJkGXjuIUiRJOfGjdvYArrp0Alp9N6vD3aBUtIss85A-1K7ZLMKO_Ctbbq8HqTk92jwaWIOxNasTxnU2GAIy5wc2D1Zabwh-qWYwnUCLYOoN6hdyrraG8ecp_Zlza2-iO1z7buGkz4peV35gyKqT7gBlHV6zZctUbOuFrgE7Z3lKO2VDMlzVl9bb-7Hc2Tx6-YkeYo7VpSkWYcnQwyiwhzgbUpWht3V9E1bEWTnjlE"/>
+<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+</div>
+<span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Мария Степанова</span>
+<h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Памяти памяти</h4>
+<span class="font-body font-bold text-on-surface">1 200 ₽</span>
+</div>
+<!-- Book Item 3 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
+<img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="vibrant book cover with collage art and bold sans-serif title" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYB3JrVulTuRrIG6WR7MiLBBpKLywjOfDNpQ6d7VgaKDAXPLKL-6kaHDMi1cUgzNhsru1bFVs4NfC8UFdk2sqZSIo91GMTcc2oLoOweDiRir1CLHLmGo3yGB_OTvKqAKYNL4v3MNklT2bdyioplsmfchKHtHILPqvHYeZc6RjzYKa2CdvONfk7LL7qnW7LRXKRpnHQDnxnA5G5aa8i6EHP4yXGAtowCOiAQ7RwT4ysWrkubZMLANIonmllpq4mGRz9Wu6akdqjsKk"/>
+<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+</div>
+<span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Джон Доу</span>
+<h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Городские легенды</h4>
+<span class="font-body font-bold text-on-surface">750 ₽</span>
+</div>
+<!-- Book Item 4 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
+<img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="dark elegant book cover with silver foil accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmTWvkUb0nSlZ0iMVasxbIOADjE4JkE1bRKzdcvQLjXBu0NQjw8hKgEnGdHmxVu3pVyOkBF29AdtLHQEc19JO-GNjogtwTe5RZcG-twCq6tCl5PSlXiDlZ22AZFVuAfYC8BR6REo6kWB3d3TiQechHpiTk-LTXKV9CBhaihtakqbB2fklnrqGdG1K9TTLFj90eTNdn91VF7o8BSQA6hh6F3v9_QUrT4DPoD-vblgPZyXcVC9U-NE5cwT848pqGG-yXYXp2qFvshLg"/>
+<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+</div>
+<span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Анна Ахматова</span>
+<h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Лирика. Полное собрание</h4>
+<span class="font-body font-bold text-on-surface">2 100 ₽</span>
+</div>
+<!-- Book Item 5 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
+<img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="green book cover with botanical illustrations" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1PwyAQUsbSUDxg2g9zRFH-NSCg2rc7i0zCA1ALZoP4TsjzPlMuey5c67ynw4a_zj08Vzy3bWCp9zPZuw2VnpiQDd9QAxyUARuKKnf7tXZqXzh5ycgt4ZFl4BEL8hWapT6LeLInstNhybMgLxd7vfBwGyeXPi94TgWeD82s4pD0UOX9DK6_HqD93dtb-J5wsErChFtMU334HiTK40UmjRdmpOAwZ5lNXwUm20e9EEj51c1sDL6KFZOmsaj6wks_yIYCXFWFt9nvQI"/>
+<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+</div>
+<span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Питер Уоллес</span>
+<h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Тайный сад</h4>
+<span class="font-body font-bold text-on-surface">920 ₽</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Editorial Selection -->
+<section class="py-24 px-8 overflow-hidden">
+<div class="max-w-7xl mx-auto bg-surface-container-highest p-12 lg:p-20 relative">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div>
+<h2 class="font-headline text-5xl mb-8 leading-tight italic">Подборка: <br/>«Мировая классика»</h2>
+<p class="font-body text-on-surface-variant text-lg mb-10 leading-relaxed italic">
+                            «Книги, которые не стареют, а только набирают глубину с каждым десятилетием. Мы собрали издания с лучшими переводами и качественной бумагой для вашей домашней библиотеки.»
+                        </p>
+<a class="inline-flex items-center gap-4 text-primary font-bold group" href="#">
+                            Смотреть всю коллекцию
+                            <span class="w-12 h-[2px] bg-primary group-hover:w-20 transition-all duration-300"></span>
+</a>
+</div>
+<div class="relative flex justify-center items-center">
+<div class="w-64 h-80 bg-stone-300 transform -rotate-6 absolute z-0 translate-x-12 translate-y-4">
+<img alt="classic book 1" class="w-full h-full object-cover grayscale" data-alt="classic hardback book with gold embossing on dark green spine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDskWK-wbgBS1RvvvOh95Q_iJkXoP-V55oJdZv7iImnOdMaE9tmj_5vfp17wt9er0Bsdt5RnAqkNv3tj1prqRcP6vKsfAJwAMeHX1ddfXcTgi-4eDu5ZFh2M09X0gT1sghnJXlUzVmxRoLv4V5QqkjsUhyENPOn3aJDKYWsPBWUuYlI5os9sGU-Gyc724YenfFYlg0B-dIN4zAKRWxOjYkijfdCpqS_AOoump83rQ_ZBV8CNLLTgMtIUy7TjnDRhvhwl3EXSlqyPMc"/>
+</div>
+<div class="w-64 h-80 bg-stone-100 transform rotate-3 z-10 shadow-2xl relative overflow-hidden">
+<img alt="classic book 2" class="w-full h-full object-cover" data-alt="close-up of a page from an old classic book with elegant typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcz7m5mvzGTucoDPeR_XXMZkS_DXPC4TqZ1LUchzjaR6kS_sXepKvnszsosa-df0-Kj0kWg9Bb_J6TaFmErZmbTa0OJxo1JwZG2TjnbFvGn-ypj5yfytNCOCtF6QnWhGGPkoK63syRG5y0_lE2Qfz2G4rug_p-ZtunFCAtZw7VsIw0F8_eXk49d8PC4m0qMkQ0rDc09t62ShCvapEUnjyuduM7utsitw12a2IQ-tNt80BKow7QYkAnSc065IBKVDJPbuCQ_dc9eVo"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Benefits Block -->
+<section class="max-w-7xl mx-auto px-8 py-24">
+<div class="grid md:grid-cols-3 gap-12 border-t border-outline-variant pt-24">
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-4xl text-primary mb-6" style="font-variation-settings: 'opsz' 48;">local_shipping</span>
+<h3 class="font-headline text-2xl mb-4 italic">Быстрая доставка</h3>
+<p class="text-on-surface-variant font-body text-sm px-6">Доставляем по всей России в течение 2-5 дней. Курьер приедет в удобное для вас время.</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-4xl text-primary mb-6" style="font-variation-settings: 'opsz' 48;">inventory_2</span>
+<h3 class="font-headline text-2xl mb-4 italic">Бережная упаковка</h3>
+<p class="text-on-surface-variant font-body text-sm px-6">Каждая книга упаковывается в плотный картон и защитную пленку, чтобы доехать к вам в идеале.</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-4xl text-primary mb-6" style="font-variation-settings: 'opsz' 48;">loyalty</span>
+<h3 class="font-headline text-2xl mb-4 italic">Клуб читателей</h3>
+<p class="text-on-surface-variant font-body text-sm px-6">Накапливайте баллы с каждой покупки и тратьте их на новые истории. Эстетика должна быть доступной.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#e4e2dd] dark:bg-stone-950 w-full mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center px-12 py-16 w-full max-w-7xl mx-auto gap-12">
+<div class="max-w-xs">
+<div class="font-serif text-2xl text-[#1b1c19] dark:text-[#fbf9f4] mb-4">Букинист</div>
+<p class="text-[#554336] dark:text-stone-500 text-xs font-body leading-relaxed">
+                    © 2024 Букинист. Эстетика печатного слова. Мы верим, что каждая книга заслуживает особенного места на полке.
+                </p>
+</div>
+<div class="flex flex-wrap gap-12">
+<div class="flex flex-col gap-4">
+<span class="font-label text-xs uppercase tracking-widest text-[#8d4b00]">Магазин</span>
+<a class="text-xs font-label uppercase tracking-widest text-[#554336] hover:text-[#8d4b00] transition-colors" href="#">Помощь</a>
+<a class="text-xs font-label uppercase tracking-widest text-[#554336] hover:text-[#8d4b00] transition-colors" href="#">Доставка</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label text-xs uppercase tracking-widest text-[#8d4b00]">Сервис</span>
+<a class="text-xs font-label uppercase tracking-widest text-[#554336] hover:text-[#8d4b00] transition-colors" href="#">Оплата</a>
+<a class="text-xs font-label uppercase tracking-widest text-[#554336] hover:text-[#8d4b00] transition-colors" href="#">Контакты</a>
+</div>
+</div>
+<div class="flex gap-6">
+<a class="hover:opacity-70 transition-opacity" href="#">
+<span class="material-symbols-outlined text-[#8d4b00]" data-icon="share">share</span>
+</a>
+<a class="hover:opacity-70 transition-opacity" href="#">
+<span class="material-symbols-outlined text-[#8d4b00]" data-icon="mail">mail</span>
+</a>
+</div>
+</div>
+</footer>
+</body></html>

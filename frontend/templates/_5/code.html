@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Букинист — Ваша корзина</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "background": "#fbf9f4",
+              "primary-container": "#b15f00",
+              "secondary-fixed-dim": "#f7ba8a",
+              "on-primary-container": "#fffbff",
+              "tertiary": "#006096",
+              "surface-container-high": "#eae8e3",
+              "tertiary-fixed-dim": "#96ccff",
+              "secondary-container": "#fdbf8f",
+              "inverse-surface": "#30312e",
+              "on-primary-fixed": "#2f1500",
+              "on-secondary-fixed-variant": "#673d17",
+              "primary": "#8d4b00",
+              "primary-fixed": "#ffdcc3",
+              "surface-bright": "#fbf9f4",
+              "tertiary-fixed": "#cee5ff",
+              "on-surface": "#1b1c19",
+              "on-tertiary-fixed": "#001d32",
+              "on-error-container": "#93000a",
+              "secondary-fixed": "#ffdcc3",
+              "on-primary-fixed-variant": "#6e3900",
+              "surface-container": "#f0eee9",
+              "tertiary-container": "#007abd",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#ffb77d",
+              "primary-fixed-dim": "#ffb77d",
+              "on-surface-variant": "#554336",
+              "on-tertiary-fixed-variant": "#004a75",
+              "secondary": "#82542c",
+              "surface-container-low": "#f5f3ee",
+              "outline-variant": "#dbc2b0",
+              "outline": "#887364",
+              "error": "#ba1a1a",
+              "surface": "#fbf9f4",
+              "on-secondary-container": "#784c25",
+              "on-secondary-fixed": "#2f1500",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e4e2dd",
+              "surface-container-highest": "#e4e2dd",
+              "inverse-on-surface": "#f2f1ec",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#904d00",
+              "on-background": "#1b1c19",
+              "on-secondary": "#ffffff",
+              "on-tertiary-container": "#fdfcff",
+              "surface-dim": "#dbdad5"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+      }
+      body { font-family: 'Manrope', sans-serif; background-color: #fbf9f4; color: #1b1c19; }
+      .font-serif { font-family: 'Newsreader', serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm opacity-95 docked full-width top-0 z-50 fixed w-full">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Бестселлеры</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Новинки</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Коллекции</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Распродажа</a>
+</nav>
+<div class="flex items-center gap-6 text-[#8d4b00] dark:text-[#fdbf8f]">
+<button class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200">person</button>
+<div class="relative">
+<button class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200" style="font-variation-settings: 'FILL' 1;">shopping_bag</button>
+<span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] w-4 h-4 flex items-center justify-center rounded-full">3</span>
+</div>
+</div>
+</div>
+<div class="bg-[#e4e2dd] dark:bg-stone-800 h-[1px] w-full"></div>
+</header>
+<main class="flex-grow pt-32 pb-24 px-8 max-w-7xl mx-auto w-full">
+<h1 class="font-headline text-5xl mb-12 text-on-surface">Ваша корзина</h1>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+<!-- List of Items (Left) -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Item 1 -->
+<div class="flex flex-col sm:flex-row gap-8 items-start sm:items-center animate-fade-in">
+<div class="w-32 h-48 flex-shrink-0 bg-surface-container overflow-hidden rounded-sm shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Close-up of an elegant hardback book cover with minimalist typography on a textured paper background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIjGFWbIEf93VUF_FIQhk3-LTahNKW0JMJ6703YbSpeNjHs-QrvSZR45nCqW1D0eDrUMseOcJR10pAi0hRx5fAmB8G-O3n6LLbja9B7j6jQoACBS1KLQ2n6Q7vaITSCtyh170K77KxzsiogtX0gjnMCTVbqmVps0K1ZrYs_f5K2lWO8bxtkuNX3rdzi4F0WMEY0ogrues5IhWfMjUgrg2kS9KcZFSQ8q06FBisfj3fTSLc7NXoGN3iKisK4UOLZSJGA79KS4V60To"/>
+</div>
+<div class="flex-grow space-y-2">
+<h3 class="font-headline text-2xl">Тайная история</h3>
+<p class="font-label text-sm text-on-surface-variant uppercase tracking-wider">Донна Тартт</p>
+<p class="text-xl font-body font-semibold mt-4">1 250 ₽</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-surface-container-low rounded-md overflow-hidden">
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="w-8 text-center font-body text-sm font-bold">1</span>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="text-outline hover:text-error transition-colors p-2">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col sm:flex-row gap-8 items-start sm:items-center animate-fade-in">
+<div class="w-32 h-48 flex-shrink-0 bg-surface-container overflow-hidden rounded-sm shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Classic vintage book cover with gold foil accents and dark green leather texture in soft dramatic light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtzXtecBGDg1JGMeWkt3RrRMrQTvhmVZY1aN8b2a_n96ryjoECxF4bVTmDlLjCIAru0xrGvLF24Hj3FWpjkNsen5ufP-9csuILSh-iSaa5M7B_pD6dXgiXLXSN9046za4_D7MTFh9IBLwd3WhNUfTlNKqZLAqYgI5SgkiHsWv0LH_i967iKvlMwLJZe0Jj0Jpwz4usEXVXIgYbbcKeWFtgviAT9sUIqnkDlcHPtkorozEGTXCb-r_16CdRpozkY_7t1X7rIJvOOJA"/>
+</div>
+<div class="flex-grow space-y-2">
+<h3 class="font-headline text-2xl">Мастер и Маргарита</h3>
+<p class="font-label text-sm text-on-surface-variant uppercase tracking-wider">Михаил Булгаков</p>
+<p class="text-xl font-body font-semibold mt-4">890 ₽</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-surface-container-low rounded-md overflow-hidden">
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="w-8 text-center font-body text-sm font-bold">1</span>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="text-outline hover:text-error transition-colors p-2">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Recommendation Section -->
+<section class="mt-20 pt-16">
+<h2 class="font-headline text-3xl mb-8">Рекомендуем добавить</h2>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+<!-- Rec 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-surface-container-low rounded-md mb-4 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Classic book cover of The Brothers Karamazov with elegant typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHmDREknd3_P2i0u2zP-6x92w-K_FpM3S_Y6L_o9n_4821v67r_k81_o_S6_L5_q_88_p8_L4"/>
+<button class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Братья Карамазовы</h4>
+<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Ф. Достоевский</p>
+<p class="text-on-surface-variant text-sm">850 ₽</p>
+</div>
+<!-- Rec 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-surface-container-low rounded-md mb-4 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Minimalist dystopian book cover for 1984" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_o_8_p_L_q_8_r_8_m_7_n_6_o_5_p_4_q_3_r_2_s_1_t_0"/>
+<button class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<h4 class="font-body text-xs font-bold uppercase tracking-tighter">1984</h4>
+<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Джордж Оруэлл</p>
+<p class="text-on-surface-variant text-sm">600 ₽</p>
+</div>
+<!-- Rec 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-surface-container-low rounded-md mb-4 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Enchanting illustration of The Little Prince on a book cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_s_9_t_0_u_1_v_2_w_3_x_4_y_5_z_6_A_7_B_8_C_9_D"/>
+<button class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Маленький принц</h4>
+<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Антуан де Сент-Экзюпери</p>
+<p class="text-on-surface-variant text-sm">450 ₽</p>
+</div>
+<!-- Rec 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-surface-container-low rounded-md mb-4 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Dreamy nostalgic book cover for Dandelion Wine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_E_0_F_1_G_2_H_3_I_4_J_5_K_6_L_7_M_8_N_9_O_0_P"/>
+<button class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Вино из одуванчиков</h4>
+<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Рэй Брэдбери</p>
+<p class="text-on-surface-variant text-sm">550 ₽</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Summary Block (Right) -->
+<aside class="lg:col-span-4 bg-surface-container-low p-10 rounded-sm sticky top-32">
+<h2 class="font-headline text-3xl mb-8">Итог заказа</h2>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between font-body text-sm">
+<span class="text-on-surface-variant">Товары (2)</span>
+<span>2 140 ₽</span>
+</div>
+<div class="flex justify-between font-body text-sm">
+<span class="text-on-surface-variant">Скидка</span>
+<span class="text-primary">- 140 ₽</span>
+</div>
+<div class="flex justify-between font-body text-sm">
+<span class="text-on-surface-variant">Доставка</span>
+<span>Бесплатно</span>
+</div>
+<div class="pt-4 border-t border-outline-variant/30 flex justify-between font-body font-bold text-xl">
+<span>К оплате</span>
+<span>2 000 ₽</span>
+</div>
+</div>
+<!-- Promo Code -->
+<div class="mb-10">
+<label class="block font-label text-[10px] uppercase tracking-widest text-outline mb-2">Промокод</label>
+<div class="flex gap-2">
+<input class="flex-grow bg-surface-container-high border-none rounded-sm px-4 py-3 text-sm focus:ring-1 focus:ring-primary/20 placeholder:text-outline/50 transition-all" placeholder="Введите код" type="text"/>
+<button class="bg-surface-container-highest px-4 py-3 text-xs font-bold uppercase tracking-tighter hover:bg-outline-variant/20 transition-colors">Применить</button>
+</div>
+</div>
+<!-- Checkout Button -->
+<button class="w-full bg-primary text-on-primary font-body font-bold py-5 rounded-md shadow-sm transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-3">
+                    Оформить заказ
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<p class="mt-6 text-center text-[10px] text-outline leading-relaxed uppercase tracking-widest">
+                    Безопасная оплата картой или через СБП.<br/>Бесплатная доставка от 2000 ₽.
+                </p>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#e4e2dd] dark:bg-stone-950 w-full mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-16 w-full max-w-7xl mx-auto">
+<div class="font-serif text-lg text-[#1b1c19] dark:text-[#fbf9f4] mb-8 md:mb-0">Букинист</div>
+<div class="flex gap-8 mb-8 md:mb-0">
+<a class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] transition-colors" href="#">Помощь</a>
+<a class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] transition-colors" href="#">Доставка</a>
+<a class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] transition-colors" href="#">Оплата</a>
+<a class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] transition-colors" href="#">Контакты</a>
+</div>
+<div class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500">
+                © 2024 Букинист. Эстетика печатного слова.
+            </div>
+</div>
+</footer>
+</body></html>

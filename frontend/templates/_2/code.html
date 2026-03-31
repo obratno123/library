@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "background": "#fbf9f4",
+              "primary-container": "#b15f00",
+              "secondary-fixed-dim": "#f7ba8a",
+              "on-primary-container": "#fffbff",
+              "tertiary": "#006096",
+              "surface-container-high": "#eae8e3",
+              "tertiary-fixed-dim": "#96ccff",
+              "secondary-container": "#fdbf8f",
+              "inverse-surface": "#30312e",
+              "on-primary-fixed": "#2f1500",
+              "on-secondary-fixed-variant": "#673d17",
+              "primary": "#8d4b00",
+              "primary-fixed": "#ffdcc3",
+              "surface-bright": "#fbf9f4",
+              "tertiary-fixed": "#cee5ff",
+              "on-surface": "#1b1c19",
+              "on-tertiary-fixed": "#001d32",
+              "on-error-container": "#93000a",
+              "secondary-fixed": "#ffdcc3",
+              "on-primary-fixed-variant": "#6e3900",
+              "surface-container": "#f0eee9",
+              "tertiary-container": "#007abd",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#ffb77d",
+              "primary-fixed-dim": "#ffb77d",
+              "on-surface-variant": "#554336",
+              "on-tertiary-fixed-variant": "#004a75",
+              "secondary": "#82542c",
+              "surface-container-low": "#f5f3ee",
+              "outline-variant": "#dbc2b0",
+              "outline": "#887364",
+              "error": "#ba1a1a",
+              "surface": "#fbf9f4",
+              "on-secondary-container": "#784c25",
+              "on-secondary-fixed": "#2f1500",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e4e2dd",
+              "surface-container-highest": "#e4e2dd",
+              "inverse-on-surface": "#f2f1ec",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#904d00",
+              "on-background": "#1b1c19",
+              "on-secondary": "#ffffff",
+              "on-tertiary-container": "#fdfcff",
+              "surface-dim": "#dbdad5"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #fbf9f4; color: #1b1c19; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm opacity-95">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="#">Бестселлеры</a>
+<a class="text-[#8d4b00] border-b-2 border-[#8d4b00] pb-1 font-bold font-serif text-sm tracking-tight" href="#">Новинки</a>
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="#">Коллекции</a>
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="#">Распродажа</a>
+</nav>
+<div class="flex items-center space-x-6">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="bg-surface-container-high border-none text-sm px-10 py-2 w-64 focus:ring-1 focus:ring-primary/20 bg-surface-container-low transition-all" placeholder="Поиск по архиву..." type="text"/>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-[#8d4b00] dark:text-[#fdbf8f] hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 active:scale-95">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+<button class="text-[#8d4b00] dark:text-[#fdbf8f] hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 active:scale-95 relative">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-[#e4e2dd] dark:bg-stone-800 h-[1px] w-full"></div>
+</header>
+<main class="flex-grow max-w-7xl mx-auto w-full px-8 py-12">
+<!-- Breadcrumbs -->
+<nav class="flex items-center space-x-2 text-on-surface-variant text-xs uppercase tracking-widest mb-8">
+<a class="hover:text-primary transition-colors" href="#">Главная</a>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-primary font-bold">Каталог</span>
+</nav>
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-64 flex-shrink-0">
+<h1 class="text-4xl font-headline italic mb-10 text-on-surface">Каталог книг</h1>
+<div class="space-y-10">
+<!-- Filter Group: Genres -->
+<div>
+<h3 class="font-bold text-xs uppercase tracking-widest text-outline mb-4">Жанры</h3>
+<div class="space-y-3">
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 border-outline-variant text-primary focus:ring-primary-container rounded-sm" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-primary transition-colors">Классическая проза</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-4 h-4 border-outline-variant text-primary focus:ring-primary-container rounded-sm" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface group-hover:text-primary transition-colors">Философия</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 border-outline-variant text-primary focus:ring-primary-container rounded-sm" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-primary transition-colors">Искусство и мода</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 border-outline-variant text-primary focus:ring-primary-container rounded-sm" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-primary transition-colors">Поэзия</span>
+</label>
+</div>
+</div>
+<!-- Filter Group: Price -->
+<div>
+<h3 class="font-bold text-xs uppercase tracking-widest text-outline mb-4">Цена</h3>
+<div class="flex items-center space-x-2">
+<input class="w-full bg-surface-container-high border-none text-xs py-2 px-3 focus:ring-1 focus:ring-primary/20" placeholder="От" type="text"/>
+<input class="w-full bg-surface-container-high border-none text-xs py-2 px-3 focus:ring-1 focus:ring-primary/20" placeholder="До" type="text"/>
+</div>
+</div>
+<!-- Filter Group: Binding -->
+<div>
+<h3 class="font-bold text-xs uppercase tracking-widest text-outline mb-4">Переплет</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 text-[10px] uppercase tracking-tighter bg-secondary-container text-on-secondary-container font-bold rounded-sm">Твердый</button>
+<button class="px-3 py-1.5 text-[10px] uppercase tracking-tighter bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-sm">Мягкий</button>
+<button class="px-3 py-1.5 text-[10px] uppercase tracking-tighter bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-sm">Кожаный</button>
+</div>
+</div>
+<!-- Filter Group: Availability -->
+<div>
+<h3 class="font-bold text-xs uppercase tracking-widest text-outline mb-4">Наличие</h3>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-4 h-4 border-outline-variant text-primary focus:ring-primary-container rounded-sm" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-primary transition-colors">В наличии</span>
+</label>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="flex-grow">
+<!-- Sorting & View Options -->
+<div class="flex justify-between items-center mb-10 pb-4 border-b border-outline-variant/20">
+<div class="flex items-center space-x-6">
+<span class="text-xs text-on-surface-variant uppercase tracking-widest">Сортировать:</span>
+<div class="flex space-x-4">
+<button class="text-xs font-bold text-primary border-b border-primary pb-1">По популярности</button>
+<button class="text-xs text-on-surface-variant hover:text-primary transition-colors pb-1">По цене</button>
+<button class="text-xs text-on-surface-variant hover:text-primary transition-colors pb-1">Новинки</button>
+</div>
+</div>
+<div class="text-xs text-outline italic">Показано 12 из 148 книг</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-y-16 gap-x-8">
+<!-- Book Card 1 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden relative transition-transform duration-500 group-hover:-translate-y-2">
+<img class="w-full h-full object-cover" data-alt="Minimalist book cover design with gold embossed title on deep forest green texture background, dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmhXPI0ocEuNecfYePEloWD0G6GKS7y98USgoT_17xkAgn78N3oat3GX6CAToMzox7v88Jewtyig8eCkM0JOsfDDOPrXsCHqdFP5sO6kDTIdAhko6DySZyz4mDAt-EwujZKynHchplagVyloF2X5QDpiT8C43h_F4tGRHdHJQiBhLBoRfXvB05-YvdID1zTZgKNKO5CdtmVbNRgtiJfaDvcOLlKZNQo1RXUhGU8afVOOHPHewSl4MLzFn5TXMx4Ta7bh_PGeVTuxM"/>
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] uppercase tracking-[0.2em] text-outline">Классика</p>
+<h2 class="text-xl font-headline text-on-surface leading-tight group-hover:text-primary transition-colors">Тайная история</h2>
+<p class="text-sm text-on-surface-variant italic font-serif">Донна Тартт</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-lg font-bold text-on-surface">1 250 ₽</span>
+<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+<span>В корзину</span>
+</button>
+</div>
+</div>
+<!-- Book Card 2 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden relative transition-transform duration-500 group-hover:-translate-y-2">
+<img class="w-full h-full object-cover" data-alt="Antique leather bound book cover with intricate silver patterns on weathered dark background, atmospheric shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5eVqX6TsG9JFvfjcSOJ-Fl0WUEhOZ-3XOy9UqYRV1b1ohvy0LbwfFDFZuJwOWX0ne3zQCdaziXn8tfz1OOkpo_zuIg5qoMOeKpnX2YzTSGRH21U-6Rl2-H9wn54WrYTvAwzwGK5SpmwS37nEh9pMc86_0Uqfv0RH2vzxxyJqLeBk75I7dqvO7t12YlhP7ZNR1RBALyAjcYM4dEDj0_-N7RI19naKjOrQOdYlvYqJ28FiYZHzSHcS3_eL3ZHOIZzZKzcXV5RS8IWs"/>
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] uppercase tracking-[0.2em] text-outline">Философия</p>
+<h2 class="text-xl font-headline text-on-surface leading-tight group-hover:text-primary transition-colors">Так говорил Заратустра</h2>
+<p class="text-sm text-on-surface-variant italic font-serif">Фридрих Ницше</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-lg font-bold text-on-surface">2 400 ₽</span>
+<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+<span>В корзину</span>
+</button>
+</div>
+</div>
+<!-- Book Card 3 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden relative transition-transform duration-500 group-hover:-translate-y-2">
+<img class="w-full h-full object-cover" data-alt="Modern book cover with abstract cream and terracotta geometric shapes, soft grain texture, high-end editorial look" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXe9o_CdLsFP5BO17K3BYntJvH5-TMRhBU4Uan9v-PiLz5nmkfnGHvNtytgT-0lGgXjKjH1qjs7GXodI9CknXd1Q5Mpz89nwrrvWqN2e7y-Vpbo0Ci0weStVA3G9uRkZrA1fe9AtP6LW3yTY9qFPvclpGqWSc_Qqt4gAng83a-tQ7M8HhyF_nTV66nw-mT4yOovrOEEkNI6t7uymaRMYqBBTSOPWjYkDg35mrup1wh4ww4DLG77tJPOvK0gvctrX9Tg2LpbsDZeZs"/>
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] uppercase tracking-[0.2em] text-outline">Искусство</p>
+<h2 class="text-xl font-headline text-on-surface leading-tight group-hover:text-primary transition-colors">Эстетика минимализма</h2>
+<p class="text-sm text-on-surface-variant italic font-serif">Йоханнес Иттен</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-lg font-bold text-on-surface">1 890 ₽</span>
+<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+<span>В корзину</span>
+</button>
+</div>
+</div>
+<!-- Book Card 4 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden relative transition-transform duration-500 group-hover:-translate-y-2">
+<img class="w-full h-full object-cover" data-alt="Close up of an old book spine showing texture and gold lettering, warm sepia tones, soft focus background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlQ3OBFQU3c1DfYP8rnzH6AKVjK-t8qLARhyU4YWBqV0USzK7XOuDHO8GQIWjXuW3V4wd8p_FZ_Ai9sRmo3mgt8cFbI-azo4RRyqtLlhk5z61-8MjZIJdMoCQ-XroY24CJN_GtyaWFayOhxzFauNKemVVP5jHoVuYglQQ9wJI68R62Mc3OZRtZ0P1FOVyFjcUcbfVW7VX7cYBJ9P7eKuwS-vVx324-cnnYsdnl3KUgMGOklmPXNPyra4lgfCqNDyRQRb5SzSn1Eo8"/>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] uppercase tracking-[0.2em] text-outline">История</p>
+<h2 class="text-xl font-headline text-on-surface leading-tight group-hover:text-primary transition-colors">Закат Европы</h2>
+<p class="text-sm text-on-surface-variant italic font-serif">Освальд Шпенглер</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-lg font-bold text-on-surface">3 100 ₽</span>
+<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+<span>В корзину</span>
+</button>
+</div>
+</div>
+<!-- Book Card 5 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden relative transition-transform duration-500 group-hover:-translate-y-2">
+<img class="w-full h-full object-cover" data-alt="Stack of old books in a library with soft natural light coming from a window, warm archival aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd0hc41_whmYaGeRxz4qUpwFgMFLjLBlOH3nR3C6uwwZSzew35AnGYWYhi1Br9BZShHxeIJrlxiImGmaMIYGKErvbvO0VaL5cdpaOhH_vhoGdM6PVl9Vk-v4KnjkQ4RJL5jP668OB-in33X1ZJ_2GuSrlNQ55JvwaCbzT4wi0mKtsqe6FRqArJoz6XFkq2qneoaWnXRx3GKfkMK6dKAvLIDuNxtkSxE8Qwhdmoo-s-tSl9wZ1mGG4jR8Hgz7OebHRup-kd7xLpD-8"/>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] uppercase tracking-[0.2em] text-outline">Поэзия</p>
+<h2 class="text-xl font-headline text-on-surface leading-tight group-hover:text-primary transition-colors">Собрание сочинений</h2>
+<p class="text-sm text-on-surface-variant italic font-serif">Иосиф Бродский</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-lg font-bold text-on-surface">950 ₽</span>
+<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+<span>В корзину</span>
+</button>
+</div>
+</div>
+<!-- Book Card 6 -->
+<div class="group">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden relative transition-transform duration-500 group-hover:-translate-y-2">
+<img class="w-full h-full object-cover" data-alt="Macro photo of open book pages creating a wave-like pattern, elegant paper texture, neutral soft colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6OMeH6CN9zFZ8hWQaWZJseKg3ibK_2dEDmN8BUMT97R6UV8xyE5ccDc3ZN6ODSqejhDjx5U4EL7mQMMKNVsb6cf7rEMX1unwaTAeBxEggYI_5eGBnG4PmiOw-72cAQ1_bOLlpODsaaHtTU7Ofj7Yz_ylMUrmbF8k84kaEIAsxtb7Tjs2fr44efGBD1-un3cTjLJnqhkXEYV2b1vwQiSmqcBv9X2HluniF4uFQY6kRQgo3yqfib1pFS661dlQBU_gVPWa0tW1Welo"/>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] uppercase tracking-[0.2em] text-outline">Классика</p>
+<h2 class="text-xl font-headline text-on-surface leading-tight group-hover:text-primary transition-colors">Бесы</h2>
+<p class="text-sm text-on-surface-variant italic font-serif">Федор Достоевский</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-lg font-bold text-on-surface">1 100 ₽</span>
+<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+<span>В корзину</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-20 flex justify-center items-center space-x-4">
+<button class="w-10 h-10 flex items-center justify-center text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex items-center space-x-2">
+<button class="w-10 h-10 flex items-center justify-center font-bold bg-primary text-on-primary">1</button>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors">3</button>
+<span class="px-2">...</span>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors">12</button>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#e4e2dd] dark:bg-stone-950 mt-auto border-t-0">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-16 w-full max-w-7xl mx-auto">
+<div class="mb-8 md:mb-0 text-center md:text-left">
+<div class="font-serif text-lg text-[#1b1c19] dark:text-[#fbf9f4] mb-2">Букинист</div>
+<p class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500">© 2024 Букинист. Эстетика печатного слова.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8 md:gap-12">
+<a class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] dark:hover:text-[#fdbf8f] transition-colors" href="#">Помощь</a>
+<a class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] dark:hover:text-[#fdbf8f] transition-colors" href="#">Доставка</a>
+<a class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] dark:hover:text-[#fdbf8f] transition-colors" href="#">Оплата</a>
+<a class="font-sans text-xs Manrope uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] dark:hover:text-[#fdbf8f] transition-colors" href="#">Контакты</a>
+</div>
+<div class="mt-8 md:mt-0 flex space-x-4">
+<span class="material-symbols-outlined text-outline hover:text-primary cursor-pointer transition-colors">share</span>
+<span class="material-symbols-outlined text-outline hover:text-primary cursor-pointer transition-colors">mail</span>
+</div>
+</div>
+</footer>
+</body></html>

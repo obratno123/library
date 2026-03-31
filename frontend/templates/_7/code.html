@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Вход — Букинист</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#f7ba8a",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#dbdad5",
+              "on-error": "#ffffff",
+              "on-background": "#1b1c19",
+              "tertiary-fixed": "#cee5ff",
+              "secondary": "#82542c",
+              "on-tertiary-fixed": "#001d32",
+              "on-secondary-container": "#784c25",
+              "outline": "#887364",
+              "surface-container-high": "#eae8e3",
+              "surface-container": "#f0eee9",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#fffbff",
+              "inverse-surface": "#30312e",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e4e2dd",
+              "on-tertiary": "#ffffff",
+              "tertiary": "#006096",
+              "on-error-container": "#93000a",
+              "secondary-container": "#fdbf8f",
+              "on-tertiary-fixed-variant": "#004a75",
+              "tertiary-container": "#007abd",
+              "outline-variant": "#dbc2b0",
+              "surface-variant": "#e4e2dd",
+              "surface": "#fbf9f4",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#6e3900",
+              "inverse-on-surface": "#f2f1ec",
+              "surface-tint": "#904d00",
+              "on-secondary-fixed-variant": "#673d17",
+              "on-surface-variant": "#554336",
+              "primary-fixed-dim": "#ffb77d",
+              "on-tertiary-container": "#fdfcff",
+              "background": "#fbf9f4",
+              "on-surface": "#1b1c19",
+              "secondary-fixed": "#ffdcc3",
+              "primary": "#8d4b00",
+              "on-secondary-fixed": "#2f1500",
+              "primary-fixed": "#ffdcc3",
+              "tertiary-fixed-dim": "#96ccff",
+              "inverse-primary": "#ffb77d",
+              "surface-bright": "#fbf9f4",
+              "on-primary-fixed": "#2f1500",
+              "primary-container": "#b15f00",
+              "surface-container-low": "#f5f3ee"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Manrope', sans-serif;
+        background-color: #fbf9f4;
+      }
+      .font-serif {
+        font-family: 'Newsreader', serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar Suppressed: This is a Transactional Page -->
+<header class="w-full py-8 px-6 max-w-7xl mx-auto flex justify-center md:justify-start">
+<a class="text-3xl font-serif italic text-stone-900 tracking-tight" href="/">Букинист</a>
+</header>
+<main class="flex-grow flex items-center justify-center px-4 pb-12">
+<div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 bg-surface-container-lowest overflow-hidden shadow-sm">
+<!-- Visual Brand Side (Asymmetric Grid Element) -->
+<div class="hidden md:block relative h-full min-h-[600px] overflow-hidden bg-surface-container-low">
+<img alt="Уютная библиотека" class="absolute inset-0 w-full h-full object-cover" data-alt="Close-up of old leather-bound books on a wooden shelf in a library with warm atmospheric sunlight and soft dust particles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw-f5rDRshgTI1RHVeBBa6Cq3yPgPVAg7rKmaBVUQdQtuIgV1u9ZXcDpUsvoyg3nHJTD9x7a8lbBYDbHTOINkK1wU9Ytqg7PejlErmaJegG-msju5c1Sd3jjac643KUooagLa4YEY1pofRyQEt7IUEJE4PLIoAXIbqM5VnYITD9sZsxq4EMD3BPFMqBdT4IGuENp4HZ6b_Xd29gTz7-hqn3x_gNg3bwsuCWC52UOL0LP9cvXMqRELv8pG1WlWRlenjFfK3s-wttfA"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/40 to-transparent"></div>
+</div>
+<!-- Login Form Section -->
+<div class="p-8 md:p-16 flex flex-col justify-center bg-surface-container-lowest">
+<div class="max-w-sm mx-auto w-full">
+<header class="mb-10">
+<h1 class="text-4xl font-serif text-on-surface mb-3 leading-none">С возвращением</h1>
+<p class="text-on-surface-variant font-body">Войдите в свой личный архив</p>
+</header>
+<form class="space-y-6">
+<!-- Email Input -->
+<div class="space-y-1.5">
+<label class="text-xs font-label uppercase tracking-wider text-on-surface-variant" for="email">Электронная почта</label>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none px-4 py-3.5 focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary/20 transition-all font-body text-on-surface placeholder-outline/50" id="email" name="email" placeholder="example@mail.ru" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-1.5">
+<div class="flex justify-between items-end">
+<label class="text-xs font-label uppercase tracking-wider text-on-surface-variant" for="password">Пароль</label>
+<a class="text-xs font-label text-primary hover:text-primary-container transition-colors" href="/recovery">Забыли пароль?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none px-4 py-3.5 focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary/20 transition-all font-body text-on-surface placeholder-outline/50" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button (Letterpress Style) -->
+<div class="pt-4">
+<button class="w-full bg-primary text-on-primary py-4 px-6 font-label font-bold tracking-wide shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:bg-primary-container active:scale-[0.98] transition-all duration-200" type="submit">
+                                Войти
+                            </button>
+</div>
+</form>
+<!-- Registration Link -->
+<footer class="mt-12 pt-8 border-t border-outline-variant/15 text-center">
+<p class="text-on-surface-variant text-sm font-body">
+                            Впервые у нас? 
+                            <a class="text-primary font-bold ml-1 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-primary/30 hover:text-primary-container transition-colors" href="/register">Создать аккаунт</a>
+</p>
+</footer>
+</div>
+</div>
+</div>
+</main>
+<!-- Simple Footer for Transactional Page -->
+<footer class="w-full py-6 px-6 text-center">
+<p class="text-outline text-[11px] font-label uppercase tracking-[0.2em]">© 2024 Букинист. Цифровой Куратор Ваших Знаний.</p>
+</footer>
+<!-- BottomNavBar Suppressed: Focus on Login Task -->
+</body></html>
