@@ -72,28 +72,21 @@
         },
       }
     </script>
-<style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        vertical-align: middle;
-      }
-      body { font-family: 'Manrope', sans-serif; background-color: #fbf9f4; color: #1b1c19; }
-      .font-serif { font-family: 'Newsreader', serif; }
-    </style>
-</head>
+
+<link href="css/cart.css" rel="stylesheet"/></head>
 <body class="bg-background text-on-background min-h-screen flex flex-col">
 <!-- TopAppBar -->
 <header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm opacity-95 docked full-width top-0 z-50 fixed w-full">
 <div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
 <div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
 <nav class="hidden md:flex gap-8 items-center">
-<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Бестселлеры</a>
-<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Новинки</a>
-<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Коллекции</a>
-<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Распродажа</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="catalog.html">Бестселлеры</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="catalog.html">Новинки</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="catalog.html">Коллекции</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="catalog.html">Распродажа</a>
 </nav>
 <div class="flex items-center gap-6 text-[#8d4b00] dark:text-[#fdbf8f]">
-<button class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200">person</button>
+<a aria-label="Вход или регистрация" class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex" href="login.html">person</a>
 <div class="relative">
 <button class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200" style="font-variation-settings: 'FILL' 1;">shopping_bag</button>
 <span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] w-4 h-4 flex items-center justify-center rounded-full">3</span>
@@ -156,50 +149,46 @@
 <!-- Rec 1 -->
 <div class="group cursor-pointer">
 <div class="aspect-square bg-surface-container-low rounded-md mb-4 overflow-hidden relative">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Classic book cover of The Brothers Karamazov with elegant typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHmDREknd3_P2i0u2zP-6x92w-K_FpM3S_Y6L_o9n_4821v67r_k81_o_S6_L5_q_88_p8_L4"/>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A set of handcrafted leather bookmarks with embossed botanical patterns on a neutral beige background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNyiVZt5FmNy93Hnj-rijfB_9j6jZ_m71NCMSX_NhUX7AHmerxEjBS4XlIqHHtxYZeDkxFc4-qXgKhqVnIYpEzIfRQLJfNwlr_62tJrPW0568GNVi6HJe0ggtvdSAKkUdHzi23x7nKE-s--h6Gy0lgn9muujkooE9lhg7XAANJG0WKrqZpcRmqsHmtTZf5ZOHryM20XK9nEiSlQ7Ye7-kxRPt_BMObWbW2Lg558XHE92bzyhE3tBIXlE1NecJDnYTWor6aZz0jte8"/>
 <button class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
 <span class="material-symbols-outlined text-sm">add</span>
 </button>
 </div>
-<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Братья Карамазовы</h4>
-<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Ф. Достоевский</p>
-<p class="text-on-surface-variant text-sm">850 ₽</p>
+<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Кожаная закладка</h4>
+<p class="text-on-surface-variant text-sm">350 ₽</p>
 </div>
 <!-- Rec 2 -->
 <div class="group cursor-pointer">
 <div class="aspect-square bg-surface-container-low rounded-md mb-4 overflow-hidden relative">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Minimalist dystopian book cover for 1984" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_o_8_p_L_q_8_r_8_m_7_n_6_o_5_p_4_q_3_r_2_s_1_t_0"/>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Fine art postcard with a classic ink illustration of a library on textured cream-colored cardstock" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0g3QTdceEzhiVzkCc90tvrkVbU0lzFDmSShaFFWdy7GauOZJv2AwsWMQsmhjg_83_J84tTkAzoMgPnbtM4msejs_Mfz5pdodhEb4Q9EnSn8q4UsvnUidNAdpi4mPKekl_FE-Y7VKPpdgbRMU7eaTpCn-47cnIzfUNjt6sw6vkQ0srHktx7fxtgABkWCnmE9-QszC9PqgK3otoRIyiYzRF3mzRC-eCIM16tmDwmYNQ3JpmnmH1cMTEF70awXVyF_nwQMig9OqdMJo"/>
 <button class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
 <span class="material-symbols-outlined text-sm">add</span>
 </button>
 </div>
-<h4 class="font-body text-xs font-bold uppercase tracking-tighter">1984</h4>
-<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Джордж Оруэлл</p>
-<p class="text-on-surface-variant text-sm">600 ₽</p>
+<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Набор открыток</h4>
+<p class="text-on-surface-variant text-sm">450 ₽</p>
 </div>
 <!-- Rec 3 -->
 <div class="group cursor-pointer">
 <div class="aspect-square bg-surface-container-low rounded-md mb-4 overflow-hidden relative">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Enchanting illustration of The Little Prince on a book cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_s_9_t_0_u_1_v_2_w_3_x_4_y_5_z_6_A_7_B_8_C_9_D"/>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Eco-friendly kraft paper gift wrap with a delicate string and dried lavender sprig decoration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk2O-4ezOFtEK2pUhBGVlpEcx2uOPcFdLthBDCCFGtCxrisWDkcMcAV3srrwOw5WxrHGxFO6p2i34AfIewjFRFKHYcrbfuuX2k6QRPCF-xA6m-qwgDVIIqBGhVasT7071Rtdf7TR5lPykpZK898JYVWwmYYDhHmjcestnJrLtsUYzjYK5X0FfKodV0ohm1MzXc4_Nt8a1uJTxFky4ww1rqJ4dwhmAUGNtirO2_V_h8afr9jlAvRK2PFnm4UzLAhphpmimPfsXieyc"/>
 <button class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
 <span class="material-symbols-outlined text-sm">add</span>
 </button>
 </div>
-<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Маленький принц</h4>
-<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Антуан де Сент-Экзюпери</p>
-<p class="text-on-surface-variant text-sm">450 ₽</p>
+<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Подарочная упаковка</h4>
+<p class="text-on-surface-variant text-sm">200 ₽</p>
 </div>
 <!-- Rec 4 -->
 <div class="group cursor-pointer">
 <div class="aspect-square bg-surface-container-low rounded-md mb-4 overflow-hidden relative">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Dreamy nostalgic book cover for Dandelion Wine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_E_0_F_1_G_2_H_3_I_4_J_5_K_6_L_7_M_8_N_9_O_0_P"/>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Small scented soy candle in a dark amber glass jar on a wooden desk next to open books" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-GOAnO-nL6ky7j0FfwxaMYk95VqRw1F6wCu839UAyK2T-9x24lqAak3nUs5hjE6qWnUFS9dpdVi3UtDG5CY2upj3bOSy6pwoyKdDyzQqIBWG5QV9YxqXxa9ch8bpCF9BQkBrhdvkDrjdeEYW3qIDOtp_bKQK4rkfJx8F9ETIYvk4O7OfTwxF0uhZ9bAEV0kTOFtuwrv_05EECWB7-DMudt-t6sEp2a1kfHQfz-d6OuiXGz1ORPlZ_cm3mDvPrukZrLsPoNl87ZD4"/>
 <button class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
 <span class="material-symbols-outlined text-sm">add</span>
 </button>
 </div>
-<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Вино из одуванчиков</h4>
-<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Рэй Брэдбери</p>
-<p class="text-on-surface-variant text-sm">550 ₽</p>
+<h4 class="font-body text-xs font-bold uppercase tracking-tighter">Свеча «Библиотека»</h4>
+<p class="text-on-surface-variant text-sm">790 ₽</p>
 </div>
 </div>
 </section>
@@ -234,10 +223,10 @@
 </div>
 </div>
 <!-- Checkout Button -->
-<button class="w-full bg-primary text-on-primary font-body font-bold py-5 rounded-md shadow-sm transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-3">
+<a class="w-full bg-primary text-on-primary font-body font-bold py-5 rounded-md shadow-sm transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-3" href="register.html">
                     Оформить заказ
                     <span class="material-symbols-outlined">arrow_forward</span>
-</button>
+</a>
 <p class="mt-6 text-center text-[10px] text-outline leading-relaxed uppercase tracking-widest">
                     Безопасная оплата картой или через СБП.<br/>Бесплатная доставка от 2000 ₽.
                 </p>

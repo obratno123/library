@@ -1,0 +1,8 @@
+
+        body { font-family: 'Manrope', sans-serif; background-color: #fbf9f4; color: #1b1c19; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    
+
+/* вынесено из исходного html */
+.page-link-active{ text-decoration: underline; text-underline-offset: 4px; }

@@ -72,37 +72,27 @@
         },
       }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        body { font-family: 'Manrope', sans-serif; background-color: #fbf9f4; color: #1b1c19; }
-        .font-serif { font-family: 'Newsreader', serif; }
-        .letterpress-btn {
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-        }
-    </style>
-</head>
+
+<link href="css/index.css" rel="stylesheet"/></head>
 <body class="min-h-screen flex flex-col selection:bg-secondary-container selection:text-on-secondary-container">
 <!-- TopAppBar -->
 <header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm opacity-95">
 <div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
 <div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
 <nav class="hidden md:flex gap-8 items-center">
-<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Бестселлеры</a>
-<a class="font-label text-sm tracking-tight text-[#8d4b00] border-b-2 border-[#8d4b00] pb-1 font-bold" href="#">Новинки</a>
-<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Коллекции</a>
-<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="#">Распродажа</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="catalog.html">Бестселлеры</a>
+<a class="font-label text-sm tracking-tight text-[#8d4b00] border-b-2 border-[#8d4b00] pb-1 font-bold" href="catalog.html">Новинки</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="catalog.html">Коллекции</a>
+<a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="catalog.html">Распродажа</a>
 </nav>
 <div class="flex items-center gap-6 text-[#8d4b00] dark:text-[#fdbf8f]">
 <div class="hidden lg:flex items-center bg-surface-container-high px-4 py-2 rounded-full gap-2">
 <span class="material-symbols-outlined text-outline">search</span>
 <input class="bg-transparent border-none focus:ring-0 text-sm font-label w-48 placeholder:text-outline" placeholder="Поиск книг..." type="text"/>
 </div>
-<button class="hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 scale-95 active:opacity-80">
+<a aria-label="Вход или регистрация" class="hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 scale-95 active:opacity-80 inline-flex" href="login.html">
 <span class="material-symbols-outlined" data-icon="person">person</span>
-</button>
+</a>
 <button class="hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 scale-95 active:opacity-80">
 <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
 </button>
@@ -121,9 +111,9 @@
                         Глубокое исследование философии осознанности в современном мире от лауреата литературных премий Эммы Сарьян.
                     </p>
 <div class="flex items-center gap-8">
-<button class="letterpress-btn bg-primary text-on-primary px-8 py-4 rounded-md font-body font-bold text-lg hover:opacity-90 transition-all scale-95 active:scale-90">
+<a class="letterpress-btn bg-primary text-on-primary px-8 py-4 rounded-md font-body font-bold text-lg hover:opacity-90 transition-all scale-95 active:scale-90" href="cart.html">
                             Купить за 1 500 ₽
-                        </button>
+                        </a>
 <div class="flex flex-col">
 <span class="text-xs text-outline font-label uppercase tracking-tighter">Наличие</span>
 <span class="font-bold text-on-surface">В магазине и онлайн</span>
@@ -184,9 +174,9 @@
 <div class="group">
 <div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
 <img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="book cover with floral pattern and golden title typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhyrjxpYrK3V13IeeSCOVOT6KJTIScIfloHWY6zGNJEeRfUZT8SImOSL731kzEQcurlXjRLRNK48xDFW-1xIxEQa3SiCupldPcOz2oKQvKsi_uq5gvulGTCVnf2uuZPLEN1MiLrXvGqtuM-rYRMmaDXP7ybje6tBye4ROtJRBPhWIyy9I8Ppvm1kRZyEfcfqUqGPzJZm_gUSpGZcfF-9ZZ6GHWBjiIAslNbmn7vynjOWNiFVvqRN5ygmaIAoZrx-K9nl7v-aSx4CQ"/>
-<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<a class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" href="cart.html">
 <span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
-</button>
+</a>
 </div>
 <span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Кристофер Нолан</span>
 <h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Межзвездное время</h4>
@@ -196,9 +186,9 @@
 <div class="group">
 <div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
 <img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="minimalist blue book cover with a simple white line illustration of a mountain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3rELGsXT6FlCIUJK945eFoHGfvrUAsxs53bJkGXjuIUiRJOfGjdvYArrp0Alp9N6vD3aBUtIss85A-1K7ZLMKO_Ctbbq8HqTk92jwaWIOxNasTxnU2GAIy5wc2D1Zabwh-qWYwnUCLYOoN6hdyrraG8ecp_Zlza2-iO1z7buGkz4peV35gyKqT7gBlHV6zZctUbOuFrgE7Z3lKO2VDMlzVl9bb-7Hc2Tx6-YkeYo7VpSkWYcnQwyiwhzgbUpWht3V9E1bEWTnjlE"/>
-<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<a class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" href="cart.html">
 <span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
-</button>
+</a>
 </div>
 <span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Мария Степанова</span>
 <h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Памяти памяти</h4>
@@ -208,9 +198,9 @@
 <div class="group">
 <div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
 <img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="vibrant book cover with collage art and bold sans-serif title" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYB3JrVulTuRrIG6WR7MiLBBpKLywjOfDNpQ6d7VgaKDAXPLKL-6kaHDMi1cUgzNhsru1bFVs4NfC8UFdk2sqZSIo91GMTcc2oLoOweDiRir1CLHLmGo3yGB_OTvKqAKYNL4v3MNklT2bdyioplsmfchKHtHILPqvHYeZc6RjzYKa2CdvONfk7LL7qnW7LRXKRpnHQDnxnA5G5aa8i6EHP4yXGAtowCOiAQ7RwT4ysWrkubZMLANIonmllpq4mGRz9Wu6akdqjsKk"/>
-<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<a class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" href="cart.html">
 <span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
-</button>
+</a>
 </div>
 <span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Джон Доу</span>
 <h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Городские легенды</h4>
@@ -220,9 +210,9 @@
 <div class="group">
 <div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
 <img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="dark elegant book cover with silver foil accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmTWvkUb0nSlZ0iMVasxbIOADjE4JkE1bRKzdcvQLjXBu0NQjw8hKgEnGdHmxVu3pVyOkBF29AdtLHQEc19JO-GNjogtwTe5RZcG-twCq6tCl5PSlXiDlZ22AZFVuAfYC8BR6REo6kWB3d3TiQechHpiTk-LTXKV9CBhaihtakqbB2fklnrqGdG1K9TTLFj90eTNdn91VF7o8BSQA6hh6F3v9_QUrT4DPoD-vblgPZyXcVC9U-NE5cwT848pqGG-yXYXp2qFvshLg"/>
-<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<a class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" href="cart.html">
 <span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
-</button>
+</a>
 </div>
 <span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Анна Ахматова</span>
 <h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Лирика. Полное собрание</h4>
@@ -232,9 +222,9 @@
 <div class="group">
 <div class="aspect-[2/3] bg-surface-container-low mb-6 relative overflow-hidden">
 <img alt="book" class="w-full h-full object-cover shadow-sm group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2" data-alt="green book cover with botanical illustrations" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1PwyAQUsbSUDxg2g9zRFH-NSCg2rc7i0zCA1ALZoP4TsjzPlMuey5c67ynw4a_zj08Vzy3bWCp9zPZuw2VnpiQDd9QAxyUARuKKnf7tXZqXzh5ycgt4ZFl4BEL8hWapT6LeLInstNhybMgLxd7vfBwGyeXPi94TgWeD82s4pD0UOX9DK6_HqD93dtb-J5wsErChFtMU334HiTK40UmjRdmpOAwZ5lNXwUm20e9EEj51c1sDL6KFZOmsaj6wks_yIYCXFWFt9nvQI"/>
-<button class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<a class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" href="cart.html">
 <span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
-</button>
+</a>
 </div>
 <span class="font-label text-[10px] uppercase tracking-widest text-outline mb-1 block">Питер Уоллес</span>
 <h4 class="font-serif text-lg leading-snug mb-2 group-hover:text-primary transition-colors">Тайный сад</h4>
@@ -252,7 +242,7 @@
 <p class="font-body text-on-surface-variant text-lg mb-10 leading-relaxed italic">
                             «Книги, которые не стареют, а только набирают глубину с каждым десятилетием. Мы собрали издания с лучшими переводами и качественной бумагой для вашей домашней библиотеки.»
                         </p>
-<a class="inline-flex items-center gap-4 text-primary font-bold group" href="#">
+<a class="inline-flex items-center gap-4 text-primary font-bold group" href="catalog.html">
                             Смотреть всю коллекцию
                             <span class="w-12 h-[2px] bg-primary group-hover:w-20 transition-all duration-300"></span>
 </a>

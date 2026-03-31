@@ -72,23 +72,12 @@
         },
       }
     </script>
-<style>
-      body {
-        font-family: 'Manrope', sans-serif;
-        background-color: #fbf9f4;
-      }
-      .font-serif {
-        font-family: 'Newsreader', serif;
-      }
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-    </style>
-</head>
+
+<link href="css/login.css" rel="stylesheet"/></head>
 <body class="bg-surface text-on-surface min-h-screen flex flex-col">
 <!-- TopNavBar Suppressed: This is a Transactional Page -->
 <header class="w-full py-8 px-6 max-w-7xl mx-auto flex justify-center md:justify-start">
-<a class="text-3xl font-serif italic text-stone-900 tracking-tight" href="/">Букинист</a>
+<a class="text-3xl font-serif italic text-stone-900 tracking-tight" href="index.html">Букинист</a>
 </header>
 <main class="flex-grow flex items-center justify-center px-4 pb-12">
 <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 bg-surface-container-lowest overflow-hidden shadow-sm">
@@ -116,7 +105,7 @@
 <div class="space-y-1.5">
 <div class="flex justify-between items-end">
 <label class="text-xs font-label uppercase tracking-wider text-on-surface-variant" for="password">Пароль</label>
-<a class="text-xs font-label text-primary hover:text-primary-container transition-colors" href="/recovery">Забыли пароль?</a>
+<a class="text-xs font-label text-primary hover:text-primary-container transition-colors" href="register.html">Забыли пароль?</a>
 </div>
 <div class="relative">
 <input class="w-full bg-surface-container-high border-none px-4 py-3.5 focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary/20 transition-all font-body text-on-surface placeholder-outline/50" id="password" name="password" placeholder="••••••••" required="" type="password"/>
@@ -127,16 +116,16 @@
 </div>
 <!-- Submit Button (Letterpress Style) -->
 <div class="pt-4">
-<button class="w-full bg-primary text-on-primary py-4 px-6 font-label font-bold tracking-wide shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:bg-primary-container active:scale-[0.98] transition-all duration-200" type="submit">
+<a class="w-full bg-primary text-on-primary py-4 px-6 font-label font-bold tracking-wide shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:bg-primary-container active:scale-[0.98] transition-all duration-200" href="account.html">
                                 Войти
-                            </button>
+                            </a>
 </div>
 </form>
 <!-- Registration Link -->
 <footer class="mt-12 pt-8 border-t border-outline-variant/15 text-center">
 <p class="text-on-surface-variant text-sm font-body">
                             Впервые у нас? 
-                            <a class="text-primary font-bold ml-1 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-primary/30 hover:text-primary-container transition-colors" href="/register">Создать аккаунт</a>
+                            <a class="text-primary font-bold ml-1 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-primary/30 hover:text-primary-container transition-colors" href="register.html">Создать аккаунт</a>
 </p>
 </footer>
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html class="light" lang="ru"><head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><title>Букинист — Каталог</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
@@ -71,22 +71,18 @@
         },
       }
     </script>
-<style>
-        body { font-family: 'Manrope', sans-serif; background-color: #fbf9f4; color: #1b1c19; }
-        .font-serif { font-family: 'Newsreader', serif; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-    </style>
-</head>
+
+<link href="css/catalog.css" rel="stylesheet"/></head>
 <body class="min-h-screen flex flex-col">
 <!-- TopAppBar -->
 <header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm opacity-95">
 <div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
 <div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
 <nav class="hidden md:flex items-center space-x-8">
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="#">Бестселлеры</a>
-<a class="text-[#8d4b00] border-b-2 border-[#8d4b00] pb-1 font-bold font-serif text-sm tracking-tight" href="#">Новинки</a>
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="#">Коллекции</a>
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="#">Распродажа</a>
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="catalog.html">Бестселлеры</a>
+<a class="text-[#8d4b00] border-b-2 border-[#8d4b00] pb-1 font-bold font-serif text-sm tracking-tight" href="catalog.html">Новинки</a>
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="catalog.html">Коллекции</a>
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="catalog.html">Распродажа</a>
 </nav>
 <div class="flex items-center space-x-6">
 <div class="relative hidden lg:block">
@@ -94,9 +90,9 @@
 <input class="bg-surface-container-high border-none text-sm px-10 py-2 w-64 focus:ring-1 focus:ring-primary/20 bg-surface-container-low transition-all" placeholder="Поиск по архиву..." type="text"/>
 </div>
 <div class="flex items-center space-x-4">
-<button class="text-[#8d4b00] dark:text-[#fdbf8f] hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 active:scale-95">
+<a aria-label="Вход или регистрация" class="text-[#8d4b00] dark:text-[#fdbf8f] hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 active:scale-95 inline-flex" href="login.html">
 <span class="material-symbols-outlined" data-icon="person">person</span>
-</button>
+</a>
 <button class="text-[#8d4b00] dark:text-[#fdbf8f] hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 active:scale-95 relative">
 <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
 <span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
@@ -109,7 +105,7 @@
 <main class="flex-grow max-w-7xl mx-auto w-full px-8 py-12">
 <!-- Breadcrumbs -->
 <nav class="flex items-center space-x-2 text-on-surface-variant text-xs uppercase tracking-widest mb-8">
-<a class="hover:text-primary transition-colors" href="#">Главная</a>
+<a class="hover:text-primary transition-colors" href="index.html">Главная</a>
 <span class="material-symbols-outlined text-[10px]">chevron_right</span>
 <span class="text-primary font-bold">Каталог</span>
 </nav>
@@ -196,10 +192,10 @@
 </div>
 <div class="mt-4 flex items-center justify-between">
 <span class="text-lg font-bold text-on-surface">1 250 ₽</span>
-<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<a class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary" href="cart.html">
 <span class="material-symbols-outlined text-sm">shopping_cart</span>
 <span>В корзину</span>
-</button>
+</a>
 </div>
 </div>
 <!-- Book Card 2 -->
@@ -215,10 +211,10 @@
 </div>
 <div class="mt-4 flex items-center justify-between">
 <span class="text-lg font-bold text-on-surface">2 400 ₽</span>
-<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<a class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary" href="cart.html">
 <span class="material-symbols-outlined text-sm">shopping_cart</span>
 <span>В корзину</span>
-</button>
+</a>
 </div>
 </div>
 <!-- Book Card 3 -->
@@ -234,10 +230,10 @@
 </div>
 <div class="mt-4 flex items-center justify-between">
 <span class="text-lg font-bold text-on-surface">1 890 ₽</span>
-<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<a class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary" href="cart.html">
 <span class="material-symbols-outlined text-sm">shopping_cart</span>
 <span>В корзину</span>
-</button>
+</a>
 </div>
 </div>
 <!-- Book Card 4 -->
@@ -252,10 +248,10 @@
 </div>
 <div class="mt-4 flex items-center justify-between">
 <span class="text-lg font-bold text-on-surface">3 100 ₽</span>
-<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<a class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary" href="cart.html">
 <span class="material-symbols-outlined text-sm">shopping_cart</span>
 <span>В корзину</span>
-</button>
+</a>
 </div>
 </div>
 <!-- Book Card 5 -->
@@ -270,10 +266,10 @@
 </div>
 <div class="mt-4 flex items-center justify-between">
 <span class="text-lg font-bold text-on-surface">950 ₽</span>
-<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<a class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary" href="cart.html">
 <span class="material-symbols-outlined text-sm">shopping_cart</span>
 <span>В корзину</span>
-</button>
+</a>
 </div>
 </div>
 <!-- Book Card 6 -->
@@ -288,10 +284,10 @@
 </div>
 <div class="mt-4 flex items-center justify-between">
 <span class="text-lg font-bold text-on-surface">1 100 ₽</span>
-<button class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary">
+<a class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-on-primary px-4 py-2 transition-all active:scale-95 border border-primary/20 hover:border-primary" href="cart.html">
 <span class="material-symbols-outlined text-sm">shopping_cart</span>
 <span>В корзину</span>
-</button>
+</a>
 </div>
 </div>
 </div>
