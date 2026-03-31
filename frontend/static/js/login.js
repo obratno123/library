@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     submitButton.disabled = true;
 
     try {
-      const data = await AuthAPI.apiFetch('/login/', {
+      await AuthAPI.apiFetch('/login/', {
         method: 'POST',
         body: JSON.stringify({
           username: usernameInput.value.trim(),
@@ -28,13 +28,17 @@ document.addEventListener('DOMContentLoaded', function () {
         })
       });
 
-      AuthAPI.saveAuthUser({
-        user_id: data.user_id,
-        username: data.username,
-        email: usernameInput.value.trim()
+      const profile = await AuthAPI.apiFetch('/profile/', {
+        method: 'GET'
       });
 
-      AuthAPI.setMessage(message, data.message || 'Вход выполнен', false);
+      AuthAPI.saveAuthUser({
+        user_id: profile.user_id,
+        username: profile.username,
+        email: profile.email
+      });
+
+      AuthAPI.setMessage(message, 'Вход выполнен', false);
       window.location.href = '/profile/';
     } catch (error) {
       AuthAPI.setMessage(message, error.message || 'Ошибка входа', true);

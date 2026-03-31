@@ -1,26 +1,36 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   if (!window.AuthAPI) return;
 
-  const user = AuthAPI.getAuthUser();
   const usernameNodes = document.querySelectorAll('[data-auth="username"]');
   const emailNodes = document.querySelectorAll('[data-auth="email"]');
   const logoutButton = document.getElementById('logout-btn');
   const guestOnly = document.querySelectorAll('[data-auth-guest-only]');
 
-  if (!user) {
+  try {
+    const profile = await AuthAPI.apiFetch('/profile/', {
+      method: 'GET'
+    });
+
+    AuthAPI.saveAuthUser({
+      user_id: profile.user_id,
+      username: profile.username,
+      email: profile.email
+    });
+
+    usernameNodes.forEach((node) => {
+      node.textContent = profile.username || 'Пользователь';
+    });
+
+    emailNodes.forEach((node) => {
+      node.textContent = profile.email || 'Не указан';
+    });
+
+    guestOnly.forEach((node) => node.remove());
+  } catch (error) {
+    AuthAPI.clearAuthUser();
     window.location.href = '/login/';
     return;
   }
-
-  usernameNodes.forEach((node) => {
-    node.textContent = user.username || 'Пользователь';
-  });
-
-  emailNodes.forEach((node) => {
-    node.textContent = user.email || 'Не указан';
-  });
-
-  guestOnly.forEach((node) => node.remove());
 
   if (logoutButton) {
     logoutButton.addEventListener('click', async function () {
