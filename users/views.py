@@ -7,14 +7,13 @@ import json
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db import IntegrityError
 
 @require_http_methods(["POST"])
 def register(request):
-    
-    if "application/json" not in request.content_type:
+    content_type = request.content_type or ""
+    if "application/json" not in content_type:
         return JsonResponse({"error": "Ожидается application/json"}, status=400)
     
     try:
@@ -24,7 +23,7 @@ def register(request):
 
     username = (data.get("username") or "").strip()
     password = data.get("password") or ""
-    email = (data.get("email", "") or "").strip()
+    email = (data.get("email") or "").strip()
 
     if not username:
         return JsonResponse({"error": "username обязателен"}, status=400)
@@ -75,23 +74,32 @@ def register(request):
 
 @require_http_methods(["POST"])
 def user_login(request):
+    content_type = request.content_type or ""
+    if "application/json" not in content_type:
+        return JsonResponse({"error": "Ожидается application/json"}, status=400)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({"error": "Невалидный JSON"}, status=400)
 
-    username = data.get("username")
-    password = data.get("password")
+    username = (data.get("username") or "").strip()
+    password = data.get("password") or ""
 
-    if not username or not password:
-        return JsonResponse({"error": "username и password обязательны"}, status=400)
+    if not username:
+        return JsonResponse({"error": "username обязателен"}, status=400)
+
+    if not password:
+        return JsonResponse({"error": "password обязателен"}, status=400)
 
     user = authenticate(request, username=username, password=password)
 
     if user is None:
         return JsonResponse({"error": "Неверный логин или пароль"}, status=401)
 
-    login(request, user)
+    try:
+        login(request, user)
+    except Exception:
+        return JsonResponse({"error": "Ошибка при входе"}, status=500)
 
     return JsonResponse({
         "message": "Вход выполнен",
@@ -101,8 +109,10 @@ def user_login(request):
 
 @require_http_methods(["POST"])
 def user_logout(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "Не авторизован"}, status=401)
     logout(request)
-    return JsonResponse({"message": "Выход выполнен"})
+    return JsonResponse({"message": "Выход выполнен"}, status=200)
 
 
 @require_http_methods(["GET"])
@@ -110,7 +120,10 @@ def user_profile(request):
     if not request.user.is_authenticated:
         return JsonResponse({"error": "Не авторизован"}, status=401)
 
-    profile = request.user.profile
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        return JsonResponse({"error": "Профиль не найден"}, status=404)
 
     return JsonResponse({
         "user_id": request.user.id,
