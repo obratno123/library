@@ -9,6 +9,9 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from django.db import IntegrityError
+import logging
+
+logger = logging.getLogger(__name__)
 
 @require_http_methods(["POST"])
 def register(request):
@@ -60,7 +63,8 @@ def register(request):
             )
     except IntegrityError:
         return JsonResponse({"error": "Пользователь или email уже существует"}, status=400)
-    except Exception:
+    except Exception as e:
+        logger.exception(f"ошибка при регистрации {e}")
         return JsonResponse({"error": "Ошибка при регистрации"}, status=500)
         
     login(request, user)
@@ -98,7 +102,8 @@ def user_login(request):
 
     try:
         login(request, user)
-    except Exception:
+    except Exception as e:
+        logger.exception(f"ошибка при входе {e}")
         return JsonResponse({"error": "Ошибка при входе"}, status=500)
 
     return JsonResponse({
