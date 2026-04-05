@@ -80,6 +80,17 @@ class Book(models.Model):
         blank=True,
         verbose_name="Описание"
     )
+    authors = models.ManyToManyField(
+    Author,
+    related_name="books",
+    verbose_name="Авторы"
+    )
+
+    genres = models.ManyToManyField(
+        Genre,
+        related_name="books",
+        verbose_name="Жанры"
+    )
     publish_year = models.PositiveIntegerField(
         null=True,
         blank=True,
