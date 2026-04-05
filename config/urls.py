@@ -21,6 +21,7 @@ from .views import home_page, login_page, register_page, profile_page
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("users/", include("users.urls")),
+    path("cart/", include("cart_order.urls")),
 
     path("", home_page, name="home"),
     path("login/", login_page, name="login_page"),
