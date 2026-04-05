@@ -1,0 +1,625 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="light" lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{{ book.title }} — Читалка</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed": "#ffdcc3",
+                        "surface-bright": "#fbf9f4",
+                        "secondary-container": "#fdbf8f",
+                        "tertiary-fixed": "#cee5ff",
+                        "surface-variant": "#e4e2dd",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-secondary-container": "#784c25",
+                        "on-tertiary-container": "#fdfcff",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f2f1ec",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#eae8e3",
+                        "on-surface-variant": "#554336",
+                        "surface": "#fbf9f4",
+                        "on-primary-fixed": "#2f1500",
+                        "on-secondary-fixed-variant": "#673d17",
+                        "primary-fixed": "#ffdcc3",
+                        "on-tertiary-fixed-variant": "#004a75",
+                        "outline": "#887364",
+                        "secondary": "#82542c",
+                        "inverse-primary": "#ffb77d",
+                        "inverse-surface": "#30312e",
+                        "on-secondary-fixed": "#2f1500",
+                        "on-surface": "#1b1c19",
+                        "tertiary-fixed-dim": "#96ccff",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#001d32",
+                        "primary-fixed-dim": "#ffb77d",
+                        "secondary-fixed-dim": "#f7ba8a",
+                        "on-background": "#1b1c19",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#007abd",
+                        "surface-container-low": "#f5f3ee",
+                        "on-primary-fixed-variant": "#6e3900",
+                        "primary-container": "#b15f00",
+                        "tertiary": "#006096",
+                        "surface-tint": "#904d00",
+                        "surface-dim": "#dbdad5",
+                        "on-primary-container": "#fffbff",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#f0eee9",
+                        "primary": "#8d4b00",
+                        "outline-variant": "#dbc2b0",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#fbf9f4"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .reader-surface-day {
+            background: #fbf9f4;
+            color: #1b1c19;
+        }
+
+        .reader-surface-sepia {
+            background: #f4ead5;
+            color: #5d4037;
+        }
+
+        .reader-surface-night {
+            background: #1b1c19;
+            color: #f2f1ec;
+        }
+
+        .control-active {
+            border-color: #8d4b00 !important;
+            background: #ffffff !important;
+        }
+
+        .theme-card-active {
+            outline: 2px solid #8d4b00;
+            outline-offset: 1px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(136, 115, 100, 0.45);
+            border-radius: 999px;
+        }
+
+        #viewer {
+            width: 100%;
+            height: 78vh;
+            background: transparent;
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #viewer iframe {
+            border: none !important;
+        }
+
+        .reader-shell {
+            min-height: 78vh;
+        }
+
+        .reader-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 78vh;
+            color: #554336;
+            font-size: 0.95rem;
+        }
+
+        .reader-error {
+            display: none;
+        }
+
+        .nav-button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body id="readerBody" class="reader-surface-day selection:bg-secondary-container selection:text-on-secondary-container">
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#fbf9f4]/80 backdrop-blur-md border-b border-outline-variant/20">
+        <div class="flex items-center gap-4 min-w-0">
+            <span class="font-serif italic text-[#8d4b00] text-xl font-headline shrink-0">Букинист</span>
+            <div class="h-4 w-px bg-outline-variant/30 shrink-0"></div>
+            <span class="font-serif text-lg italic text-[#8d4b00] truncate">
+                {{ book.title }} — {{ authors }}
+            </span>
+        </div>
+
+        <a href="/"
+           class="flex items-center justify-center w-10 h-10 transition-all duration-200 hover:text-[#b15f00] text-[#554336] rounded-full hover:bg-white/60"
+           aria-label="Закрыть">
+            <span class="material-symbols-outlined">close</span>
+        </a>
+    </header>
+
+    <div class="flex pt-16 min-h-screen">
+        <aside class="fixed left-0 top-16 bottom-0 w-72 flex-col p-6 space-y-8 bg-[#e4e2dd] shadow-[12px_0_40px_rgba(27,28,25,0.08)] hidden md:flex overflow-y-auto sidebar-scroll">
+            <div class="space-y-1">
+                <h2 class="font-serif text-[#8d4b00] font-headline text-xl">Чтение</h2>
+                <p class="font-sans font-medium text-sm text-[#554336]">Параметры страницы</p>
+            </div>
+
+            <nav class="flex flex-col space-y-2">
+                <button class="flex items-center gap-4 p-3 text-[#8d4b00] border-r-2 border-[#8d4b00] bg-white/40">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-sans font-medium text-sm">Настройки</span>
+                </button>
+            </nav>
+
+            <div class="space-y-6 pt-4">
+                <div class="space-y-3">
+                    <label class="font-sans font-medium text-xs uppercase tracking-wider text-outline">Шрифт</label>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button type="button" class="font-option control-active flex items-center justify-between p-3 bg-surface-container-lowest border border-primary/20 rounded-lg" data-font="Newsreader">
+                            <span class="text-sm font-medium">Newsreader</span>
+                            <span class="text-xs text-outline">Книжный</span>
+                        </button>
+                        <button type="button" class="font-option flex items-center justify-between p-3 bg-surface-container-lowest border border-transparent rounded-lg" data-font="Manrope">
+                            <span class="text-sm font-medium">Manrope</span>
+                            <span class="text-xs text-outline">Современный</span>
+                        </button>
+                        <button type="button" class="font-option flex items-center justify-between p-3 bg-surface-container-lowest border border-transparent rounded-lg" data-font="Merriweather">
+                            <span class="text-sm font-medium">Merriweather</span>
+                            <span class="text-xs text-outline">Классический</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <label for="fontSizeRange" class="font-sans font-medium text-xs uppercase tracking-wider text-outline">Размер шрифта</label>
+                    <div class="flex items-center justify-between gap-4">
+                        <span class="text-xs">A</span>
+                        <input id="fontSizeRange" class="w-full accent-primary bg-surface-container-high h-1 rounded-full appearance-none cursor-pointer" max="200" min="80" step="5" type="range" value="100"/>
+                        <span class="text-xl">A</span>
+                    </div>
+                    <p class="text-xs text-outline">Текущее значение: <span id="fontSizeValue">100</span>%</p>
+                </div>
+
+                <div class="space-y-3">
+                    <label class="font-sans font-medium text-xs uppercase tracking-wider text-outline">Интервал</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" class="line-height-option p-2 bg-surface-container-low hover:bg-surface-container-high transition-colors text-xs text-center border-b-2 border-primary" data-line-height="1.5">1.5</button>
+                        <button type="button" class="line-height-option p-2 bg-surface-container-low hover:bg-surface-container-high transition-colors text-xs text-center" data-line-height="1.8">1.8</button>
+                        <button type="button" class="line-height-option p-2 bg-surface-container-low hover:bg-surface-container-high transition-colors text-xs text-center" data-line-height="2">2.0</button>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <label class="font-sans font-medium text-xs uppercase tracking-wider text-outline">Цветовая схема</label>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button type="button" class="theme-option theme-card-active flex items-center gap-3 p-3 bg-surface-container-lowest border border-primary/20 rounded-lg" data-theme="day">
+                            <span class="w-4 h-4 rounded-full bg-white border border-outline-variant"></span>
+                            <span class="text-sm font-medium">Дневная</span>
+                        </button>
+                        <button type="button" class="theme-option flex items-center gap-3 p-3 bg-[#f4ead5] border border-transparent rounded-lg" data-theme="sepia">
+                            <span class="w-4 h-4 rounded-full bg-[#f4ead5] border border-[#d2b48c]"></span>
+                            <span class="text-sm font-medium text-[#5d4037]">Сепия</span>
+                        </button>
+                        <button type="button" class="theme-option flex items-center gap-3 p-3 bg-[#1b1c19] border border-transparent rounded-lg" data-theme="night">
+                            <span class="w-4 h-4 rounded-full bg-[#1b1c19] border border-[#373835]"></span>
+                            <span class="text-sm font-medium text-[#f2f1ec]">Ночная</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="rounded-xl bg-surface-container-lowest p-4 border border-outline-variant/20">
+                    <p class="text-sm font-medium text-on-surface mb-1">Навигация</p>
+                    <div class="flex items-center gap-2 mt-3">
+                        <button id="prevPageDesktop" type="button" class="nav-button flex-1 py-2 border border-outline-variant rounded-md hover:bg-surface-container-low transition-colors">
+                            Назад
+                        </button>
+                        <button id="nextPageDesktop" type="button" class="nav-button flex-1 py-2 bg-primary text-on-primary rounded-md hover:bg-primary-container transition-colors">
+                            Далее
+                        </button>
+                    </div>
+                </div>
+
+                <button id="saveReaderSettings" type="button" class="w-full py-4 bg-primary text-on-primary rounded-md font-sans font-medium text-sm transition-all hover:bg-primary-container shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+                    Сохранить настройки
+                </button>
+            </div>
+        </aside>
+
+        <main id="readerMain" class="flex-1 md:ml-72 flex justify-center p-6 md:p-12 lg:p-20 bg-surface">
+            <article class="max-w-5xl w-full">
+                {% if not has_file %}
+                    <section class="bg-surface-container-lowest border border-outline-variant/20 rounded-2xl p-8 shadow-sm">
+                        <h1 class="font-headline text-4xl mb-4">{{ book.title }}</h1>
+                        <p class="text-on-surface-variant mb-6">Для этой книги ещё не загружен EPUB-файл.</p>
+                        {% if book.description %}
+                            <div class="text-on-surface leading-7">{{ book.description }}</div>
+                        {% endif %}
+                    </section>
+                {% else %}
+                    <section class="space-y-6">
+                        <div class="bg-surface-container-lowest border border-outline-variant/20 rounded-2xl p-6 shadow-sm">
+                            <h1 class="font-headline text-4xl mb-2">{{ book.title }}</h1>
+                            <p class="text-on-surface-variant mb-4">{{ authors }}</p>
+
+                            {% if book.description %}
+                                <p class="text-sm text-on-surface-variant leading-7 max-w-3xl">
+                                    {{ book.description }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="bg-surface-container-lowest border border-outline-variant/20 rounded-2xl shadow-sm overflow-hidden reader-shell">
+                            <div id="readerLoading" class="reader-loading">
+                                Загружаем книгу…
+                            </div>
+
+                            <div id="readerError" class="reader-error p-8">
+                                <h2 class="font-headline text-2xl mb-3">Не удалось открыть EPUB</h2>
+                                <p class="text-on-surface-variant mb-4">
+                                    Проверь, что у книги загружен корректный `.epub` файл и настроена раздача media-файлов.
+                                </p>
+                                <a href="{{ book.ebook_file.url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-md hover:bg-primary-container transition-colors">
+                                    Открыть файл напрямую
+                                </a>
+                            </div>
+
+                            <div id="viewer"></div>
+                        </div>
+
+                        <footer class="pt-4 border-t border-outline-variant/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <button id="prevPage" type="button" class="nav-button flex items-center gap-2 text-outline hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined">arrow_back</span>
+                                    <span class="text-xs font-medium uppercase tracking-widest">Назад</span>
+                                </button>
+
+                                <button id="nextPage" type="button" class="nav-button flex items-center gap-2 text-outline hover:text-primary transition-colors">
+                                    <span class="text-xs font-medium uppercase tracking-widest">Далее</span>
+                                    <span class="material-symbols-outlined">arrow_forward</span>
+                                </button>
+                            </div>
+
+                            <div class="text-sm text-outline">
+                                <span id="chapterLabel">Открываем книгу…</span>
+                            </div>
+                        </footer>
+                    </section>
+                {% endif %}
+            </article>
+        </main>
+    </div>
+
+    {% if has_file %}
+    <script>
+        (function () {
+            const STORAGE_KEY = "book_reader_epub_settings";
+            const fileUrl = "{{ book.ebook_file.url|escapejs }}";
+
+            const body = document.getElementById("readerBody");
+            const main = document.getElementById("readerMain");
+            const viewer = document.getElementById("viewer");
+            const loading = document.getElementById("readerLoading");
+            const errorBox = document.getElementById("readerError");
+
+            const fontButtons = document.querySelectorAll(".font-option");
+            const lineHeightButtons = document.querySelectorAll(".line-height-option");
+            const themeButtons = document.querySelectorAll(".theme-option");
+
+            const sizeRange = document.getElementById("fontSizeRange");
+            const sizeValue = document.getElementById("fontSizeValue");
+            const saveButton = document.getElementById("saveReaderSettings");
+
+            const prevPageBtn = document.getElementById("prevPage");
+            const nextPageBtn = document.getElementById("nextPage");
+            const prevPageDesktopBtn = document.getElementById("prevPageDesktop");
+            const nextPageDesktopBtn = document.getElementById("nextPageDesktop");
+            const chapterLabel = document.getElementById("chapterLabel");
+
+            const defaultSettings = {
+                fontFamily: "Newsreader",
+                fontSize: 100,
+                lineHeight: 1.5,
+                theme: "day",
+                location: null
+            };
+
+            function getSavedSettings() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (!raw) return { ...defaultSettings };
+                    return { ...defaultSettings, ...JSON.parse(raw) };
+                } catch (error) {
+                    return { ...defaultSettings };
+                }
+            }
+
+            let settings = getSavedSettings();
+            let book = null;
+            let rendition = null;
+
+            function setLoadingVisible(isVisible) {
+                loading.style.display = isVisible ? "flex" : "none";
+            }
+
+            function setErrorVisible(isVisible) {
+                errorBox.style.display = isVisible ? "block" : "none";
+            }
+
+            function markActiveFont(fontFamily) {
+                fontButtons.forEach((button) => {
+                    button.classList.remove("control-active");
+                    if (button.dataset.font === fontFamily) {
+                        button.classList.add("control-active");
+                    }
+                });
+            }
+
+            function markActiveLineHeight(lineHeight) {
+                lineHeightButtons.forEach((button) => {
+                    button.classList.remove("border-primary");
+                    if (button.dataset.lineHeight === String(lineHeight)) {
+                        button.classList.add("border-primary");
+                    }
+                });
+            }
+
+            function markActiveTheme(theme) {
+                themeButtons.forEach((button) => {
+                    button.classList.remove("theme-card-active");
+                    if (button.dataset.theme === theme) {
+                        button.classList.add("theme-card-active");
+                    }
+                });
+            }
+
+            function applyShellTheme(theme) {
+                body.classList.remove("reader-surface-day", "reader-surface-sepia", "reader-surface-night");
+
+                if (theme === "sepia") {
+                    body.classList.add("reader-surface-sepia");
+                    main.style.background = "#f4ead5";
+                } else if (theme === "night") {
+                    body.classList.add("reader-surface-night");
+                    main.style.background = "#1b1c19";
+                } else {
+                    body.classList.add("reader-surface-day");
+                    main.style.background = "#fbf9f4";
+                }
+
+                markActiveTheme(theme);
+            }
+
+            function getThemeRules(theme, fontFamily, lineHeight) {
+                const themeMap = {
+                    day: {
+                        body: {
+                            background: "#fbf9f4 !important",
+                            color: "#1b1c19 !important",
+                            "font-family": `'${fontFamily}', serif !important`,
+                            "line-height": `${lineHeight} !important`
+                        },
+                        "p, div, span, li, blockquote": {
+                            color: "#1b1c19 !important",
+                            "font-family": `'${fontFamily}', serif !important`,
+                            "line-height": `${lineHeight} !important`
+                        },
+                        "h1, h2, h3, h4, h5, h6": {
+                            color: "#1b1c19 !important",
+                            "font-family": `'${fontFamily}', serif !important`
+                        },
+                        "a": {
+                            color: "#8d4b00 !important"
+                        }
+                    },
+                    sepia: {
+                        body: {
+                            background: "#f4ead5 !important",
+                            color: "#5d4037 !important",
+                            "font-family": `'${fontFamily}', serif !important`,
+                            "line-height": `${lineHeight} !important`
+                        },
+                        "p, div, span, li, blockquote": {
+                            color: "#5d4037 !important",
+                            "font-family": `'${fontFamily}', serif !important`,
+                            "line-height": `${lineHeight} !important`
+                        },
+                        "h1, h2, h3, h4, h5, h6": {
+                            color: "#5d4037 !important",
+                            "font-family": `'${fontFamily}', serif !important`
+                        },
+                        "a": {
+                            color: "#8d4b00 !important"
+                        }
+                    },
+                    night: {
+                        body: {
+                            background: "#1b1c19 !important",
+                            color: "#f2f1ec !important",
+                            "font-family": `'${fontFamily}', serif !important`,
+                            "line-height": `${lineHeight} !important`
+                        },
+                        "p, div, span, li, blockquote": {
+                            color: "#f2f1ec !important",
+                            "font-family": `'${fontFamily}', serif !important`,
+                            "line-height": `${lineHeight} !important`
+                        },
+                        "h1, h2, h3, h4, h5, h6": {
+                            color: "#ffffff !important",
+                            "font-family": `'${fontFamily}', serif !important`
+                        },
+                        "a": {
+                            color: "#ffb77d !important"
+                        }
+                    }
+                };
+
+                return themeMap[theme] || themeMap.day;
+            }
+
+            function applyReaderSettings() {
+                if (!rendition) return;
+
+                rendition.themes.font(settings.fontFamily);
+                rendition.themes.fontSize(`${settings.fontSize}%`);
+                rendition.themes.default(getThemeRules(settings.theme, settings.fontFamily, settings.lineHeight));
+
+                sizeRange.value = settings.fontSize;
+                sizeValue.textContent = settings.fontSize;
+                markActiveFont(settings.fontFamily);
+                markActiveLineHeight(settings.lineHeight);
+                applyShellTheme(settings.theme);
+            }
+
+            function saveSettings(showDoneState = false) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+
+                if (showDoneState) {
+                    const prevText = saveButton.textContent;
+                    saveButton.textContent = "Сохранено";
+                    setTimeout(() => {
+                        saveButton.textContent = prevText;
+                    }, 1200);
+                }
+            }
+
+            function updateChapterLabel(location) {
+                if (!location || !book) return;
+
+                try {
+                    const current = book.navigation && location.start ? book.navigation.get(location.start.href) : null;
+                    chapterLabel.textContent = current?.label || "Глава открыта";
+                } catch (error) {
+                    chapterLabel.textContent = "Глава открыта";
+                }
+            }
+
+            function bindNavigation(button, handler) {
+                button.addEventListener("click", function () {
+                    if (!rendition) return;
+                    handler();
+                });
+            }
+
+            fontButtons.forEach((button) => {
+                button.addEventListener("click", function () {
+                    settings.fontFamily = this.dataset.font;
+                    applyReaderSettings();
+                });
+            });
+
+            lineHeightButtons.forEach((button) => {
+                button.addEventListener("click", function () {
+                    settings.lineHeight = this.dataset.lineHeight;
+                    applyReaderSettings();
+                });
+            });
+
+            themeButtons.forEach((button) => {
+                button.addEventListener("click", function () {
+                    settings.theme = this.dataset.theme;
+                    applyReaderSettings();
+                });
+            });
+
+            sizeRange.addEventListener("input", function () {
+                settings.fontSize = Number(this.value);
+                applyReaderSettings();
+            });
+
+            saveButton.addEventListener("click", function () {
+                saveSettings(true);
+            });
+
+            bindNavigation(prevPageBtn, () => rendition.prev());
+            bindNavigation(nextPageBtn, () => rendition.next());
+            bindNavigation(prevPageDesktopBtn, () => rendition.prev());
+            bindNavigation(nextPageDesktopBtn, () => rendition.next());
+
+            async function initReader() {
+                try {
+                    setLoadingVisible(true);
+                    setErrorVisible(false);
+
+                    book = ePub(fileUrl);
+                    rendition = book.renderTo("viewer", {
+                        width: "100%",
+                        height: "100%",
+                        flow: "paginated",
+                        manager: "default",
+                        spread: "none"
+                    });
+
+                    rendition.on("relocated", function (location) {
+                        settings.location = location.start.cfi;
+                        saveSettings(false);
+                        updateChapterLabel(location);
+                    });
+
+                    rendition.on("rendered", function () {
+                        setLoadingVisible(false);
+                    });
+
+                    book.ready.then(function () {
+                        applyReaderSettings();
+                    });
+
+                    await rendition.display(settings.location || undefined);
+                } catch (error) {
+                    console.error(error);
+                    setLoadingVisible(false);
+                    setErrorVisible(true);
+                }
+            }
+
+            applyShellTheme(settings.theme);
+            initReader();
+        })();
+    </script>
+    {% endif %}
+</body>
+</html>

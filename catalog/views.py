@@ -7,7 +7,24 @@ from django.db.models import Q
 
 from .models import Book, Author, Genre, Publisher
 
+def book_reader_view(request, slug):
+    book = get_object_or_404(
+        Book.objects.prefetch_related("authors"),
+        slug=slug,
+        is_active=True,
+    )
 
+    authors = ", ".join(
+        f"{author.first_name} {author.last_name}"
+        for author in book.authors.all()
+    ) or "Автор не указан"
+
+    context = {
+        "book": book,
+        "authors": authors,
+        "has_file": bool(book.ebook_file),
+    }
+    return render(request, "book_reader.html", context)
 def catalog_home(request):
     books = Book.objects.filter(is_active=True).prefetch_related(
         "authors",
