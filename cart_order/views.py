@@ -61,7 +61,7 @@ def add_to_cart(request, book_id):
         cart_item.quantity += 1
         cart_item.save(update_fields=["quantity"])
 
-    return redirect("cart")
+    return redirect("cart_order:cart_view")
 
 
 @login_required
@@ -86,7 +86,7 @@ def update_cart_item(request, item_id):
         else:
             cart_item.save(update_fields=["quantity"])
 
-    return redirect("cart")
+    return redirect("cart_order:cart_view")
 
 
 @login_required
@@ -98,4 +98,4 @@ def remove_cart_item(request, item_id):
         cart__user=request.user
     )
     cart_item.delete()
-    return redirect("cart")
+    return redirect("cart_order:cart_view")

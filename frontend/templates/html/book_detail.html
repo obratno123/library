@@ -190,10 +190,13 @@
 </div>
 <p class="text-xs font-label text-outline mb-6">Доступно: {{ available_quantity }}</p>
 <div class="flex flex-col gap-3">
-<a class="bg-primary text-on-primary py-4 px-8 font-label font-bold flex items-center justify-center space-x-3 hover:bg-primary-container transition-all active:scale-95 shadow-sm" href="cart.html">
-<span class="material-symbols-outlined">shopping_cart</span>
-<span>ДОБАВИТЬ В КОРЗИНУ</span>
-</a>
+<form method="post" action="{% url 'cart_order:add_to_cart' book.id %}">
+    {% csrf_token %}
+    <button type="submit" class="bg-primary text-on-primary py-4 px-8 font-label font-bold flex items-center justify-center space-x-3 hover:bg-primary-container transition-all active:scale-95 shadow-sm w-full">
+        <span class="material-symbols-outlined">shopping_cart</span>
+        <span>ДОБАВИТЬ В КОРЗИНУ</span>
+    </button>
+</form>
 <a class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95" href="cart.html">
 КУПИТЬ В ОДИН КЛИК
 </a>

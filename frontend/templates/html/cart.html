@@ -96,10 +96,10 @@
         </nav>
 
         <div class="flex items-center gap-6 text-[#8d4b00] dark:text-[#fdbf8f]">
-            <a aria-label="Личный кабинет" class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex" href="/account/">person</a>
+            <a aria-label="Личный кабинет" class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex" href="/profile/">person</a>
 
             <div class="relative">
-                <a href="{% url 'cart' %}" class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex" style="font-variation-settings: 'FILL' 1;">shopping_bag</a>
+                <a href="{% url 'cart_order:cart_view' %}" class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex" style="font-variation-settings: 'FILL' 1;">shopping_bag</a>
                 <span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
                     {{ total_items }}
                 </span>
@@ -150,7 +150,7 @@
                         </div>
 
                         <div class="flex items-center gap-6">
-                            <form method="post" action="{% url 'update_cart_item' item.id %}">
+                            <form method="post" action="{% url 'cart_order:update_cart_item' item.id %}">
                                 {% csrf_token %}
                                 <div class="flex items-center bg-surface-container-low rounded-md overflow-hidden">
                                     <button name="action" value="decrease" type="submit"
@@ -169,7 +169,7 @@
                                 </div>
                             </form>
 
-                            <form method="post" action="{% url 'remove_cart_item' item.id %}">
+                            <form method="post" action="{% url 'cart_order:remove_cart_item' item.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="text-outline hover:text-error transition-colors p-2">
                                     <span class="material-symbols-outlined">delete</span>
