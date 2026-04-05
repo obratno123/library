@@ -1,0 +1,292 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="light" lang="ru"><head>
+<meta charset="utf-8"/><title>Букинист — {{ book.title }}</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "background": "#fbf9f4",
+              "primary-container": "#b15f00",
+              "secondary-fixed-dim": "#f7ba8a",
+              "on-primary-container": "#fffbff",
+              "tertiary": "#006096",
+              "surface-container-high": "#eae8e3",
+              "tertiary-fixed-dim": "#96ccff",
+              "secondary-container": "#fdbf8f",
+              "inverse-surface": "#30312e",
+              "on-primary-fixed": "#2f1500",
+              "on-secondary-fixed-variant": "#673d17",
+              "primary": "#8d4b00",
+              "primary-fixed": "#ffdcc3",
+              "surface-bright": "#fbf9f4",
+              "tertiary-fixed": "#cee5ff",
+              "on-surface": "#1b1c19",
+              "on-tertiary-fixed": "#001d32",
+              "on-error-container": "#93000a",
+              "secondary-fixed": "#ffdcc3",
+              "on-primary-fixed-variant": "#6e3900",
+              "surface-container": "#f0eee9",
+              "tertiary-container": "#007abd",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#ffb77d",
+              "primary-fixed-dim": "#ffb77d",
+              "on-surface-variant": "#554336",
+              "on-tertiary-fixed-variant": "#004a75",
+              "secondary": "#82542c",
+              "surface-container-low": "#f5f3ee",
+              "outline-variant": "#dbc2b0",
+              "outline": "#887364",
+              "error": "#ba1a1a",
+              "surface": "#fbf9f4",
+              "on-secondary-container": "#784c25",
+              "on-secondary-fixed": "#2f1500",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e4e2dd",
+              "surface-container-highest": "#e4e2dd",
+              "inverse-on-surface": "#f2f1ec",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#904d00",
+              "on-background": "#1b1c19",
+              "on-secondary": "#ffffff",
+              "on-tertiary-container": "#fdfcff",
+              "surface-dim": "#dbdad5"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+
+<link href="{% static 'css/product.css' %}" rel="stylesheet">
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar Shell -->
+<header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm opacity-95 fixed top-0 w-full z-50">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
+<nav class="hidden md:flex items-center space-x-8 font-serif">
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Бестселлеры</a>
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Новинки</a>
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Коллекции</a>
+<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Распродажа</a>
+</nav>
+<div class="flex items-center space-x-5">
+<a aria-label="Вход или регистрация" class="text-[#8d4b00] dark:text-[#fdbf8f] scale-95 active:opacity-80 transition-transform flex items-center" href="login.html">
+<span class="material-symbols-outlined">person</span>
+</a>
+<button class="text-[#8d4b00] dark:text-[#fdbf8f] scale-95 active:opacity-80 transition-transform flex items-center relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="absolute -top-2 -right-2 bg-primary text-on-primary text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">1</span>
+</button>
+</div>
+</div>
+<div class="bg-[#e4e2dd] dark:bg-stone-800 h-[1px] w-full"></div>
+</header>
+<main class="flex-grow pt-24 pb-16 px-6 max-w-7xl mx-auto w-full">
+<!-- Breadcrumbs -->
+<nav class="flex items-center space-x-2 text-xs uppercase tracking-widest text-on-surface-variant mb-8 font-label">
+<a class="hover:text-primary transition-colors" href="{% url 'catalog:catalog_home' %}">Главная</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="{% url 'catalog:catalog_home' %}">Каталог</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">{{ book.title }}</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+<!-- Left Side: Visuals -->
+<div class="lg:col-span-7 flex flex-col md:flex-row gap-6">
+<!-- Gallery Thumbnails -->
+<div class="flex md:flex-col gap-4 order-2 md:order-1">
+<div class="w-20 h-28 bg-surface-container overflow-hidden cursor-pointer ring-1 ring-primary transition-all">
+{% if book.cover_image %}
+<img class="w-full h-full object-cover" src="{{ book.cover_image.url }}" alt="{{ book.title }}"/>
+{% else %}
+<div class="w-full h-full flex items-center justify-center text-xs text-outline">Нет</div>
+{% endif %}
+</div>
+<div class="w-20 h-28 bg-surface-container overflow-hidden cursor-pointer hover:ring-1 hover:ring-outline-variant transition-all">
+{% if book.cover_image %}
+<img class="w-full h-full object-cover opacity-80" src="{{ book.cover_image.url }}" alt="{{ book.title }}"/>
+{% else %}
+<div class="w-full h-full flex items-center justify-center text-xs text-outline">Нет</div>
+{% endif %}
+</div>
+<div class="w-20 h-28 bg-surface-container overflow-hidden cursor-pointer hover:ring-1 hover:ring-outline-variant transition-all">
+{% if book.cover_image %}
+<img class="w-full h-full object-cover opacity-80" src="{{ book.cover_image.url }}" alt="{{ book.title }}"/>
+{% else %}
+<div class="w-full h-full flex items-center justify-center text-xs text-outline">Нет</div>
+{% endif %}
+</div>
+</div>
+<!-- Main Cover -->
+<div class="flex-grow order-1 md:order-2">
+<div class="bg-surface-container-low p-1 shadow-sm">
+{% if book.cover_image %}
+<img class="w-full h-auto object-cover border border-outline-variant/10" src="{{ book.cover_image.url }}" alt="{{ book.title }}"/>
+{% else %}
+<div class="w-full h-[500px] flex items-center justify-center text-outline">Нет обложки</div>
+{% endif %}
+</div>
+</div>
+</div>
+<!-- Right Side: Interaction & Details -->
+<div class="lg:col-span-5 flex flex-col">
+<div class="mb-2">
+<span class="font-label text-xs uppercase tracking-widest text-primary font-bold">
+{% for genre in book.genres.all %}
+    {{ genre.name }}{% if not forloop.last %}, {% endif %}
+{% empty %}
+    Книга
+{% endfor %}
+</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-headline font-bold text-on-surface mb-2 leading-tight">{{ book.title }}</h1>
+<p class="text-xl font-headline italic text-on-surface-variant mb-6">
+{% for author in book.authors.all %}
+    {{ author }}{% if not forloop.last %}, {% endif %}
+{% empty %}
+    Автор не указан
+{% endfor %}
+</p>
+<!-- Rating -->
+<div class="flex items-center space-x-4 mb-8">
+<div class="flex text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+<span class="text-sm font-label text-outline">4.8 (124 отзыва)</span>
+</div>
+<!-- Price & Status -->
+<div class="bg-surface-container-low p-8 mb-10 border-l-4 border-primary">
+<div class="flex items-baseline justify-between mb-2">
+<span class="text-4xl font-headline font-extrabold text-on-surface">{{ book.price }} ₽</span>
+<div class="flex items-center text-tertiary-container font-label text-sm font-bold">
+<span class="material-symbols-outlined text-sm mr-1">
+{% if available_quantity > 0 %}check_circle{% else %}cancel{% endif %}
+</span>
+{% if available_quantity > 0 %}
+    В наличии
+{% else %}
+    Нет в наличии
+{% endif %}
+</div>
+</div>
+<p class="text-xs font-label text-outline mb-6">Доступно: {{ available_quantity }}</p>
+<div class="flex flex-col gap-3">
+<a class="bg-primary text-on-primary py-4 px-8 font-label font-bold flex items-center justify-center space-x-3 hover:bg-primary-container transition-all active:scale-95 shadow-sm" href="cart.html">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span>ДОБАВИТЬ В КОРЗИНУ</span>
+</a>
+<a class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95" href="cart.html">
+КУПИТЬ В ОДИН КЛИК
+</a>
+</div>
+</div>
+<!-- Technical Details -->
+<div class="grid grid-cols-2 gap-y-4 gap-x-8 text-sm border-t border-outline-variant/30 pt-8">
+<div>
+<p class="text-outline text-xs uppercase tracking-wider mb-1">Издательство</p>
+<p class="font-bold text-on-surface">{% if book.publisher %}{{ book.publisher.name }}{% else %}Не указано{% endif %}</p>
+</div>
+<div>
+<p class="text-outline text-xs uppercase tracking-wider mb-1">Год издания</p>
+<p class="font-bold text-on-surface">{% if book.publish_year %}{{ book.publish_year }}{% else %}Не указано{% endif %}</p>
+</div>
+<div>
+<p class="text-outline text-xs uppercase tracking-wider mb-1">ISBN</p>
+<p class="font-bold text-on-surface">{{ book.isbn }}</p>
+</div>
+<div>
+<p class="text-outline text-xs uppercase tracking-wider mb-1">Переплет</p>
+<p class="font-bold text-on-surface">Твердый (Munken)</p>
+</div>
+<div>
+<p class="text-outline text-xs uppercase tracking-wider mb-1">Страниц</p>
+<p class="font-bold text-on-surface">432</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Annotation Section -->
+<section class="mt-20 max-w-4xl">
+<h2 class="text-3xl font-headline font-bold mb-6">О чем эта книга</h2>
+<div class="space-y-4 text-on-surface-variant font-body leading-relaxed text-lg">
+<p>
+{% if book.description %}
+{{ book.description }}
+{% else %}
+Описание пока не добавлено.
+{% endif %}
+</p>
+</div>
+</section>
+<!-- Upsell Section: Bento Style -->
+{% if related_books %}
+<section class="mt-24">
+<div class="flex justify-between items-end mb-10">
+<h2 class="text-3xl font-headline font-bold">С этой книгой часто покупают</h2>
+<a class="text-primary font-label font-bold text-sm border-b-2 border-primary/30 hover:border-primary transition-all pb-1" href="{% url 'catalog:catalog_home' %}">Смотреть всю коллекцию</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+{% for related in related_books %}
+<div class="group cursor-pointer">
+<a href="{% url 'catalog:book_detail' related.slug %}">
+<div class="bg-surface-container-low p-6 mb-4 flex justify-center items-center transition-transform duration-300 group-hover:-translate-y-2">
+{% if related.cover_image %}
+<img class="h-48 shadow-lg" src="{{ related.cover_image.url }}" alt="{{ related.title }}"/>
+{% else %}
+<div class="h-48 flex items-center justify-center text-outline">Нет обложки</div>
+{% endif %}
+</div>
+<p class="text-xs font-label text-outline uppercase tracking-widest mb-1">
+{% for author in related.authors.all %}
+    {{ author }}{% if not forloop.last %}, {% endif %}
+{% empty %}
+    Автор не указан
+{% endfor %}
+</p>
+<h3 class="font-headline font-bold text-lg mb-2 group-hover:text-primary transition-colors">{{ related.title }}</h3>
+<p class="font-headline font-extrabold text-on-surface">{{ related.price }} ₽</p>
+</a>
+</div>
+{% endfor %}
+</div>
+</section>
+{% endif %}
+</main>
+<!-- Footer Shell -->
+<footer class="bg-[#e4e2dd] dark:bg-stone-950 w-full mt-auto border-t-0 font-label">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-16 w-full max-w-7xl mx-auto">
+<div class="mb-8 md:mb-0">
+<div class="font-serif text-lg text-[#1b1c19] dark:text-[#fbf9f4] mb-2">Букинист</div>
+<p class="text-[#554336] dark:text-stone-500 text-[10px] uppercase tracking-[0.2em]">© 2024 Букинист. Эстетика печатного слова.</p>
+</div>
+<div class="flex space-x-10">
+<a class="text-xs uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] dark:hover:text-[#fdbf8f] transition-colors" href="#">Помощь</a>
+<a class="text-xs uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] dark:hover:text-[#fdbf8f] transition-colors" href="#">Доставка</a>
+<a class="text-xs uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] dark:hover:text-[#fdbf8f] transition-colors" href="#">Оплата</a>
+<a class="text-xs uppercase tracking-widest text-[#554336] dark:text-stone-500 hover:text-[#8d4b00] dark:hover:text-[#fdbf8f] transition-colors" href="#">Контакты</a>
+</div>
+</div>
+</footer>
+<script src="{% static 'js/config.js' %}"></script>
+<script src="{% static 'js/auth-common.js' %}"></script>
+<script src="{% static 'js/auth-links.js' %}"></script>
+</body></html>

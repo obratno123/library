@@ -17,13 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import home_page, login_page, register_page, profile_page
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("users/", include("users.urls")),
+    path('catalog/', include('catalog.urls', namespace='catalog')),
 
     path("", home_page, name="home"),
     path("login/", login_page, name="login_page"),
     path("register/", register_page, name="register_page"),
     path("profile/", profile_page, name="profile_page"),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
