@@ -10,9 +10,11 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from django.db import IntegrityError
 import logging
+from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger(__name__)
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def register(request):
     content_type = request.content_type or ""
@@ -75,7 +77,7 @@ def register(request):
         "username": user.username
     }, status=201)
     
-
+@csrf_exempt
 @require_http_methods(["POST"])
 def user_login(request):
     content_type = request.content_type or ""
@@ -111,7 +113,7 @@ def user_login(request):
         "user_id": user.id,
         "username": user.username
     })
-
+@csrf_exempt
 @require_http_methods(["POST"])
 def user_logout(request):
     if not request.user.is_authenticated:
