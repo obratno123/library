@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои чаты</title>
+</head>
+<body>
+    <h1>Обычные чаты</h1>
+
+    <h2>Начать новый чат</h2>
+    {% for chat_user in users %}
+        <div style="margin-bottom: 10px;">
+            <a href="{% url 'chat:start_dialog' chat_user.id %}">
+                {{ chat_user.username }}
+                {% if chat_user.profile %}
+			{% endif %}
+            </a>
+        </div>
+    {% empty %}
+        <p>Нет доступных пользователей.</p>
+    {% endfor %}
+
+    <hr>
+
+    <h2>История чатов</h2>
+	{% for item in dialog_data %}
+		<div style="margin-bottom: 12px; padding: 10px; border: 1px solid #ccc;">
+			<a href="{% url 'chat:dialog_detail' item.dialog.id %}">
+				Чат с {{ item.other_user.username }}
+			</a>
+			<div>Обновлён: {{ item.dialog.updated_at|date:"d.m.Y H:i" }}</div>
+		</div>
+	{% empty %}
+        <p>У вас пока нет чатов.</p>
+    {% endfor %}
+</body>
+</html>

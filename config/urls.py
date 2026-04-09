@@ -27,6 +27,7 @@ urlpatterns = [
     path("cart/", include("cart_order.urls", namespace='cart_order')),
     path("chat/", include("support_chat.urls", namespace="support_chat")),
     path("", home_page, name="home"),
+    path("messages/", include("chat.urls", namespace="chat")),
     path("login/", login_page, name="login_page"),
     path("register/", register_page, name="register_page"),
     path("profile/", profile_page, name="profile_page"),

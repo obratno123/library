@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'service_entities',
     'catalog',
     'users',
+    'chat',
     'support_chat',
 ]
 

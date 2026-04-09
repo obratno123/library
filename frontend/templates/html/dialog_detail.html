@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Диалог с {{ dialog.user.username }}</title>
+    <title>Чат с {{ other_user.username }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,7 +30,7 @@
             margin-left: auto;
             text-align: right;
         }
-        .user-message {
+        .other-message {
             background: #f3f4f6;
             margin-right: auto;
         }
@@ -56,12 +56,12 @@
     </style>
 </head>
 <body>
-    <h1>Диалог с {{ dialog.user.username }}</h1>
-    <p><a href="{% url 'support_chat:support_dialogs_list' %}">← Назад</a></p>
+    <h1>Чат с {{ other_user.username }}</h1>
+    <p><a href="{% url 'chat:dialog_list' %}">← Назад к чатам</a></p>
 
     <div class="chat-box" id="chat-box">
         {% for message in messages %}
-            <div class="message {% if message.sender == user %}my-message{% else %}user-message{% endif %}">
+            <div class="message {% if message.sender == user %}my-message{% else %}other-message{% endif %}">
                 <div>{{ message.text }}</div>
                 <div class="meta">
                     {{ message.sender.username }} | {{ message.created_at|date:"d.m.Y H:i" }}
@@ -73,7 +73,7 @@
     </div>
 
     <div class="form-block">
-        <textarea id="chat-message-input" placeholder="Введите ответ..." required></textarea>
+        <textarea id="chat-message-input" placeholder="Введите сообщение..." required></textarea>
         <button id="chat-message-submit" type="button">Отправить</button>
     </div>
 
@@ -86,7 +86,7 @@
 
         const protocol = window.location.protocol === "https:" ? "wss" : "ws";
         const chatSocket = new WebSocket(
-            protocol + "://" + window.location.host + "/ws/support-chat/" + dialogId + "/"
+            protocol + "://" + window.location.host + "/ws/chat/" + dialogId + "/"
         );
 
         const chatBox = document.getElementById("chat-box");
@@ -100,7 +100,7 @@
             }
 
             const wrapper = document.createElement("div");
-            wrapper.className = "message " + (data.sender_id === currentUserId ? "my-message" : "user-message");
+            wrapper.className = "message " + (data.sender_id === currentUserId ? "my-message" : "other-message");
 
             const textDiv = document.createElement("div");
             textDiv.textContent = data.message;
@@ -119,6 +119,10 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             appendMessage(data);
+        };
+
+        chatSocket.onclose = function() {
+            console.error("WebSocket соединение закрыто");
         };
 
         function sendMessage() {
