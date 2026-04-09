@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Диалог с {{ dialog.user.username }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .chat-box {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 400px;
+            background: #fafafa;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .message {
+            padding: 10px 14px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+        .my-message {
+            background: #dbeafe;
+            margin-left: auto;
+            text-align: right;
+        }
+        .user-message {
+            background: #f3f4f6;
+            margin-right: auto;
+        }
+        .meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .form-block {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        textarea {
+            flex: 1;
+            min-height: 80px;
+            padding: 10px;
+        }
+        button {
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Диалог с {{ dialog.user.username }}</h1>
+    <p><a href="{% url 'support_chat:support_dialogs_list' %}">← Назад</a></p>
+
+    <div class="chat-box" id="chat-box">
+        {% for message in messages %}
+            <div class="message {% if message.sender == user %}my-message{% else %}user-message{% endif %}">
+                <div>{{ message.text }}</div>
+                <div class="meta">
+                    {{ message.sender.username }} | {{ message.created_at|date:"d.m.Y H:i" }}
+                </div>
+            </div>
+        {% empty %}
+            <p id="empty-state">Сообщений пока нет.</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-block">
+        <textarea id="chat-message-input" placeholder="Введите ответ..." required></textarea>
+        <button id="chat-message-submit" type="button">Отправить</button>
+    </div>
+
+    {{ dialog.id|json_script:"dialog-id" }}
+    {{ user.id|json_script:"current-user-id" }}
+
+    <script>
+        const dialogId = JSON.parse(document.getElementById("dialog-id").textContent);
+        const currentUserId = JSON.parse(document.getElementById("current-user-id").textContent);
+
+        const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+        const chatSocket = new WebSocket(
+            protocol + "://" + window.location.host + "/ws/support-chat/" + dialogId + "/"
+        );
+
+        const chatBox = document.getElementById("chat-box");
+        const input = document.getElementById("chat-message-input");
+        const submitButton = document.getElementById("chat-message-submit");
+
+        function appendMessage(data) {
+            const emptyState = document.getElementById("empty-state");
+            if (emptyState) {
+                emptyState.remove();
+            }
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "message " + (data.sender_id === currentUserId ? "my-message" : "user-message");
+
+            const textDiv = document.createElement("div");
+            textDiv.textContent = data.message;
+
+            const metaDiv = document.createElement("div");
+            metaDiv.className = "meta";
+            metaDiv.textContent = data.sender_username + " | " + data.created_at;
+
+            wrapper.appendChild(textDiv);
+            wrapper.appendChild(metaDiv);
+
+            chatBox.appendChild(wrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            appendMessage(data);
+        };
+
+        chatSocket.onclose = function() {
+            console.error("WebSocket соединение закрыто");
+        };
+
+        function sendMessage() {
+            const message = input.value.trim();
+            if (!message) return;
+
+            chatSocket.send(JSON.stringify({
+                message: message
+            }));
+
+            input.value = "";
+        }
+
+        submitButton.onclick = sendMessage;
+
+        input.addEventListener("keyup", function(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

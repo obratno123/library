@@ -314,4 +314,10 @@
 <script src="{% static 'js/config.js' %}"></script>
 <script src="{% static 'js/auth-common.js' %}"></script>
 <script src="{% static 'js/auth-links.js' %}"></script>
-</body></html>
+</body>
+{% if user.is_authenticated %}
+    <a href="{% url 'support_chat:chat_dialog' %}"
+       style="position: fixed; right: 20px; bottom: 20px; background: #8d4b00; color: white; padding: 14px 18px; border-radius: 999px; text-decoration: none; z-index: 9999;">
+        Чат
+    </a>
+{% endif %}</html>

@@ -25,7 +25,7 @@ urlpatterns = [
     path("users/", include("users.urls")),
     path('catalog/', include('catalog.urls', namespace='catalog')),
     path("cart/", include("cart_order.urls", namespace='cart_order')),
-
+    path("chat/", include("support_chat.urls", namespace="support_chat")),
     path("", home_page, name="home"),
     path("login/", login_page, name="login_page"),
     path("register/", register_page, name="register_page"),
