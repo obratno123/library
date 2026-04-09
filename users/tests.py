@@ -275,7 +275,199 @@ class registerTests(TestCase):
             mock_logger.assert_called_once()
             self.assertFalse(User.objects.filter(username="newuser").exists())
             self.assertFalse(Profile.objects.filter(user__username="newuser").exists())
+            
+class loginTests(TestCase):
+    def test_login_success(self):
+        User.objects.create_user(
+            username="alex",
+            password="testpass12345A!"
+        )
+
+        response = self.client.post(
+            reverse("login"),
+            data=json.dumps({
+                "username": "alex",
+                "password": "testpass12345A!"
+            }),
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+        self.assertEqual(data["message"], "Вход выполнен")
+        self.assertEqual(data["username"], "alex")
+
+        self.assertEqual(str(self.client.session["_auth_user_id"]), str(data["user_id"]))
+        
+    def test_login_content_type_status_code_400(self):
+        response = self.client.post(
+            reverse("login"),
+            data="username=alex&password=testpass12345A!",
+            content_type="application/x-www-form-urlencoded"
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["error"], "Ожидается application/json")
+        
+    def test_login_json_status_code_400(self):
+        response = self.client.post(
+            reverse("login"),
+            data='{"username": "alex", "password": }',
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["error"], "Невалидный JSON")
+        
+    def test_login_not_username_status_code_400(self):
+        response = self.client.post(
+            reverse("login"),
+            data=json.dumps({
+                "password": "testpass12345A!"
+            }),
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["error"], "username обязателен")
+        
+    def test_login_not_password_status_code_400(self):
+        response = self.client.post(
+            reverse("login"),
+            data=json.dumps({
+                "username": "alex",
+            }),
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["error"], "password обязателен")
         
     
-    
-    
+    def test_login_wrong_password_status_code_401(self):
+        User.objects.create_user(
+            username="alex",
+            password="testpass12345A!"
+        )
+
+        response = self.client.post(
+            reverse("login"),
+            data=json.dumps({
+                "username": "alex",
+                "password": "wrongpass"
+            }),
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()["error"], "Неверный логин или пароль")
+        
+    def test_login_status_code_401_when_authenticate_return_none(self):
+        with patch("users.views.authenticate", return_value=None):
+            response = self.client.post(
+                reverse("login"),
+                data=json.dumps({
+                    "username": "alex",
+                    "password": "wrongpass"
+                }),
+                content_type="application/json"
+            )
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()["error"], "Неверный логин или пароль")
+        
+        
+    def test_login_status_code_500_exception(self):
+        User.objects.create_user(
+            username="alex",
+            password="testpass12345A!"
+        )
+        with patch("users.views.logger.exception")as mock_logger:
+            with patch("users.views.login", side_effect=Exception("asdf")):
+                response = self.client.post(
+                    reverse("login"),
+                    data=json.dumps({
+                        "username": "alex",
+                        "password": "testpass12345A!"
+                    }),
+                    content_type="application/json"
+                )
+            mock_logger.assert_called_once()
+            self.assertEqual(response.status_code, 500)
+            self.assertEqual(response.json()["error"], "Ошибка при входе")
+            
+
+class logoutTests(TestCase):
+    def test_logout_unauthorized_returns_401(self):
+        response = self.client.post(reverse("logout"))
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()["error"], "Не авторизован")
+        
+    def test_logout_success_returns_200(self):
+        user = User.objects.create_user(
+            username="alex",
+            password="testpass12345A!"
+        )
+
+        self.client.force_login(user)
+
+        response = self.client.post(reverse("logout"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["message"], "Выход выполнен")
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+
+class userprofileTests(TestCase):
+    def test_profile_unauthorized_sattus_code_401(self):
+        response = self.client.get(reverse("profile"))
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()["error"], "Не авторизован")
+
+
+    def test_profile_not_found_status_code_404(self):
+        user = User.objects.create_user(
+            username="alex",
+            password="testpass12345A!",
+            email="alex@example.com"
+        )
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("profile"))
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json()["error"], "Профиль не найден")
+
+
+    def test_profile_success_status_code_200(self):
+        user = User.objects.create_user(
+            username="alex",
+            password="testpass12345A!",
+            email="alex@example.com"
+        )
+
+        Profile.objects.create(
+            user=user,
+            full_name="Алексей Иванов",
+            city="Москва",
+            delivery_address="ул. Пушкина, д. 1",
+            postal_code="123456"
+        )
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("profile"))
+
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+        self.assertEqual(data["username"], "alex")
+        self.assertEqual(data["email"], "alex@example.com")
+        self.assertEqual(data["full_name"], "Алексей Иванов")
+        self.assertEqual(data["city"], "Москва")
+        self.assertEqual(data["delivery_address"], "ул. Пушкина, д. 1")
+        self.assertEqual(data["postal_code"], "123456")
