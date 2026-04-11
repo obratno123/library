@@ -276,6 +276,24 @@ class registerTests(TestCase):
             self.assertFalse(User.objects.filter(username="newuser").exists())
             self.assertFalse(Profile.objects.filter(user__username="newuser").exists())
             
+    def test_register_success_without_email(self):
+        response = self.client.post(
+            reverse("register"),
+            data=json.dumps({
+                "username": "newuser_no_email",
+                "password": "StrongPassword123!"
+            }),
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(User.objects.filter(username="newuser_no_email").exists())
+        self.assertTrue(Profile.objects.filter(user__username="newuser_no_email").exists())
+
+        user = User.objects.get(username="newuser_no_email")
+        self.assertEqual(user.email, "")
+
+    
 class loginTests(TestCase):
     def test_login_success(self):
         User.objects.create_user(
@@ -471,3 +489,5 @@ class userprofileTests(TestCase):
         self.assertEqual(data["city"], "Москва")
         self.assertEqual(data["delivery_address"], "ул. Пушкина, д. 1")
         self.assertEqual(data["postal_code"], "123456")
+        
+    
