@@ -1,0 +1,21 @@
+name: Deploy to local self-hosted runner
+
+on:
+  push:
+    branches:
+      - tests
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, windows, x64]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run deploy script
+        shell: powershell
+        run: |
+          powershell -ExecutionPolicy Bypass -File deploy.ps1
