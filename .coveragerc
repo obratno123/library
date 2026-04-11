@@ -1,0 +1,20 @@
+[run]
+source =
+    users
+    cart_order
+    catalog
+    review_rating
+    service_entities
+
+[report]
+omit =
+    */migrations/*
+    */tests.py
+    */admin.py
+    */apps.py
+    */urls.py
+    */__init__.py
+    manage.py
+    config/settings.py
+    config/urls.py
+    config/views.py

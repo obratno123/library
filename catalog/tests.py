@@ -3,6 +3,8 @@ from django.test import TestCase
 
 from catalog.models import Book, Stock, Author, Genre, Publisher
 
+from django.urls import reverse
+
 class stockmodelsTests(TestCase):
     def setUp(self):
         self.book = Book.objects.create(
@@ -83,3 +85,89 @@ class bookmodelTests(TestCase):
         )
 
         self.assertEqual(str(book), "Преступление и наказание")
+        
+
+class BookReaderViewTests(TestCase):
+    def setUp(self):
+        self.book = Book.objects.create(
+            title="Дюна",
+            slug="duna",
+            isbn="1234567890126",
+            price=Decimal("800.00"),
+            is_active=True,
+        )
+    
+    def test_book_reader_view_returns_200_with_correct_context(self):
+        author1 = Author.objects.create(first_name="Фрэнк", last_name="Герберт")
+        author2 = Author.objects.create(first_name="Иван", last_name="Иванов")
+        self.book.authors.add(author1, author2)
+
+        response = self.client.get(
+            reverse("catalog:book_reader", args=[self.book.slug])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["book"], self.book)
+        self.assertEqual(
+            response.context["authors"],
+            "Фрэнк Герберт, Иван Иванов"
+        )
+        self.assertFalse(response.context["has_file"])
+        
+    def test_book_reader_view_status_code_404_for_inactive_book(self):
+        inactive_book = Book.objects.create(
+            title="Скрытая книга",
+            slug="hidden-book",
+            isbn="1234567890999",
+            price=Decimal("500.00"),
+            is_active=False,
+        )
+
+        response = self.client.get(
+            reverse("catalog:book_reader", args=[inactive_book.slug])
+        )
+
+        self.assertEqual(response.status_code, 404)
+        
+    def test_book_reader_view_status_code_404_for_nonexistent_slug(self):
+        response = self.client.get(
+            reverse("catalog:book_reader", args=["no-such-book"])
+        )
+
+        self.assertEqual(response.status_code, 404)
+        
+    def test_book_reader_view_not_author_no_authors(self):
+        response = self.client.get(
+            reverse("catalog:book_reader", args=[self.book.slug])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["authors"], "Автор не указан")
+    
+    def test_book_reader_view_has_file_true_when_ebook_file_exists(self):
+        self.book.ebook_file = "books/test.pdf"
+        self.book.save()
+
+        response = self.client.get(
+            reverse("catalog:book_reader", args=[self.book.slug])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["has_file"])
+        
+    def test_book_reader_view_uses_correct_template(self):
+        response = self.client.get(
+            reverse("catalog:book_reader", args=[self.book.slug])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "book_reader.html")
+        
+    def test_book_reader_view_has_file_false_when_ebook_file_is_empty(self):
+        
+        response = self.client.get(
+            reverse("catalog:book_reader", args=[self.book.slug])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["has_file"])
