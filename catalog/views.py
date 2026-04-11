@@ -25,6 +25,8 @@ def book_reader_view(request, slug):
         "has_file": bool(book.ebook_file),
     }
     return render(request, "book_reader.html", context)
+
+
 def catalog_home(request):
     books = Book.objects.filter(is_active=True).prefetch_related(
         "authors",
