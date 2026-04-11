@@ -1,4 +1,5 @@
 [run]
+branch = True
 source =
     users
     cart_order
@@ -18,3 +19,4 @@ omit =
     config/settings.py
     config/urls.py
     config/views.py
+fail_under = 95

@@ -1,0 +1,6 @@
+asgiref==3.11.1
+coverage==7.13.5
+Django==6.0.3
+pillow==12.1.1
+sqlparse==0.5.5
+tzdata==2025.3
