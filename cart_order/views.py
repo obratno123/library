@@ -6,6 +6,7 @@ from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_GET, require_POST
+from django.http import HttpResponseBadRequest
 
 from catalog.models import Book
 from .models import Cart, CartItem
@@ -85,6 +86,9 @@ def update_cart_item(request, item_id):
             cart_item.delete()
         else:
             cart_item.save(update_fields=["quantity"])
+            
+    else:
+        return HttpResponseBadRequest("Некорректное действие")
 
     return redirect("cart_order:cart_view")
 
