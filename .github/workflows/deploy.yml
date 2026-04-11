@@ -16,6 +16,5 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run deploy script
-        shell: powershell
-        run: |
-          powershell -ExecutionPolicy Bypass -File deploy.ps1
+        shell: cmd
+        run: powershell.exe -ExecutionPolicy Bypass -File deploy.ps1
