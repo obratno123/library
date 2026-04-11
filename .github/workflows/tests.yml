@@ -2,11 +2,16 @@ name: Django tests and coverage
 
 on:
   push:
+    branches:
+      - tests
+      - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  test:
+  ci-tests:
     runs-on: ubuntu-latest
 
     steps:
