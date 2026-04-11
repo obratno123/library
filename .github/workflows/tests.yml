@@ -3,6 +3,7 @@ name: Django tests and coverage
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
@@ -29,3 +30,10 @@ jobs:
           coverage erase
           coverage run --branch manage.py test
           coverage report -m
+          coverage html
+
+      - name: Upload HTML coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: htmlcov/
