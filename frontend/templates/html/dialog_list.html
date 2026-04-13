@@ -2,36 +2,117 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Мои чаты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Букинист — Чаты</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#fbf9f4",
+                        primary: "#8d4b00",
+                        primary_container: "#b15f00",
+                        surface_container_low: "#f5f3ee",
+                        surface_container_high: "#eae8e3",
+                        surface_variant: "#e4e2dd",
+                        outline: "#887364",
+                        outline_variant: "#dbc2b0",
+                        on_surface: "#1b1c19",
+                        on_surface_variant: "#554336",
+                    },
+                    fontFamily: {
+                        headline: ["Newsreader", "serif"],
+                        body: ["Manrope", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <h1>Обычные чаты</h1>
+<body class="bg-background text-on_surface min-h-screen flex flex-col">
 
-    <h2>Начать новый чат</h2>
-    {% for chat_user in users %}
-        <div style="margin-bottom: 10px;">
-            <a href="{% url 'chat:start_dialog' chat_user.id %}">
-                {{ chat_user.username }}
-                {% if chat_user.profile %}
-			{% endif %}
-            </a>
+{% include "includes/site_header.html" %}
+
+<main class="flex flex-1 overflow-hidden max-w-screen-2xl mx-auto w-full">
+    <aside class="bg-surface_variant h-[calc(100vh-72px)] w-80 flex flex-col py-6 space-y-4 shrink-0">
+        <div class="px-6 mb-2">
+            <h2 class="font-body text-sm font-semibold tracking-wide text-primary">Поиск пользователя</h2>
+            <p class="text-[10px] text-on_surface_variant uppercase tracking-wider">Начать новый чат</p>
+
+            <form method="get" action="{% url 'chat:dialog_list' %}" class="mt-4">
+                <div class="flex items-center bg-[#fbf9f4] rounded-lg px-3 py-2">
+                    <span class="material-symbols-outlined text-outline mr-2">search</span>
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ query }}"
+                        placeholder="Введите никнейм..."
+                        class="w-full bg-transparent border-none outline-none text-sm text-on_surface placeholder:text-outline"
+                    >
+                </div>
+            </form>
         </div>
-    {% empty %}
-        <p>Нет доступных пользователей.</p>
-    {% endfor %}
 
-    <hr>
+        <div class="px-4 space-y-2 overflow-y-auto">
+            {% if query %}
+                {% for chat_user in users %}
+                    <a href="{% url 'chat:start_dialog' chat_user.id %}"
+                       class="block bg-[#fbf9f4] rounded-lg p-4 hover:bg-surface_container_high transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-semibold text-sm text-primary">{{ chat_user.username }}</p>
+                                {% if chat_user.profile %}
+                                    <p class="text-xs text-on_surface_variant">{{ chat_user.profile.full_name }}</p>
+                                {% endif %}
+                            </div>
+                            <span class="material-symbols-outlined text-primary text-sm">add</span>
+                        </div>
+                    </a>
+                {% empty %}
+                    <p class="text-sm text-on_surface_variant px-2">Пользователи не найдены.</p>
+                {% endfor %}
+            {% else %}
+                <p class="text-sm text-on_surface_variant px-2">
+                    Введите никнейм пользователя, чтобы начать новый чат.
+                </p>
+            {% endif %}
+        </div>
+    </aside>
 
-    <h2>История чатов</h2>
-	{% for item in dialog_data %}
-		<div style="margin-bottom: 12px; padding: 10px; border: 1px solid #ccc;">
-			<a href="{% url 'chat:dialog_detail' item.dialog.id %}">
-				Чат с {{ item.other_user.username }}
-			</a>
-			<div>Обновлён: {{ item.dialog.updated_at|date:"d.m.Y H:i" }}</div>
-		</div>
-	{% empty %}
-        <p>У вас пока нет чатов.</p>
-    {% endfor %}
+    <section class="flex-1 flex flex-col bg-surface_container_low min-w-0">
+        <div class="bg-[#fbf9f4]/80 backdrop-blur-sm px-8 py-5 border-b border-outline_variant/20">
+            <h1 class="font-headline text-3xl font-semibold text-primary italic">История сообщений</h1>
+            <p class="text-sm text-on_surface_variant mt-1">Показываются только чаты, в которых уже есть сообщения.</p>
+        </div>
+
+        <div class="flex-1 overflow-y-auto px-8 py-6 space-y-4">
+            {% for item in dialog_data %}
+                <a href="{% url 'chat:dialog_detail' item.dialog.id %}"
+                   class="block bg-[#fbf9f4] rounded-xl p-5 hover:bg-surface_container_high transition-colors border border-transparent hover:border-outline_variant">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-semibold text-primary">{{ item.other_user.username }}</p>
+                            {% if item.other_user.profile %}
+                                <p class="text-sm text-on_surface_variant">{{ item.other_user.profile.full_name }}</p>
+                            {% endif %}
+                        </div>
+                        <span class="text-[10px] uppercase tracking-wider text-outline">
+                            {{ item.dialog.updated_at|date:"d.m.Y H:i" }}
+                        </span>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="text-center py-16 text-on_surface_variant">
+                    У вас пока нет переписок с сообщениями.
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
 </body>
 </html>

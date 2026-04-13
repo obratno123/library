@@ -7,20 +7,33 @@ from django.views.decorators.http import require_GET, require_POST
 from .models import Dialog, Message
 
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db.models import Q, Count
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_GET
+
+from .models import Dialog
+
+
 @login_required
 @require_GET
 def dialog_list(request):
-    dialogs = Dialog.objects.filter(
-        Q(user1=request.user) | Q(user2=request.user)
-    ).select_related("user1", "user2").order_by("-updated_at")
+    query = request.GET.get("q", "").strip()
+
+    dialogs = (
+        Dialog.objects.filter(
+            Q(user1=request.user) | Q(user2=request.user)
+        )
+        .annotate(messages_count=Count("messages"))
+        .filter(messages_count__gt=0)
+        .select_related("user1", "user2")
+        .order_by("-updated_at")
+    )
 
     dialog_data = []
     for dialog in dialogs:
-        if dialog.user1 == request.user:
-            other_user = dialog.user2
-        else:
-            other_user = dialog.user1
-
+        other_user = dialog.user2 if dialog.user1 == request.user else dialog.user1
         dialog_data.append({
             "dialog": dialog,
             "other_user": other_user,
@@ -28,9 +41,13 @@ def dialog_list(request):
 
     users = User.objects.exclude(id=request.user.id).select_related("profile")
 
+    if query:
+        users = users.filter(username__icontains=query)
+
     context = {
         "dialog_data": dialog_data,
-        "users": users,
+        "users": users[:20],
+        "query": query,
     }
     return render(request, "dialog_list.html", context)
 

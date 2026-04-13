@@ -84,30 +84,7 @@
 </head>
 <body class="bg-background text-on-background min-h-screen flex flex-col">
 
-<header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm opacity-95 docked full-width top-0 z-50 fixed w-full">
-    <div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
-        <div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
-
-        <nav class="hidden md:flex gap-8 items-center">
-            <a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="/catalog/">Бестселлеры</a>
-            <a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="/catalog/">Новинки</a>
-            <a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="/catalog/">Коллекции</a>
-            <a class="font-label text-sm tracking-tight text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors" href="/catalog/">Распродажа</a>
-        </nav>
-
-        <div class="flex items-center gap-6 text-[#8d4b00] dark:text-[#fdbf8f]">
-            <a aria-label="Личный кабинет" class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex" href="/profile/">person</a>
-
-            <div class="relative">
-                <a href="{% url 'cart_order:cart_view' %}" class="material-symbols-outlined hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex" style="font-variation-settings: 'FILL' 1;">shopping_bag</a>
-                <span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-                    {{ total_items }}
-                </span>
-            </div>
-        </div>
-    </div>
-    <div class="bg-[#e4e2dd] dark:bg-stone-800 h-[1px] w-full"></div>
-</header>
+{% include "includes/site_header.html" %}
 
 <main class="flex-grow pt-32 pb-24 px-8 max-w-7xl mx-auto w-full">
     <h1 class="font-headline text-5xl mb-12 text-on-surface">Ваша корзина</h1>

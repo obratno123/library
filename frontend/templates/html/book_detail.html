@@ -75,27 +75,7 @@
 <link href="{% static 'css/product.css' %}" rel="stylesheet">
 <body class="bg-background text-on-surface min-h-screen flex flex-col">
 <!-- TopAppBar Shell -->
-<header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm opacity-95 fixed top-0 w-full z-50">
-<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
-<div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
-<nav class="hidden md:flex items-center space-x-8 font-serif">
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Бестселлеры</a>
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Новинки</a>
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Коллекции</a>
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Распродажа</a>
-</nav>
-<div class="flex items-center space-x-5">
-<a aria-label="Вход или регистрация" class="text-[#8d4b00] dark:text-[#fdbf8f] scale-95 active:opacity-80 transition-transform flex items-center" href="login.html">
-<span class="material-symbols-outlined">person</span>
-</a>
-<button class="text-[#8d4b00] dark:text-[#fdbf8f] scale-95 active:opacity-80 transition-transform flex items-center relative">
-<span class="material-symbols-outlined">shopping_bag</span>
-<span class="absolute -top-2 -right-2 bg-primary text-on-primary text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">1</span>
-</button>
-</div>
-</div>
-<div class="bg-[#e4e2dd] dark:bg-stone-800 h-[1px] w-full"></div>
-</header>
+{% include "includes/site_header.html" %}
 <main class="flex-grow pt-24 pb-16 px-6 max-w-7xl mx-auto w-full">
 <!-- Breadcrumbs -->
 <nav class="flex items-center space-x-2 text-xs uppercase tracking-widest text-on-surface-variant mb-8 font-label">
@@ -199,6 +179,10 @@
 </form>
 <a class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95" href="cart.html">
 КУПИТЬ В ОДИН КЛИК
+</a>
+<a href="{% url 'catalog:book_reader' book.slug %}?preview=1"
+   class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95 text-center">
+    ПРЕДПРОСМОТР
 </a>
 </div>
 </div>
