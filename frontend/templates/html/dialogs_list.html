@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Букинист — Поддержка</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#fbf9f4",
+                        primary: "#8d4b00",
+                        surface_container_low: "#f5f3ee",
+                        surface_variant: "#e4e2dd",
+                        outline: "#887364",
+                        on_surface: "#1b1c19",
+                        on_surface_variant: "#554336",
+                    },
+                    fontFamily: {
+                        headline: ["Newsreader", "serif"],
+                        body: ["Manrope", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on_surface min-h-screen flex flex-col">
+
+{% include "includes/site_header.html" %}
+
+<main class="max-w-screen-2xl mx-auto w-full flex-1 px-8 py-10">
+    <div class="mb-8">
+        <h1 class="font-headline text-5xl text-primary font-bold tracking-tight">Служба поддержки</h1>
+        <p class="text-on_surface_variant mt-2">Список обращений пользователей, закреплённых за вами.</p>
+    </div>
+
+    <div class="grid gap-4">
+        {% for dialog in dialogs %}
+            <a href="{% url 'support_chat:support_dialog_detail' dialog.id %}"
+               class="block bg-surface_container_low rounded-xl p-6 hover:bg-surface_variant transition-colors border border-transparent hover:border-[#dbc2b0]">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="font-headline text-2xl text-primary italic">{{ dialog.user.username }}</h2>
+                    </div>
+                    <span class="text-xs uppercase tracking-widest text-outline">{{ dialog.updated_at|date:"d.m.Y H:i" }}</span>
+                </div>
+            </a>
+        {% empty %}
+            <div class="bg-surface_container_low rounded-xl p-8 text-on_surface_variant">
+                У вас пока нет обращений.
+            </div>
+        {% endfor %}
+    </div>
+</main>
+
+</body>
+</html>

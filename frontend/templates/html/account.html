@@ -77,28 +77,7 @@
 </head>
 <body class="bg-background text-on-surface">
 <!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-[#fbf9f4]/80 dark:bg-stone-950/80 backdrop-blur-md shadow-sm dark:shadow-none">
-<div class="flex justify-between items-center px-8 h-20 w-full max-w-7xl mx-auto">
-<a class="text-2xl font-serif font-bold text-[#1b1c19] dark:text-[#fbf9f4]" href="index.html">Букинист</a>
-<div class="hidden md:flex items-center space-x-8">
-<a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="/catalog/">Каталог</a>
-<a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="#">Новинки</a>
-<a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="#">Коллекции</a>
-<a class="text-[#554336] dark:text-stone-400 font-medium hover:text-[#b15f00] transition-colors duration-200" href="#">Скидки</a>
-</div>
-<div class="flex items-center space-x-6">
-<div class="relative hidden lg:block">
-<input class="bg-surface-container-high border-none rounded-lg px-4 py-2 w-64 text-sm focus:ring-1 focus:ring-primary/20" placeholder="Поиск редких изданий..." type="text"/>
-</div>
-<button class="text-[#8d4b00] dark:text-[#fdbf8f] scale-95 duration-150 ease-in-out">
-<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
-</button>
-<a aria-label="Личный кабинет" class="text-[#8d4b00] dark:text-[#fdbf8f] scale-95 duration-150 ease-in-out border-b-2 border-[#8d4b00] pb-1 inline-flex" href="account.html">
-<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
-</a>
-</div>
-</div>
-</nav>
+{% include "includes/site_header.html" %}
 <main class="pt-32 pb-20 max-w-7xl mx-auto px-8">
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 <!-- Sidebar Navigation -->

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Букинист — Поддержка</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#fbf9f4",
+                        primary: "#8d4b00",
+                        primary_container: "#b15f00",
+                        surface_container_low: "#f5f3ee",
+                        surface_container_high: "#eae8e3",
+                        surface_variant: "#e4e2dd",
+                        outline: "#887364",
+                        outline_variant: "#dbc2b0",
+                        on_surface: "#1b1c19",
+                        on_surface_variant: "#554336",
+                    },
+                    fontFamily: {
+                        headline: ["Newsreader", "serif"],
+                        body: ["Manrope", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on_surface min-h-screen flex flex-col">
+
+{% include "includes/site_header.html" %}
+
+<main class="flex flex-col md:flex-row max-w-screen-2xl mx-auto min-h-[calc(100vh-72px)] w-full">
+    <aside class="hidden lg:flex flex-col h-[calc(100vh-72px)] w-80 bg-surface_variant py-6 space-y-4">
+        <div class="px-6 mb-4">
+            <h2 class="font-headline text-2xl text-primary font-semibold">Обращения</h2>
+            <p class="text-xs text-on_surface_variant uppercase tracking-widest mt-1 opacity-70">Список запросов поддержки</p>
+        </div>
+
+        <div class="px-4">
+            <a href="{% url 'support_chat:support_dialogs_list' %}"
+               class="w-full bg-primary text-white py-3 rounded-lg font-semibold text-sm shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                К списку обращений
+            </a>
+        </div>
+    </aside>
+
+    <section class="flex-1 flex flex-col bg-surface overflow-hidden relative">
+        <div class="px-8 py-8 bg-surface_container_low/50 border-b border-outline_variant/10">
+            <div class="max-w-3xl mx-auto flex items-end justify-between">
+                <div>
+                    <h1 class="font-headline text-4xl md:text-5xl text-on_surface font-bold tracking-tight">Служба поддержки</h1>
+                    <p class="font-body text-on_surface_variant mt-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-600"></span>
+                        Диалог с {{ dialog.user.username }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chat-box" class="flex-1 overflow-y-auto px-8 py-12">
+            <div class="max-w-3xl mx-auto space-y-8">
+                {% for message in messages %}
+                    {% if message.sender == user %}
+                        <div class="flex gap-4 items-start justify-end">
+                            <div class="space-y-2 max-w-[85%] text-right">
+                                <div class="flex items-center justify-end gap-3">
+                                    <span class="text-[10px] text-outline uppercase tracking-tighter">{{ message.created_at|date:"H:i" }}</span>
+                                    <span class="font-bold text-sm text-on_surface">Вы</span>
+                                </div>
+                                <div class="bg-primary text-white p-5 rounded-tl-xl rounded-br-xl rounded-bl-xl text-left leading-relaxed shadow-md">
+                                    {{ message.text }}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-sm bg-[#ffdcc3] flex-shrink-0 flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+                            </div>
+                            <div class="space-y-2 max-w-[85%]">
+                                <div class="flex items-center gap-3">
+                                    <span class="font-bold text-sm text-on_surface">{{ dialog.user.username }}</span>
+                                    <span class="text-[10px] text-outline uppercase tracking-tighter">{{ message.created_at|date:"H:i" }}</span>
+                                </div>
+                                <div class="bg-surface_container_high p-5 rounded-tr-xl rounded-br-xl rounded-bl-xl text-on_surface leading-relaxed">
+                                    {{ message.text }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <div id="empty-state" class="text-on_surface_variant">Сообщений пока нет.</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="p-8 bg-[#fbf9f4] border-t border-outline_variant/10">
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-surface_container_high rounded-xl p-2 flex items-end gap-2 shadow-inner">
+                    <textarea id="chat-message-input" class="flex-1 bg-transparent border-none focus:ring-0 text-on_surface py-3 resize-none max-h-32 min-h-[48px] font-body" placeholder="Ваш ответ пользователю..." rows="1"></textarea>
+                    <button id="chat-message-submit" class="bg-primary text-white w-12 h-12 rounded-lg flex items-center justify-center hover:opacity-90 active:scale-95 transition-all shadow-md" type="button">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{{ dialog.id|json_script:"dialog-id" }}
+{{ user.id|json_script:"current-user-id" }}
+
+<script>
+    const dialogId = JSON.parse(document.getElementById("dialog-id").textContent);
+    const currentUserId = JSON.parse(document.getElementById("current-user-id").textContent);
+
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const chatSocket = new WebSocket(
+        protocol + "://" + window.location.host + "/ws/support-chat/" + dialogId + "/"
+    );
+
+    const chatBox = document.getElementById("chat-box");
+    const input = document.getElementById("chat-message-input");
+    const submitButton = document.getElementById("chat-message-submit");
+
+    function appendMessage(data) {
+        const emptyState = document.getElementById("empty-state");
+        if (emptyState) emptyState.remove();
+
+        const container = chatBox.querySelector(".max-w-3xl") || chatBox;
+
+        let wrapper;
+
+        if (data.sender_id === currentUserId) {
+            wrapper = document.createElement("div");
+            wrapper.className = "flex gap-4 items-start justify-end";
+            wrapper.innerHTML = `
+                <div class="space-y-2 max-w-[85%] text-right">
+                    <div class="flex items-center justify-end gap-3">
+                        <span class="text-[10px] text-outline uppercase tracking-tighter">${data.created_at}</span>
+                        <span class="font-bold text-sm text-on_surface">Вы</span>
+                    </div>
+                    <div class="bg-primary text-white p-5 rounded-tl-xl rounded-br-xl rounded-bl-xl text-left leading-relaxed shadow-md"></div>
+                </div>
+            `;
+            wrapper.querySelector(".bg-primary").textContent = data.message;
+        } else {
+            wrapper = document.createElement("div");
+            wrapper.className = "flex gap-4 items-start";
+            wrapper.innerHTML = `
+                <div class="w-10 h-10 rounded-sm bg-[#ffdcc3] flex-shrink-0 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+                </div>
+                <div class="space-y-2 max-w-[85%]">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-sm text-on_surface">${data.sender_username}</span>
+                        <span class="text-[10px] text-outline uppercase tracking-tighter">${data.created_at}</span>
+                    </div>
+                    <div class="bg-surface_container_high p-5 rounded-tr-xl rounded-br-xl rounded-bl-xl text-on_surface leading-relaxed"></div>
+                </div>
+            `;
+            wrapper.querySelector(".bg-surface_container_high").textContent = data.message;
+        }
+
+        container.appendChild(wrapper);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        appendMessage(data);
+    };
+
+    function sendMessage() {
+        const message = input.value.trim();
+        if (!message) return;
+
+        chatSocket.send(JSON.stringify({ message: message }));
+        input.value = "";
+    }
+
+    submitButton.onclick = sendMessage;
+
+    input.addEventListener("keyup", function(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+</script>
+
+</body>
+</html>
