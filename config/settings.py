@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +45,8 @@ INSTALLED_APPS = [
     'service_entities',
     'catalog',
     'users',
+    'chat',
+    'support_chat',
 ]
 
 MIDDLEWARE = [
@@ -116,6 +120,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+ASGI_APPLICATION = "config.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
@@ -127,7 +138,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend' / 'static',
 ]
-
+LOGIN_URL = "/login/"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path("C:/deploy/shared/media")
 

@@ -75,35 +75,7 @@
 <link href="{% static 'css/catalog.css' %}" rel="stylesheet">
 <body class="min-h-screen flex flex-col">
 <!-- TopAppBar -->
-<header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm opacity-95">
-<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
-<div class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4]">Букинист</div>
-<nav class="hidden md:flex items-center space-x-8">
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Бестселлеры</a>
-<a class="text-[#8d4b00] border-b-2 border-[#8d4b00] pb-1 font-bold font-serif text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Новинки</a>
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Коллекции</a>
-<a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight" href="{% url 'catalog:catalog_home' %}">Распродажа</a>
-</nav>
-<div class="flex items-center space-x-6">
-<div class="relative hidden lg:block">
-<form method="get" action="{% url 'catalog:catalog_home' %}">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
-<input class="bg-surface-container-high border-none text-sm px-10 py-2 w-64 focus:ring-1 focus:ring-primary/20 bg-surface-container-low transition-all" name="q" value="{{ query }}" placeholder="Поиск по архиву..." type="text"/>
-</form>
-</div>
-<div class="flex items-center space-x-4">
-<a aria-label="Вход или регистрация" class="text-[#8d4b00] dark:text-[#fdbf8f] hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 active:scale-95 inline-flex" href="login.html">
-<span class="material-symbols-outlined" data-icon="person">person</span>
-</a>
-<button class="text-[#8d4b00] dark:text-[#fdbf8f] hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 active:scale-95 relative">
-<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
-<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
-</button>
-</div>
-</div>
-</div>
-<div class="bg-[#e4e2dd] dark:bg-stone-800 h-[1px] w-full"></div>
-</header>
+{% include "includes/site_header.html" %}
 <main class="flex-grow max-w-7xl mx-auto w-full px-8 py-12">
 <!-- Breadcrumbs -->
 <nav class="flex items-center space-x-2 text-on-surface-variant text-xs uppercase tracking-widest mb-8">

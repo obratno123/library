@@ -1,0 +1,61 @@
+<header class="bg-[#fbf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm opacity-95">
+    <div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+        <a href="/"
+           class="text-2xl font-serif italic text-[#1b1c19] dark:text-[#fbf9f4] hover:text-[#8d4b00] transition-colors">
+            Букинист
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-8">
+            <a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight"
+               href="{% url 'catalog:catalog_home' %}">
+                Магазин
+            </a>
+
+            {% if user.is_authenticated %}
+                <a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight"
+                   href="{% url 'chat:dialog_list' %}">
+                    Чаты
+                </a>
+
+                {% if user.profile.role and user.profile.role.name == "support" %}
+                    <a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight"
+                       href="{% url 'support_chat:support_dialogs_list' %}">
+                        Поддержка
+                    </a>
+                {% else %}
+                    <a class="text-[#554336] dark:text-stone-400 hover:text-[#8d4b00] transition-colors font-serif text-sm tracking-tight"
+                       href="{% url 'support_chat:chat_dialog' %}">
+                        Поддержка
+                    </a>
+                {% endif %}
+            {% endif %}
+        </nav>
+
+        <div class="flex items-center gap-4 text-[#8d4b00] dark:text-[#fdbf8f]">
+            {% if user.is_authenticated %}
+                <a href="{% url 'cart_order:cart_view' %}"
+                   class="hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex"
+                   aria-label="Корзина">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                </a>
+
+                <a href="/profile/"
+                   class="hover:bg-[#f5f3ee] p-2 rounded-full transition-all duration-200 inline-flex"
+                   aria-label="Профиль">
+                    <span class="material-symbols-outlined">person</span>
+                </a>
+            {% else %}
+                <a href="/login/"
+                   class="hover:bg-[#f5f3ee] px-4 py-2 rounded-full transition-all duration-200 text-sm font-medium">
+                    Войти
+                </a>
+                <a href="/register/"
+                   class="bg-[#8d4b00] text-white hover:opacity-90 px-4 py-2 rounded-full transition-all duration-200 text-sm font-medium">
+                    Регистрация
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="bg-[#e4e2dd] dark:bg-stone-800 h-[1px] w-full"></div>
+</header>
