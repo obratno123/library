@@ -15,7 +15,7 @@ class Review(models.Model):
         related_name="reviews",
         verbose_name="Книга"
     )
-    rating = models.IntegerField(
+    rating = models.PositiveSmallIntegerField(
         verbose_name="Оценка"
     )
     text = models.TextField(
@@ -29,14 +29,21 @@ class Review(models.Model):
         auto_now=True,
         verbose_name="Дата обновления"
     )
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name="Опубликован"
-    )
 
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+        ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "book"],
+                name="unique_user_book_review"
+            )
+        ]
 
     def __str__(self):
-        return f"Отзыв #{self.id} - {self.user.username}"
+        return f"Отзыв {self.user.username} на {self.book.title}"
+
+    @property
+    def stars_range(self):
+        return range(self.rating)
