@@ -6,6 +6,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 
 from .models import Book, Author, Genre, Publisher
+from django.db.models import Avg
+from review_rating.models import Review
 
 def book_reader_view(request, slug):
     book = get_object_or_404(
@@ -79,7 +81,8 @@ def book_detail(request, slug):
     book = get_object_or_404(
         Book.objects.filter(is_active=True).prefetch_related(
             "authors",
-            "genres"
+            "genres",
+            "reviews__user"
         ).select_related(
             "publisher"
         ),
@@ -94,11 +97,23 @@ def book_detail(request, slug):
         genres__in=book.genres.all()
     ).exclude(id=book.id).distinct()[:4]
 
+    reviews = book.reviews.select_related("user").order_by("-created_at")[:5]
+    average_rating = reviews.aggregate(avg=Avg("rating"))["avg"]
+    reviews_count = reviews.count()
+
+    user_review = None
+    if request.user.is_authenticated:
+        user_review = Review.objects.filter(user=request.user, book=book).first()
+
     context = {
         "book": book,
         "stock": stock,
         "available_quantity": available_quantity,
         "related_books": related_books,
+        "reviews": reviews,
+        "reviews_count": reviews_count,
+        "average_rating": average_rating,
+        "user_review": user_review,
     }
     return render(request, "book_detail.html", context)
 

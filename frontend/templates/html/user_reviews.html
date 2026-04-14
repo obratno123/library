@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="light" lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Букинист — Мои отзывы</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#fbf9f4",
+                        primary: "#8d4b00",
+                        primary_container: "#b15f00",
+                        surface_container_low: "#f5f3ee",
+                        surface_container_high: "#eae8e3",
+                        surface_variant: "#e4e2dd",
+                        outline: "#887364",
+                        outline_variant: "#dbc2b0",
+                        on_surface: "#1b1c19",
+                        on_surface_variant: "#554336",
+                    },
+                    fontFamily: {
+                        headline: ["Newsreader", "serif"],
+                        body: ["Manrope", "sans-serif"],
+                        label: ["Manrope", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on_surface min-h-screen">
+    {% include "includes/site_header.html" %}
+
+    <main class="max-w-6xl mx-auto px-8 py-12">
+        <div class="mb-10">
+            <h1 class="text-5xl font-headline font-bold text-on_surface mb-3">Мои отзывы</h1>
+            <p class="text-on_surface_variant">Здесь собраны все ваши отзывы о книгах.</p>
+        </div>
+
+        <div class="space-y-8">
+            {% for review in reviews %}
+                <article class="bg-surface_container_low p-8 rounded-xl border-l-4 border-primary">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
+                        <div>
+                            <a href="{% url 'catalog:book_detail' review.book.slug %}"
+                               class="text-2xl font-headline font-bold hover:text-primary transition-colors">
+                                {{ review.book.title }}
+                            </a>
+                            <p class="text-sm text-on_surface_variant mt-1">{{ review.created_at|date:"d.m.Y H:i" }}</p>
+                        </div>
+
+<div class="flex text-lg text-primary">
+    {% for i in "12345" %}
+        {% if review.rating and forloop.counter <= review.rating %}
+            <span>★</span>
+        {% else %}
+            <span class="opacity-30">★</span>
+        {% endif %}
+    {% endfor %}
+</div>
+                    </div>
+
+                    <p class="text-on_surface leading-relaxed text-lg">{{ review.text }}</p>
+                </article>
+            {% empty %}
+                <div class="bg-surface_container_low p-8 rounded-xl text-on_surface_variant">
+                    Вы пока не оставили ни одного отзыва.
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

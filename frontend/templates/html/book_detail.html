@@ -134,8 +134,8 @@
 {% endfor %}
 </span>
 </div>
-<h1 class="text-4xl md:text-5xl font-headline font-bold text-on-surface mb-2 leading-tight">{{ book.title }}</h1>
-<p class="text-xl font-headline italic text-on-surface-variant mb-6">
+<h1 class="text-4xl md:text-5xl font-headline font-bold text-on-surface mb-1 leading-tight">{{ book.title }}</h1>
+<p class="text-xl font-headline italic text-on-surface-variant">
 {% for author in book.authors.all %}
     {{ author }}{% if not forloop.last %}, {% endif %}
 {% empty %}
@@ -143,18 +143,27 @@
 {% endfor %}
 </p>
 <!-- Rating -->
-<div class="flex items-center space-x-4 mb-8">
-<div class="flex text-primary">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
-</div>
-<span class="text-sm font-label text-outline">4.8 (124 отзыва)</span>
+<div class="flex items-center text-primary mb-2">
+    <div class="flex text-lg">
+        {% for i in "12345" %}
+            {% if average_rating and forloop.counter <= average_rating %}
+                <span>★</span>
+            {% else %}
+                <span class="opacity-30">★</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="text-sm text-on-surface-variant">
+        {% if average_rating %}
+            <strong>{{ average_rating|floatformat:1 }}</strong> / 5
+        {% else %}
+            Пока нет оценок
+        {% endif %}
+        · {{ reviews_count }} отзыв(ов)
+    </div>
 </div>
 <!-- Price & Status -->
-<div class="bg-surface-container-low p-8 mb-10 border-l-4 border-primary">
+<div class="bg-surface-container-low p-8 mb-8 border-l-4 border-primary">
 <div class="flex items-baseline justify-between mb-2">
 <span class="text-4xl font-headline font-extrabold text-on-surface">{{ book.price }} ₽</span>
 <div class="flex items-center text-tertiary-container font-label text-sm font-bold">
@@ -177,12 +186,12 @@
         <span>ДОБАВИТЬ В КОРЗИНУ</span>
     </button>
 </form>
-<a class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95" href="cart.html">
+<a class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95 text-center" href="cart.html">
 КУПИТЬ В ОДИН КЛИК
 </a>
 <a href="{% url 'catalog:book_reader' book.slug %}?preview=1"
    class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95 text-center">
-    ПРЕДПРОСМОТР
+ПРЕДПРОСМОТР
 </a>
 </div>
 </div>
@@ -223,6 +232,102 @@
 {% endif %}
 </p>
 </div>
+</section>
+<section class="mt-20 max-w-5xl">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+        <div>
+            <h2 class="text-3xl font-headline font-bold mb-2">Отзывы читателей</h2>
+            <p class="text-on-surface-variant text-sm">
+                {% if average_rating %}
+                    Средняя оценка:{{ average_rating|floatformat:1 }} / 5
+                {% else %}
+                    Пока нет оценок
+                {% endif %}
+                · {{ reviews_count }} отзыв(ов)
+            </p>
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+    <section id="review-form" class="bg-surface-container-low p-8 mb-12 border-l-4 border-primary">
+        <h3 class="text-2xl font-headline font-bold mb-6">
+            {% if user_review %}Изменить отзыв{% else %}Ваш отзыв{% endif %}
+        </h3>
+
+        <form method="post" action="{% url 'review_rating:add_or_edit_review' book.slug %}" class="space-y-5">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-xs uppercase tracking-widest text-outline mb-2">
+                    Оценка (0–5)
+                </label>
+                <select name="rating"
+                        class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-4 py-3 text-sm text-on-surface">
+                    <option value="0" {% if user_review and user_review.rating == 0 %}selected{% endif %}>0</option>
+                    <option value="1" {% if user_review and user_review.rating == 1 %}selected{% endif %}>1</option>
+                    <option value="2" {% if user_review and user_review.rating == 2 %}selected{% endif %}>2</option>
+                    <option value="3" {% if user_review and user_review.rating == 3 %}selected{% endif %}>3</option>
+                    <option value="4" {% if user_review and user_review.rating == 4 %}selected{% endif %}>4</option>
+                    <option value="5" {% if user_review and user_review.rating == 5 %}selected{% endif %}>5</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase tracking-widest text-outline mb-2">
+                    Текст отзыва
+                </label>
+                <textarea
+                    name="text"
+                    rows="6"
+                    class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-4 py-3 text-sm text-on-surface resize-none"
+                    placeholder="Напишите ваш отзыв...">{% if user_review %}{{ user_review.text }}{% endif %}</textarea>
+            </div>
+
+            <button type="submit"
+                    class="bg-primary text-on-primary px-6 py-3 rounded-md font-label font-bold text-sm hover:bg-primary-container transition-all">
+                СОХРАНИТЬ ОТЗЫВ
+            </button>
+        </form>
+    </section>
+    {% else %}
+    <div class="bg-surface-container-low p-8 mb-12 border-l-4 border-primary">
+        <p class="text-on-surface-variant mb-4">Чтобы оставить отзыв, войдите в аккаунт.</p>
+        <a href="/login/?next={{ request.path }}"
+           class="inline-block bg-primary text-on-primary px-6 py-3 rounded-md font-label font-bold text-sm hover:bg-primary-container transition-all">
+            ВОЙТИ, ЧТОБЫ ОСТАВИТЬ ОТЗЫВ
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="space-y-10">
+        {% for review in reviews %}
+            <article class="grid grid-cols-1 md:grid-cols-4 gap-8 border-b border-outline-variant/20 pb-10">
+                <aside class="space-y-2">
+                    <h4 class="font-headline text-lg font-semibold">{{ review.user.username }}</h4>
+                    <time class="block text-sm text-outline font-label">{{ review.created_at|date:"d.m.Y" }}</time>
+<div class="flex text-lg text-primary">
+    {% for i in "12345" %}
+        {% if review.rating and forloop.counter <= review.rating %}
+            <span>★</span>
+        {% else %}
+            <span class="opacity-30">★</span>
+        {% endif %}
+    {% endfor %}
+</div>
+                </aside>
+
+                <div class="md:col-span-3">
+                    <blockquote class="text-lg leading-relaxed text-on-surface font-body">
+                        {{ review.text }}
+                    </blockquote>
+                </div>
+            </article>
+        {% empty %}
+            <div class="bg-surface-container-low p-8 rounded-xl text-on-surface-variant">
+                У этой книги пока нет отзывов.
+            </div>
+        {% endfor %}
+    </div>
 </section>
 <!-- Upsell Section: Bento Style -->
 {% if related_books %}

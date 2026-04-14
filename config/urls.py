@@ -29,6 +29,7 @@ urlpatterns = [
     path("", home_page, name="home"),
     path("messages/", include("chat.urls", namespace="chat")),
     path("login/", login_page, name="login_page"),
+    path("reviews/", include("review_rating.urls", namespace="review_rating")),
     path("register/", register_page, name="register_page"),
     path("profile/", profile_page, name="profile_page"),
 ]
