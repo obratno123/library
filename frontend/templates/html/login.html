@@ -106,7 +106,10 @@
 <div class="space-y-1.5">
 <div class="flex justify-between items-end">
 <label class="text-xs font-label uppercase tracking-wider text-on-surface-variant" for="login-password">Пароль</label>
-<a class="text-xs font-label text-primary hover:text-primary-container transition-colors" href="register.html">Забыли пароль?</a>
+<a class="text-xs font-label text-primary hover:text-primary-container transition-colors"
+   href="{% url 'users:password_reset_request' %}">
+    Забыли пароль?
+</a>
 </div>
 <div class="relative">
 <input class="w-full bg-surface-container-high border-none px-4 py-3.5 focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary/20 transition-all font-body text-on-surface placeholder-outline/50" id="login-password" name="password" placeholder="••••••••" required="" type="password"/>
@@ -125,7 +128,7 @@
 <footer class="mt-12 pt-8 border-t border-outline-variant/15 text-center">
 <p class="text-on-surface-variant text-sm font-body">
                             Впервые у нас? 
-                            <a class="text-primary font-bold ml-1 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-primary/30 hover:text-primary-container transition-colors" href="register.html">Создать аккаунт</a>
+                            <a class="text-primary font-bold ml-1 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-primary/30 hover:text-primary-container transition-colors" href="{% url 'users:register' %}">Создать аккаунт</a>
 </p>
 </footer>
 </div>

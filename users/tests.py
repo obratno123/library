@@ -37,7 +37,7 @@ class registerTests(TestCase):
     
     def test_register_success(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "password": "StrongPassword123!",
@@ -57,7 +57,7 @@ class registerTests(TestCase):
         
     def test_register_application_json_status_code_400(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "password": "StrongPassword123!",
@@ -70,7 +70,7 @@ class registerTests(TestCase):
         
     def test_register_invalid_json_status_code_400(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data='{"username": "newuser", "password": }',
             content_type="application/json"
         )
@@ -80,7 +80,7 @@ class registerTests(TestCase):
         
     def test_register_not_username_status_code_400(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "",
                 "password": "StrongPassword123!",
@@ -96,7 +96,7 @@ class registerTests(TestCase):
         
     def test_register_not_password_status_code_400(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "password": "",
@@ -112,7 +112,7 @@ class registerTests(TestCase):
         
     def test_register_not_password_json_status_code_400(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "email": "newuser@example.com"
@@ -132,7 +132,7 @@ class registerTests(TestCase):
         )
 
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "ivan",
                 "password": "testpass123",
@@ -147,7 +147,7 @@ class registerTests(TestCase):
         
     def test_register_invalid_email_status_code_400(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "password": "StrongPassword123!",
@@ -163,7 +163,7 @@ class registerTests(TestCase):
         
     def test_register_invalid_email_status_code_400_2(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "password": "StrongPassword123!",
@@ -179,7 +179,7 @@ class registerTests(TestCase):
         
     def test_register_weak_password_status_code_400(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "password": "123",
@@ -199,7 +199,7 @@ class registerTests(TestCase):
         
     def test_register_weak_password_status_code_400_2(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "password": "newuser_123",
@@ -225,7 +225,7 @@ class registerTests(TestCase):
         )
 
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser",
                 "password": "StrongPassword123!",
@@ -243,7 +243,7 @@ class registerTests(TestCase):
     def test_register_status_code_400_integrity_error(self):
         with patch("users.views.User.objects.create_user", side_effect=IntegrityError):
             response = self.client.post(
-                reverse("register"),
+                reverse("users:register"),
                 data=json.dumps({
                     "username": "newuser",
                     "password": "StrongPassword123!",
@@ -261,7 +261,7 @@ class registerTests(TestCase):
         with patch("users.views.logger.exception")as mock_logger:
             with patch("users.views.User.objects.create_user", side_effect=Exception("asdasfd")):
                 response = self.client.post(
-                    reverse("register"),
+                    reverse("users:register"),
                     data=json.dumps({
                         "username": "newuser",
                         "password": "StrongPassword123!",
@@ -278,7 +278,7 @@ class registerTests(TestCase):
             
     def test_register_success_without_email(self):
         response = self.client.post(
-            reverse("register"),
+            reverse("users:register"),
             data=json.dumps({
                 "username": "newuser_no_email",
                 "password": "StrongPassword123!"
@@ -302,7 +302,7 @@ class loginTests(TestCase):
         )
 
         response = self.client.post(
-            reverse("login"),
+            reverse("users:login"),
             data=json.dumps({
                 "username": "alex",
                 "password": "testpass12345A!"
@@ -320,7 +320,7 @@ class loginTests(TestCase):
         
     def test_login_content_type_status_code_400(self):
         response = self.client.post(
-            reverse("login"),
+            reverse("users:login"),
             data="username=alex&password=testpass12345A!",
             content_type="application/x-www-form-urlencoded"
         )
@@ -330,7 +330,7 @@ class loginTests(TestCase):
         
     def test_login_json_status_code_400(self):
         response = self.client.post(
-            reverse("login"),
+            reverse("users:login"),
             data='{"username": "alex", "password": }',
             content_type="application/json"
         )
@@ -340,7 +340,7 @@ class loginTests(TestCase):
         
     def test_login_not_username_status_code_400(self):
         response = self.client.post(
-            reverse("login"),
+            reverse("users:login"),
             data=json.dumps({
                 "password": "testpass12345A!"
             }),
@@ -352,7 +352,7 @@ class loginTests(TestCase):
         
     def test_login_not_password_status_code_400(self):
         response = self.client.post(
-            reverse("login"),
+            reverse("users:login"),
             data=json.dumps({
                 "username": "alex",
             }),
@@ -370,7 +370,7 @@ class loginTests(TestCase):
         )
 
         response = self.client.post(
-            reverse("login"),
+            reverse("users:login"),
             data=json.dumps({
                 "username": "alex",
                 "password": "wrongpass"
@@ -384,7 +384,7 @@ class loginTests(TestCase):
     def test_login_status_code_401_when_authenticate_return_none(self):
         with patch("users.views.authenticate", return_value=None):
             response = self.client.post(
-                reverse("login"),
+                reverse("users:login"),
                 data=json.dumps({
                     "username": "alex",
                     "password": "wrongpass"
@@ -404,7 +404,7 @@ class loginTests(TestCase):
         with patch("users.views.logger.exception")as mock_logger:
             with patch("users.views.login", side_effect=Exception("asdf")):
                 response = self.client.post(
-                    reverse("login"),
+                    reverse("users:login"),
                     data=json.dumps({
                         "username": "alex",
                         "password": "testpass12345A!"
@@ -418,7 +418,7 @@ class loginTests(TestCase):
 
 class logoutTests(TestCase):
     def test_logout_unauthorized_returns_401(self):
-        response = self.client.post(reverse("logout"))
+        response = self.client.post(reverse("users:logout"))
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()["error"], "Не авторизован")
@@ -431,7 +431,7 @@ class logoutTests(TestCase):
 
         self.client.force_login(user)
 
-        response = self.client.post(reverse("logout"))
+        response = self.client.post(reverse("users:logout"))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["message"], "Выход выполнен")
@@ -440,7 +440,7 @@ class logoutTests(TestCase):
 
 class userprofileTests(TestCase):
     def test_profile_unauthorized_sattus_code_401(self):
-        response = self.client.get(reverse("profile"))
+        response = self.client.get(reverse("users:profile"))
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()["error"], "Не авторизован")
@@ -455,7 +455,7 @@ class userprofileTests(TestCase):
 
         self.client.force_login(user)
 
-        response = self.client.get(reverse("profile"))
+        response = self.client.get(reverse("users:profile"))
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json()["error"], "Профиль не найден")
@@ -478,7 +478,7 @@ class userprofileTests(TestCase):
 
         self.client.force_login(user)
 
-        response = self.client.get(reverse("profile"))
+        response = self.client.get(reverse("users:profile"))
 
         self.assertEqual(response.status_code, 200)
 
