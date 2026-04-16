@@ -89,6 +89,12 @@
 <h1 class="text-4xl font-headline italic mb-10 text-on-surface">Каталог книг</h1>
 
 <form method="get">
+{% if query %}
+    <input type="hidden" name="q" value="{{ query }}">
+{% endif %}
+{% if sort %}
+    <input type="hidden" name="sort" value="{{ sort }}">
+{% endif %}
 <div class="space-y-10">
 <!-- Filter Group: Genres -->
 <div>
@@ -192,13 +198,60 @@
 
 <!-- Main Content -->
 <div class="flex-grow">
+
+<form method="get" class="mb-8">
+  <div class="flex flex-col sm:flex-row gap-3">
+    <input
+      type="text"
+      name="q"
+      value="{{ query }}"
+      placeholder="Поиск"
+      class="flex-1 px-4 py-3 border border-outline-variant bg-surface text-on-surface rounded-sm focus:ring-primary focus:border-primary"
+    >
+
+    {% if selected_genre %}
+      <input type="hidden" name="genre" value="{{ selected_genre }}">
+    {% endif %}
+    {% if selected_author %}
+      <input type="hidden" name="author" value="{{ selected_author }}">
+    {% endif %}
+    {% if selected_publisher %}
+      <input type="hidden" name="publisher" value="{{ selected_publisher }}">
+    {% endif %}
+    {% if sort %}
+      <input type="hidden" name="sort" value="{{ sort }}">
+    {% endif %}
+
+    <button
+      type="submit"
+      class="px-5 py-3 bg-primary text-on-primary text-xs uppercase tracking-widest font-bold rounded-sm hover:opacity-90 transition"
+    >
+      Найти
+    </button>
+  </div>
+</form>
+
+{% if query %}
+<p class="mb-6 text-sm text-on-surface-variant">
+  Результаты поиска по запросу: <span class="font-bold text-on-surface">"{{ query }}"</span>
+</p>
+{% endif %}
+
 <!-- Sorting & View Options -->
 <div class="flex justify-between items-center mb-10 pb-4 border-b border-outline-variant/20">
 <div class="flex items-center space-x-6">
 <span class="text-xs text-on-surface-variant uppercase tracking-widest">Сортировать:</span>
 <div class="flex space-x-4">
 <button class="text-xs font-bold text-primary border-b border-primary pb-1" type="button">По популярности</button>
-<button class="text-xs text-on-surface-variant hover:text-primary transition-colors pb-1" type="button">По цене</button>
+<a class="text-xs {% if sort == 'price_asc' %}font-bold text-primary border-b border-primary{% else %}text-on-surface-variant hover:text-primary{% endif %} transition-colors pb-1"
+   href="?{% if query %}q={{ query }}&{% endif %}{% if selected_genre %}genre={{ selected_genre }}&{% endif %}{% if selected_author %}author={{ selected_author }}&{% endif %}{% if selected_publisher %}publisher={{ selected_publisher }}&{% endif %}sort=price_asc">
+    Цена ↑
+</a>
+
+<a class="text-xs {% if sort == 'price_desc' %}font-bold text-primary border-b border-primary{% else %}text-on-surface-variant hover:text-primary{% endif %} transition-colors pb-1"
+   href="?{% if query %}q={{ query }}&{% endif %}{% if selected_genre %}genre={{ selected_genre }}&{% endif %}{% if selected_author %}author={{ selected_author }}&{% endif %}{% if selected_publisher %}publisher={{ selected_publisher }}&{% endif %}sort=price_desc">
+    Цена ↓
+</a>
 <button class="text-xs text-on-surface-variant hover:text-primary transition-colors pb-1" type="button">Новинки</button>
 </div>
 </div>
@@ -256,8 +309,8 @@
 <div class="mt-20 flex justify-center items-center space-x-4">
 {% if page_obj.has_previous %}
 <a class="w-10 h-10 flex items-center justify-center text-outline hover:text-primary transition-colors"
-   href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_genre %}&genre={{ selected_genre }}{% endif %}{% if selected_author %}&author={{ selected_author }}{% endif %}{% if selected_publisher %}&publisher={{ selected_publisher }}{% endif %}">
-<span class="material-symbols-outlined">chevron_left</span>
+   href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_genre %}&genre={{ selected_genre }}{% endif %}{% if selected_author %}&author={{ selected_author }}{% endif %}{% if selected_publisher %}&publisher={{ selected_publisher }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">
+    <span class="material-symbols-outlined">chevron_left</span>
 </a>
 {% else %}
 <button class="w-10 h-10 flex items-center justify-center text-outline hover:text-primary transition-colors" disabled>
@@ -271,7 +324,7 @@
         <button class="w-10 h-10 flex items-center justify-center font-bold bg-primary text-on-primary">{{ num }}</button>
     {% else %}
         <a class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors"
-           href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if selected_genre %}&genre={{ selected_genre }}{% endif %}{% if selected_author %}&author={{ selected_author }}{% endif %}{% if selected_publisher %}&publisher={{ selected_publisher }}{% endif %}">
+        href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if selected_genre %}&genre={{ selected_genre }}{% endif %}{% if selected_author %}&author={{ selected_author }}{% endif %}{% if selected_publisher %}&publisher={{ selected_publisher }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">
             {{ num }}
         </a>
     {% endif %}
@@ -280,8 +333,8 @@
 
 {% if page_obj.has_next %}
 <a class="w-10 h-10 flex items-center justify-center text-outline hover:text-primary transition-colors"
-   href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_genre %}&genre={{ selected_genre }}{% endif %}{% if selected_author %}&author={{ selected_author }}{% endif %}{% if selected_publisher %}&publisher={{ selected_publisher }}{% endif %}">
-<span class="material-symbols-outlined">chevron_right</span>
+   href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_genre %}&genre={{ selected_genre }}{% endif %}{% if selected_author %}&author={{ selected_author }}{% endif %}{% if selected_publisher %}&publisher={{ selected_publisher }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">
+    <span class="material-symbols-outlined">chevron_right</span>
 </a>
 {% else %}
 <button class="w-10 h-10 flex items-center justify-center text-outline hover:text-primary transition-colors" disabled>

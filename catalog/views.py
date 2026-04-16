@@ -41,13 +41,31 @@ def catalog_home(request):
     genre_slug = request.GET.get("genre", "").strip()
     author_id = request.GET.get("author", "").strip()
     publisher_id = request.GET.get("publisher", "").strip()
+    sort = request.GET.get("sort", "").strip()
 
     if query:
-        books = books.filter(
+        words = query.split()
+
+        search_filter = (
             Q(title__icontains=query) |
             Q(isbn__icontains=query) |
-            Q(description__icontains=query)
+            Q(description__icontains=query) |
+            Q(publisher__name__icontains=query) |
+            Q(genres__name__icontains=query) |
+            Q(authors__first_name__icontains=query) |
+            Q(authors__last_name__icontains=query)
         )
+
+        for word in words:
+            search_filter |= Q(title__icontains=word)
+            search_filter |= Q(isbn__icontains=word)
+            search_filter |= Q(description__icontains=word)
+            search_filter |= Q(publisher__name__icontains=word)
+            search_filter |= Q(genres__name__icontains=word)
+            search_filter |= Q(authors__first_name__icontains=word)
+            search_filter |= Q(authors__last_name__icontains=word)
+
+        books = books.filter(search_filter)
 
     if genre_slug:
         books = books.filter(genres__slug=genre_slug)
@@ -59,6 +77,11 @@ def catalog_home(request):
         books = books.filter(publisher_id=publisher_id)
 
     books = books.distinct()
+
+    if sort == "price_asc":
+        books = books.order_by("price", "id")
+    elif sort == "price_desc":
+        books = books.order_by("-price", "id")
 
     paginator = Paginator(books, 8)
     page_number = request.GET.get("page")
@@ -73,6 +96,7 @@ def catalog_home(request):
         "selected_genre": genre_slug,
         "selected_author": author_id,
         "selected_publisher": publisher_id,
+        "sort": sort,
     }
     return render(request, "catalog_home.html", context)
 
