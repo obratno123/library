@@ -118,3 +118,148 @@ frontend/          # шаблоны, статические файлы, JS и CS
 - `/reviews/my-reviews/` — мои отзывы;
 - `/chat/` — чат поддержки;
 - `/messages/` — пользовательские сообщения.
+
+## Установка и запуск
+
+### 1. Клонировать репозиторий
+```bash
+git clone https://github.com/obratno123/library.git
+cd library
+```
+
+### 2. Установить зависимости
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Проверить настройки базы и media
+
+Сейчас в `config/settings.py` прописаны пути под деплой на Windows:
+
+```python
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": Path("C:/deploy/shared/db/db.sqlite3"),
+    }
+}
+
+MEDIA_ROOT = Path("C:/deploy/shared/media")
+```
+
+Для локального запуска удобнее временно заменить на:
+
+```python
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+MEDIA_ROOT = BASE_DIR / "media"
+```
+
+### 4. Применить миграции
+
+```bash
+python manage.py migrate
+```
+
+### 5. Создать суперпользователя
+
+```bash
+python manage.py createsuperuser
+```
+
+### 6. Запустить сервер
+
+```bash
+python manage.py runserver
+```
+
+После этого проект будет доступен по адресу:
+
+```text
+http://127.0.0.1:8000/
+```
+
+## Настройка email / SMTP
+
+Для отправки писем проект использует SMTP.
+
+В `settings.py` уже есть настройки под Gmail:
+
+```python
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+```
+
+Нужно задать переменные окружения:
+
+```bash
+EMAIL_HOST_USER=your_email@gmail.com
+EMAIL_HOST_PASSWORD=your_app_password
+```
+
+Если используется Gmail, лучше применять **app password**, а не обычный пароль.
+
+## WebSocket / чаты
+
+Проект использует `channels` и `daphne`.
+
+В настройках сейчас подключён:
+
+```python
+ASGI_APPLICATION = "config.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+```
+
+Для локальной разработки этого достаточно.
+
+## Тесты
+
+Запуск тестов:
+
+```bash
+python manage.py test
+```
+
+Запуск с coverage:
+
+```bash
+coverage erase
+coverage run --branch manage.py test
+coverage report -m
+coverage html
+```
+
+HTML-отчёт появится в папке `htmlcov/`.
+
+## GitHub Actions
+
+В проекте есть два workflow:
+
+### `tests.yml`
+- запускает тесты и coverage;
+- срабатывает на `push` в ветки `tests` и `main`;
+- срабатывает на `pull_request` в `main`.
+
+### `deploy.yml`
+- срабатывает на `push` в `main`;
+- запускает deploy через self-hosted runner на Windows.
+
+## Авторы
+
+Совместный проект Бориса (`@obratno123`) и Григория (`@bl1nchik2287`).
