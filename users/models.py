@@ -55,6 +55,21 @@ class Profile(models.Model):
         related_name="profiles",
         verbose_name="Роль"
     )
+    avatar = models.ImageField(
+        upload_to="avatars/",
+        blank=True,
+        null=True,
+        verbose_name="Фото профиля"
+    )
+    is_email_verified = models.BooleanField(
+        default=False, 
+        verbose_name="Почта подтверждена"
+    )
+    email_verified_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Дата подтверждения почты"
+    )
 
     class Meta:
         verbose_name = "Профиль"
@@ -74,3 +89,16 @@ class PasswordResetCode(models.Model):
 
     def __str__(self):
         return f"Reset code for {self.user}"
+    
+class EmailVerificationCode(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    email = models.EmailField()
+    code_hash = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_used = models.BooleanField(default=False)
+
+    def is_expired(self):
+        return timezone.now() > self.created_at + timedelta(minutes=10)
+
+    def __str__(self):
+        return f"Email verification for {self.user}"

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение почты</title>
+</head>
+<body style="margin:0;padding:0;background:#fbf9f4;font-family:Arial,sans-serif;color:#1b1c19;">
+    <div style="max-width:600px;margin:40px auto;background:#ffffff;padding:32px;border-radius:12px;">
+        <h1 style="margin:0 0 16px;font-size:30px;color:#8d4b00;">Букинист</h1>
+
+        <p style="font-size:16px;line-height:1.6;">
+            Здравствуйте, <strong>{{ user.username }}</strong>.
+        </p>
+
+        <p style="font-size:16px;line-height:1.6;">
+            Для подтверждения вашей электронной почты в <strong>{{ site_name }}</strong>
+            используйте код ниже.
+        </p>
+
+        <div style="margin:28px 0;padding:20px;background:#f5f3ee;border-radius:12px;text-align:center;">
+            <div style="font-size:13px;color:#554336;margin-bottom:8px;">Ваш код подтверждения</div>
+            <div style="font-size:36px;letter-spacing:8px;font-weight:700;color:#8d4b00;">
+                {{ code }}
+            </div>
+        </div>
+
+        <p style="font-size:14px;line-height:1.6;color:#554336;">
+            Код действует {{ minutes }} минут.
+        </p>
+
+        <p style="font-size:14px;line-height:1.6;color:#554336;">
+            Если это были не вы, просто проигнорируйте это письмо.
+        </p>
+    </div>
+</body>
+</html>
