@@ -50,40 +50,38 @@
             <section class="bg-[#f5f3ee] p-8 rounded-xl">
                 <h2 class="text-2xl font-headline font-bold mb-6">Оплата</h2>
 
-                <form method="post" action="{% url 'cart_order:create_order_and_pay' %}" class="space-y-6">
-                    {% csrf_token %}
+                <form method="post" action="{% url 'cart_order:create_checkout_session' %}" class="space-y-6">
+    {% csrf_token %}
 
-                    <div>
-                        <label class="block text-xs uppercase tracking-widest text-[#887364] mb-2">Способ доставки</label>
-                        <select name="delivery_method" class="w-full rounded-lg border border-[#dbc2b0] bg-white px-4 py-3">
-                            <option value="digital">Электронная доставка</option>
-                            <option value="courier">Курьер</option>
-                            <option value="pickup">Самовывоз</option>
-                        </select>
-                    </div>
+    <div>
+        <label class="block text-xs uppercase tracking-widest text-[#887364] mb-2">Способ доставки</label>
+        <select name="delivery_method" class="w-full rounded-lg border border-[#dbc2b0] bg-white px-4 py-3">
+            <option value="digital">Электронная доставка</option>
+            <option value="courier">Курьер</option>
+            <option value="pickup">Самовывоз</option>
+        </select>
+    </div>
 
-                    <div>
-                        <label class="block text-xs uppercase tracking-widest text-[#887364] mb-2">Способ оплаты</label>
-                        <select name="payment_method" class="w-full rounded-lg border border-[#dbc2b0] bg-white px-4 py-3">
-                            <option value="card">Банковская карта</option>
-                            <option value="sbp">СБП</option>
-                            <option value="cash">Наличными</option>
-                        </select>
-                    </div>
+    <div>
+        <label class="block text-xs uppercase tracking-widest text-[#887364] mb-2">Способ оплаты</label>
+        <select name="payment_method" class="w-full rounded-lg border border-[#dbc2b0] bg-white px-4 py-3">
+            <option value="card">Банковская карта</option>
+        </select>
+    </div>
 
-                    <div>
-                        <label class="block text-xs uppercase tracking-widest text-[#887364] mb-2">Адрес доставки</label>
-                        <textarea name="delivery_address"
-                                  rows="4"
-                                  class="w-full rounded-lg border border-[#dbc2b0] bg-white px-4 py-3 resize-none"
-                                  placeholder="Для электронной доставки можно оставить пустым"></textarea>
-                    </div>
+    <div>
+        <label class="block text-xs uppercase tracking-widest text-[#887364] mb-2">Адрес доставки</label>
+        <textarea name="delivery_address"
+                  rows="4"
+                  class="w-full rounded-lg border border-[#dbc2b0] bg-white px-4 py-3 resize-none"
+                  placeholder="Для электронной доставки можно оставить пустым"></textarea>
+    </div>
 
-                    <button type="submit"
-                            class="w-full bg-[#8d4b00] text-white px-6 py-4 rounded-md font-bold hover:bg-[#b15f00] transition-all">
-                        ОПЛАТИТЬ
-                    </button>
-                </form>
+    <button type="submit"
+            class="w-full bg-[#8d4b00] text-white px-6 py-4 rounded-md font-bold hover:bg-[#b15f00] transition-all">
+        ПЕРЕЙТИ К ОПЛАТЕ STRIPE
+    </button>
+</form>
             </section>
         </div>
     </main>

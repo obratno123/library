@@ -212,7 +212,7 @@
 
             {% if items %}
                 <a class="w-full bg-primary text-on-primary font-body font-bold py-5 rounded-md shadow-sm transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-3"
-                   href="#">
+                   href="{% url 'cart_order:checkout' %}">
                     Оформить заказ
                     <span class="material-symbols-outlined">arrow_forward</span>
                 </a>
@@ -228,10 +228,7 @@
             </p>
         </aside>
     </div>
-	<a href="{% url 'cart_order:checkout' %}"
-   class="bg-primary text-on-primary py-4 px-8 font-label font-bold flex items-center justify-center hover:bg-primary-container transition-all shadow-sm">
-    ПЕРЕЙТИ К ОПЛАТЕ
-</a>
+
 </main>
 
 <footer class="bg-[#e4e2dd] dark:bg-stone-950 w-full mt-auto">

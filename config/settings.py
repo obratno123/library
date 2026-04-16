@@ -134,6 +134,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = 'static/'
+SITE_URL = "http://127.0.0.1:8000"
 
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend' / 'static',
@@ -144,7 +145,9 @@ MEDIA_ROOT = Path("C:/deploy/shared/media")
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-
+STRIPE_SECRET_KEY = ""
+STRIPE_PUBLISHABLE_KEY = ""
+STRIPE_WEBHOOK_SECRET = ""
 
 import os
 
