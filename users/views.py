@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Profile
 import json
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -18,8 +17,10 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-
-from .models import PasswordResetCode
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.utils import timezone
+from .models import Profile, PasswordResetCode, EmailVerificationCode
 
 
 User = get_user_model()
@@ -72,7 +73,8 @@ def register(request):
             )
             Profile.objects.create(
                 user=user,
-                full_name=username
+                full_name=username,
+                is_email_verified=False
             )
     except IntegrityError:
         return JsonResponse({"error": "Пользователь или email уже существует"}, status=400)
@@ -151,6 +153,9 @@ def user_profile(request):
         "city": profile.city,
         "delivery_address": profile.delivery_address,
         "postal_code": profile.postal_code,
+        "avatar_url": profile.avatar.url if profile.avatar else None,
+        "is_email_verified": profile.is_email_verified,
+        "email_verified_at": profile.email_verified_at.isoformat() if profile.email_verified_at else None,
     })
     
     
@@ -311,3 +316,181 @@ def password_reset_new_view(request):
                 error = " ".join(exc.messages)
 
     return render(request, "password_reset_new.html", {"error": error})
+
+
+@login_required
+def edit_profile_page(request):
+    profile, _ = Profile.objects.get_or_create(
+        user=request.user,
+        defaults={"full_name": request.user.username}
+    )
+    return render(request, "edit_profile.html", {
+        "profile": profile
+    })
+
+
+@login_required
+@require_http_methods(["POST"])
+def update_profile(request):
+    profile, _ = Profile.objects.get_or_create(
+        user=request.user,
+        defaults={"full_name": request.user.username}
+    )
+
+    full_name = (request.POST.get("full_name") or "").strip()
+    email = (request.POST.get("email") or "").strip()
+    city = (request.POST.get("city") or "").strip()
+    delivery_address = (request.POST.get("delivery_address") or "").strip()
+    postal_code = (request.POST.get("postal_code") or "").strip()
+    avatar = request.FILES.get("avatar")
+
+    if full_name:
+        profile.full_name = full_name
+
+    profile.city = city
+    profile.delivery_address = delivery_address
+    profile.postal_code = postal_code
+
+    if avatar:
+        profile.avatar = avatar
+
+    old_email = request.user.email
+
+    if email and email != old_email:
+        request.user.email = email
+        request.user.save(update_fields=["email"])
+
+        profile.is_email_verified = False
+        profile.email_verified_at = None
+
+        EmailVerificationCode.objects.filter(
+            user=request.user,
+            is_used=False
+        ).update(is_used=True)
+
+    profile.save()
+
+    messages.success(request, "Профиль обновлён.")
+    return redirect("profile_page")
+
+def generate_verification_code():
+    return f"{secrets.randbelow(1000000):06d}"
+
+def send_verification_email(user, code):
+    context = {
+        "user": user,
+        "code": code,
+        "site_name": "Букинист",
+        "minutes": 10,
+    }
+
+    text_content = render_to_string("emails/email_verification.txt", context)
+    html_content = render_to_string("emails/email_verification.html", context)
+
+    msg = EmailMultiAlternatives(
+        subject="Подтверждение почты — Букинист",
+        body=text_content,
+        to=[user.email],
+    )
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+    
+@login_required
+def verify_email_view(request):
+    error = None
+
+    profile, _ = Profile.objects.get_or_create(
+        user=request.user,
+        defaults={"full_name": request.user.username}
+    )
+
+    if profile.is_email_verified:
+        return redirect("profile_page")
+
+    if request.method == "GET":
+        active_code = (
+            EmailVerificationCode.objects
+            .filter(
+                user=request.user,
+                email=request.user.email,
+                is_used=False
+            )
+            .order_by("-created_at")
+            .first()
+        )
+
+        if not active_code or active_code.is_expired():
+            EmailVerificationCode.objects.filter(
+                user=request.user,
+                email=request.user.email,
+                is_used=False
+            ).update(is_used=True)
+
+            code = generate_verification_code()
+
+            EmailVerificationCode.objects.create(
+                user=request.user,
+                email=request.user.email,
+                code_hash=make_password(code),
+            )
+
+            send_verification_email(request.user, code)
+
+    if request.method == "POST":
+        entered_code = (request.POST.get("code") or "").strip()
+
+        verify_obj = (
+            EmailVerificationCode.objects
+            .filter(
+                user=request.user,
+                email=request.user.email,
+                is_used=False
+            )
+            .order_by("-created_at")
+            .first()
+        )
+
+        if not verify_obj:
+            error = "Код не найден."
+        elif verify_obj.is_expired():
+            error = "Код истёк. Запросите новый."
+        elif not check_password(entered_code, verify_obj.code_hash):
+            error = "Неверный код."
+        else:
+            verify_obj.is_used = True
+            verify_obj.save(update_fields=["is_used"])
+
+            profile.is_email_verified = True
+            profile.email_verified_at = timezone.now()
+            profile.save(update_fields=["is_email_verified", "email_verified_at"])
+
+            return redirect("profile_page")
+
+    return render(request, "verify_email.html", {"error": error})
+
+@login_required
+def resend_verification_email_view(request):
+    profile, _ = Profile.objects.get_or_create(
+        user=request.user,
+        defaults={"full_name": request.user.username}
+    )
+
+    if profile.is_email_verified:
+        return redirect("profile_page")
+
+    EmailVerificationCode.objects.filter(
+        user=request.user,
+        email=request.user.email,
+        is_used=False
+    ).update(is_used=True)
+
+    code = generate_verification_code()
+
+    EmailVerificationCode.objects.create(
+        user=request.user,
+        email=request.user.email,
+        code_hash=make_password(code),
+    )
+
+    send_verification_email(request.user, code)
+    return redirect("verify_email")

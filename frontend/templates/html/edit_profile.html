@@ -1,0 +1,215 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="light" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Букинист — Редактировать профиль</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary": "#ffffff",
+              "on-error": "#ffffff",
+              "surface-container-high": "#eae8e3",
+              "surface-dim": "#dbdad5",
+              "secondary-fixed-dim": "#f7ba8a",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#ffb77d",
+              "surface-tint": "#904d00",
+              "primary": "#8d4b00",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#b15f00",
+              "inverse-surface": "#30312e",
+              "on-secondary-container": "#784c25",
+              "surface-container-low": "#f5f3ee",
+              "surface": "#fbf9f4",
+              "on-primary": "#ffffff",
+              "outline-variant": "#dbc2b0",
+              "on-secondary-fixed": "#2f1500",
+              "on-background": "#1b1c19",
+              "tertiary-fixed-dim": "#96ccff",
+              "on-primary-fixed": "#2f1500",
+              "surface-container": "#f0eee9",
+              "tertiary-container": "#007abd",
+              "on-secondary-fixed-variant": "#673d17",
+              "error-container": "#ffdad6",
+              "background": "#fbf9f4",
+              "tertiary-fixed": "#cee5ff",
+              "on-tertiary-container": "#fdfcff",
+              "surface-variant": "#e4e2dd",
+              "on-primary-container": "#fffbff",
+              "error": "#ba1a1a",
+              "primary-fixed": "#ffdcc3",
+              "on-tertiary-fixed-variant": "#004a75",
+              "outline": "#887364",
+              "tertiary": "#006096",
+              "secondary-fixed": "#ffdcc3",
+              "on-primary-fixed-variant": "#6e3900",
+              "secondary-container": "#fdbf8f",
+              "surface-bright": "#fbf9f4",
+              "on-surface": "#1b1c19",
+              "inverse-on-surface": "#f2f1ec",
+              "on-tertiary-fixed": "#001d32",
+              "primary-fixed-dim": "#ffb77d",
+              "secondary": "#82542c",
+              "surface-container-highest": "#e4e2dd",
+              "surface-container-lowest": "#ffffff",
+              "on-surface-variant": "#554336"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+
+    <link href="{% static 'css/account.css' %}" rel="stylesheet">
+</head>
+<body class="bg-background text-on-surface font-body">
+    {% include "includes/site_header.html" %}
+
+    <main class="pt-32 pb-20 max-w-5xl mx-auto px-8">
+        <div class="mb-8">
+            <a href="{% url 'profile_page' %}" class="inline-flex items-center gap-2 text-sm text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-base">arrow_back</span>
+                Назад в профиль
+            </a>
+        </div>
+
+        <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
+            <div class="px-8 py-8 md:px-10 md:py-10 border-b border-outline-variant/20">
+                <p class="text-[0.6875rem] uppercase tracking-[0.2em] text-outline font-bold mb-3">
+                    Личный кабинет
+                </p>
+                <h1 class="font-headline text-4xl text-on-surface mb-3">
+                    Редактировать профиль
+                </h1>
+                <p class="text-on-surface-variant text-sm max-w-2xl">
+                    Обновите личные данные, адрес доставки и фотографию профиля.
+                </p>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" action="{% url 'update_profile' %}" class="p-8 md:p-10 space-y-10">
+                {% csrf_token %}
+
+                <div class="flex flex-col md:flex-row gap-8 md:items-center">
+                    <div class="flex flex-col items-center md:items-start gap-4">
+                        <div class="w-32 h-32 rounded-full overflow-hidden bg-surface-container-highest border-4 border-surface shadow-sm flex items-center justify-center">
+                            {% if profile.avatar %}
+                                <img src="{{ profile.avatar.url }}" alt="Фото профиля" class="w-full h-full object-cover">
+                            {% else %}
+                                <span class="material-symbols-outlined text-6xl text-outline">account_circle</span>
+                            {% endif %}
+                        </div>
+
+                        <label class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-low hover:bg-surface-container-high text-on-surface text-sm rounded-full cursor-pointer transition-colors">
+                            <span class="material-symbols-outlined text-base">photo_camera</span>
+                            Изменить фото
+                            <input type="file" name="avatar" accept="image/*" class="hidden">
+                        </label>
+
+                        <p class="text-xs text-on-surface-variant text-center md:text-left">
+                            JPG, PNG или WEBP
+                        </p>
+                    </div>
+
+                    <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2">
+                            <label class="block mb-2 text-[0.6875rem] font-bold text-outline uppercase tracking-wider">
+                                Полное имя
+                            </label>
+                            <input
+                                type="text"
+                                name="full_name"
+                                value="{{ profile.full_name }}"
+                                class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface placeholder:text-outline focus:border-primary focus:ring-0"
+                                placeholder="Введите полное имя"
+                            >
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block mb-2 text-[0.6875rem] font-bold text-outline uppercase tracking-wider">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                value="{{ request.user.email }}"
+                                class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface placeholder:text-outline focus:border-primary focus:ring-0"
+                                placeholder="Введите email"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block mb-2 text-[0.6875rem] font-bold text-outline uppercase tracking-wider">
+                                Город
+                            </label>
+                            <input
+                                type="text"
+                                name="city"
+                                value="{{ profile.city }}"
+                                class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface placeholder:text-outline focus:border-primary focus:ring-0"
+                                placeholder="Например, Москва"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block mb-2 text-[0.6875rem] font-bold text-outline uppercase tracking-wider">
+                                Почтовый индекс
+                            </label>
+                            <input
+                                type="text"
+                                name="postal_code"
+                                value="{{ profile.postal_code }}"
+                                class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface placeholder:text-outline focus:border-primary focus:ring-0"
+                                placeholder="Например, 101000"
+                            >
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block mb-2 text-[0.6875rem] font-bold text-outline uppercase tracking-wider">
+                                Адрес доставки
+                            </label>
+                            <textarea
+                                name="delivery_address"
+                                rows="4"
+                                class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface text-on-surface placeholder:text-outline focus:border-primary focus:ring-0 resize-none"
+                                placeholder="Укажите адрес доставки"
+                            >{{ profile.delivery_address }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-outline-variant/20 flex flex-col sm:flex-row gap-4 sm:justify-end">
+                    <a href="{% url 'profile_page' %}"
+                       class="px-6 py-3 rounded-xl bg-surface-container-low text-on-surface text-sm font-medium hover:bg-surface-container-high transition-colors text-center">
+                        Отмена
+                    </a>
+
+                    <button type="submit"
+                            class="px-6 py-3 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:bg-primary-container transition-colors shadow-[inset_0px_1px_0px_rgba(255,255,255,0.2)]">
+                        Сохранить изменения
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

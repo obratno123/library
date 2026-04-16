@@ -19,6 +19,7 @@ from django.urls import path, include
 from .views import home_page, login_page, register_page, profile_page
 from django.conf import settings
 from django.conf.urls.static import static
+from users.views import edit_profile_page, update_profile, verify_email_view, resend_verification_email_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +33,10 @@ urlpatterns = [
     path("reviews/", include("review_rating.urls", namespace="review_rating")),
     path("register/", register_page, name="register_page"),
     path("profile/", profile_page, name="profile_page"),
+    path("profile/edit/", edit_profile_page, name="edit_profile_page"),
+    path("profile/edit/save/", update_profile, name="update_profile"),
+    path("profile/verify-email/", verify_email_view, name="verify_email"),
+    path("profile/verify-email/resend/", resend_verification_email_view, name="resend_verification_email"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

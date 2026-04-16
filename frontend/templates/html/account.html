@@ -120,7 +120,12 @@
 <div class="flex flex-col md:flex-row items-start md:items-center gap-8">
 <div class="relative group">
 <div class="w-32 h-32 rounded-full overflow-hidden bg-surface-container-highest flex items-center justify-center border-4 border-surface">
-<img alt="Александр Пушкин" class="w-full h-full object-cover" data-alt="classic portrait of a distinguished man with curly hair and sideburns in a vintage library setting with warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADNWfkLbRhns-zPWC-q0HUFPwChqzvHLRskrCV6vna2wzV4lz1DAaLMpsv8Hwy7AaSIpcgyx3l4hp8Loo9bRHRST7FZqopK2HlozLqUiu0oMX_rs0ObohivXOf7Lc0idKKH24j2yflG5bqtPOWbxwFka-XhS3U7azVxo-HMofh6rC5JfUf4B546oUtJsmlsyQEku1oAodgMj2YV2c4-BUijd47uSlujiqOZmaO-NxBu6ZFLBNjmG7wqYCqtOoRVGphN4GYBOlgaIM"/>
+<img
+    id="profile-avatar"
+    alt="Фото профиля"
+    class="w-full h-full object-cover"
+    src="{% static 'img/default-avatar.png' %}"
+/>
 </div>
 <button class="absolute bottom-0 right-0 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:scale-105 transition-transform">
 <span class="material-symbols-outlined text-sm">edit</span>
@@ -129,9 +134,38 @@
 <div class="flex-1">
 <h1 class="font-serif text-3xl text-on-surface mb-2" data-auth="username">Александр Пушкин</h1>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-<div class="space-y-1">
-<p class="text-[0.6875rem] font-bold text-outline uppercase tracking-wider">Электронная почта</p>
-<p class="text-on-surface font-medium" data-auth="email">reader@archive.ru</p>
+<div class="space-y-2">
+  <p class="text-[0.6875rem] font-bold text-outline uppercase tracking-wider">
+    Электронная почта
+  </p>
+
+  <p class="text-on-surface font-medium" data-auth="email">reader@archive.ru</p>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <div
+      id="email-verified-badge"
+      class="hidden items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold"
+    >
+      <span class="material-symbols-outlined text-sm">check_circle</span>
+      <span>Почта подтверждена</span>
+    </div>
+
+    <div
+      id="email-unverified-badge"
+      class="hidden items-center gap-1 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold"
+    >
+      <span class="material-symbols-outlined text-sm">warning</span>
+      <span>Почта не подтверждена</span>
+    </div>
+
+    <a
+      id="verify-email-btn"
+      href="{% url 'verify_email' %}"
+      class="hidden px-4 py-2 rounded-md bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container transition-colors"
+    >
+      Подтвердить почту
+    </a>
+  </div>
 </div>
 <div class="space-y-1">
 <p class="text-[0.6875rem] font-bold text-outline uppercase tracking-wider">Телефон</p>
@@ -139,9 +173,10 @@
 </div>
 </div>
 </div>
-<button class="bg-primary text-on-primary px-6 py-2.5 rounded-md font-medium text-sm hover:bg-primary-container transition-colors shadow-[inset_0px_1px_0px_rgba(255,255,255,0.2)]">
-                            Редактировать
-                        </button>
+<a href="{% url 'edit_profile_page' %}"
+   class="bg-primary text-on-primary px-6 py-2.5 rounded-md font-medium text-sm hover:bg-primary-container transition-colors shadow-[inset_0px_1px_0px_rgba(255,255,255,0.2)]">
+    Редактировать
+</a>
 </div>
 </section>
 <!-- Orders History Section -->
