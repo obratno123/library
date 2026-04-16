@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Букинист — Заказ оформлен</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-[#fbf9f4] text-[#1b1c19] min-h-screen">
+    {% include "includes/site_header.html" %}
+
+    <main class="max-w-4xl mx-auto px-8 py-16">
+        <section class="bg-[#f5f3ee] p-10 rounded-xl border-l-4 border-[#8d4b00]">
+            <h1 class="text-5xl font-headline font-bold mb-4">Заказ успешно оформлен</h1>
+            <p class="text-[#554336] mb-8">Номер заказа: <strong>#{{ order.id }}</strong></p>
+
+            <div class="space-y-4">
+                {% for item in order.items.all %}
+                    <div class="flex justify-between border-b border-[#dbc2b0] pb-3">
+                        <span>{{ item.book.title }}</span>
+                        <span>{{ item.quantity }} × {{ item.price_at_time }} ₽</span>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-8 text-lg font-bold">
+                Итого: {{ order.total_price }} ₽
+            </div>
+
+            <div class="mt-8 flex gap-4">
+                <a href="{% url 'catalog:catalog_home' %}"
+                   class="bg-[#8d4b00] text-white px-6 py-3 rounded-md font-bold">
+                    В МАГАЗИН
+                </a>
+                <a href="/profile/"
+                   class="border border-[#8d4b00] text-[#8d4b00] px-6 py-3 rounded-md font-bold">
+                    В ПРОФИЛЬ
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

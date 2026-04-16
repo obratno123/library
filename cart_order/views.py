@@ -2,14 +2,19 @@ from django.shortcuts import render
 
 # Create your views here.
 from decimal import Decimal
-
+from uuid import uuid4
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
+from django.db import transaction
+from django.utils import timezone
 from django.views.decorators.http import require_GET, require_POST
 from django.http import HttpResponseBadRequest
 
 from catalog.models import Book
-from .models import Cart, CartItem
+from service_entities.models import Payment, BookFileAccess
+from .models import Cart, CartItem, Order, OrderItem
+
 
 
 @login_required
@@ -103,3 +108,115 @@ def remove_cart_item(request, item_id):
     )
     cart_item.delete()
     return redirect("cart_order:cart_view")
+  
+@login_required
+def checkout_view(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    items = (
+        cart.items
+        .select_related("book")
+        .prefetch_related("book__authors")
+        .order_by("id")
+    )
+
+    if not items.exists():
+        messages.error(request, "Корзина пуста.")
+        return redirect("cart_order:cart_view")
+
+    subtotal = sum(item.price_at_time * item.quantity for item in items)
+    delivery_price = Decimal("0.00")
+    total_price = subtotal + delivery_price
+
+    context = {
+        "cart": cart,
+        "items": items,
+        "subtotal": subtotal,
+        "delivery_price": delivery_price,
+        "total_price": total_price,
+    }
+    return render(request, "checkout.html", context)
+
+
+@login_required
+@transaction.atomic
+def create_order_and_pay(request):
+    if request.method != "POST":
+        return redirect("cart_order:checkout")
+
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    items = (
+        cart.items
+        .select_related("book")
+        .order_by("id")
+    )
+
+    if not items.exists():
+        messages.error(request, "Корзина пуста.")
+        return redirect("cart_order:cart_view")
+
+    delivery_method = request.POST.get("delivery_method", "digital")
+    payment_method = request.POST.get("payment_method", "card")
+    delivery_address = request.POST.get("delivery_address", "").strip()
+
+    total_price = sum(item.price_at_time * item.quantity for item in items)
+
+    order = Order.objects.create(
+        user=request.user,
+        status="paid",
+        delivery_method=delivery_method,
+        payment_method=payment_method,
+        payment_status="paid",
+        total_price=total_price,
+        delivery_address=delivery_address if delivery_address else "Электронная доставка",
+        paid_at=timezone.now(),
+    )
+
+    order_items = []
+    for item in items:
+        order_items.append(
+            OrderItem(
+                order=order,
+                book=item.book,
+                quantity=item.quantity,
+                price_at_time=item.price_at_time,
+            )
+        )
+    OrderItem.objects.bulk_create(order_items)
+
+    Payment.objects.create(
+        order=order,
+        amount=total_price,
+        method=payment_method,
+        status="paid",
+        transaction_id=str(uuid4()),
+    )
+
+    for item in items:
+        if item.book.ebook_file:
+            BookFileAccess.objects.get_or_create(
+                user=request.user,
+                book=item.book,
+                order=order,
+                defaults={
+                    "access_granted_at": timezone.now(),
+                    "expires_at": None,
+                }
+            )
+
+    items.delete()
+
+    messages.success(request, "Оплата прошла успешно. Заказ создан.")
+    return redirect("cart_order:order_success", order_id=order.id)
+   
+@login_required
+def order_success(request, order_id):
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items__book"),
+        id=order_id,
+        user=request.user
+    )
+    return render(request, "order_success.html", {
+        "order": order
+    })
