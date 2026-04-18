@@ -138,6 +138,7 @@ def checkout_view(request):
         "stripe_publishable_key": settings.STRIPE_PUBLISHABLE_KEY,
     }
     return render(request, "checkout.html", context)
+
 @login_required
 @require_POST
 @transaction.atomic
