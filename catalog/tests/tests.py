@@ -1,9 +1,14 @@
 from decimal import Decimal
-from django.test import TestCase
+from unittest.mock import patch
+from django.test import RequestFactory, TestCase
+from django.contrib.auth.models import User, AnonymousUser
 
 from catalog.models import Book, Stock, Author, Genre, Publisher
 
 from django.urls import reverse
+
+from catalog.views import book_detail, catalog_home
+from review_rating.models import Review
 
 class stockmodelsTests(TestCase):
     def setUp(self):
@@ -700,6 +705,116 @@ class cataloghomeTests(TestCase):
         self.assertEqual(list(response.context["page_obj"].object_list), [])
         self.assertEqual(response.context["query"], "несуществующий запрос")
         
+    def test_catalog_home_sorts_books_by_price_ascending(self):
+        factory = RequestFactory()
+
+        publisher = Publisher.objects.create(name="Test Publisher")
+        genre = Genre.objects.create(name="Fantasy", slug="fantasy")
+        author = Author.objects.create(first_name="John", last_name="Smith")
+
+        cheap_book = Book.objects.create(
+            title="Cheap Book",
+            slug="cheap-book",
+            description="Cheap",
+            isbn="isbn-cheap",
+            price=Decimal("10.00"),
+            publisher=publisher,
+            is_active=True,
+        )
+        cheap_book.authors.add(author)
+        cheap_book.genres.add(genre)
+
+        expensive_book = Book.objects.create(
+            title="Expensive Book",
+            slug="expensive-book",
+            description="Expensive",
+            isbn="isbn-expensive",
+            price=Decimal("50.00"),
+            publisher=publisher,
+            is_active=True,
+        )
+        expensive_book.authors.add(author)
+        expensive_book.genres.add(genre)
+
+        middle_book = Book.objects.create(
+            title="Middle Book",
+            slug="middle-book",
+            description="Middle",
+            isbn="isbn-middle",
+            price=Decimal("30.00"),
+            publisher=publisher,
+            is_active=True,
+        )
+        middle_book.authors.add(author)
+        middle_book.genres.add(genre)
+
+        request = factory.get("/catalog/", {"sort": "price_asc"})
+
+        with patch("catalog.views.render") as mock_render:
+            catalog_home(request)
+
+        _, template_name, context = mock_render.call_args[0]
+        books = list(context["page_obj"].object_list)
+
+        self.assertEqual(template_name, "catalog_home.html")
+        self.assertEqual(books, [cheap_book, middle_book, expensive_book])
+        self.assertEqual(context["sort"], "price_asc")
+        
+    def test_catalog_home_sorts_books_by_price_descending(self):
+        factory = RequestFactory()
+
+        publisher = Publisher.objects.create(name="Test Publisher")
+        genre = Genre.objects.create(name="Fantasy", slug="fantasy")
+        author = Author.objects.create(first_name="John", last_name="Smith")
+
+        cheap_book = Book.objects.create(
+            title="Cheap Book",
+            slug="cheap-book-desc",
+            description="Cheap",
+            isbn="isbn-cheap-desc",
+            price=Decimal("10.00"),
+            publisher=publisher,
+            is_active=True,
+        )
+        cheap_book.authors.add(author)
+        cheap_book.genres.add(genre)
+
+        expensive_book = Book.objects.create(
+            title="Expensive Book",
+            slug="expensive-book-desc",
+            description="Expensive",
+            isbn="isbn-expensive-desc",
+            price=Decimal("50.00"),
+            publisher=publisher,
+            is_active=True,
+        )
+        expensive_book.authors.add(author)
+        expensive_book.genres.add(genre)
+
+        middle_book = Book.objects.create(
+            title="Middle Book",
+            slug="middle-book-desc",
+            description="Middle",
+            isbn="isbn-middle-desc",
+            price=Decimal("30.00"),
+            publisher=publisher,
+            is_active=True,
+        )
+        middle_book.authors.add(author)
+        middle_book.genres.add(genre)
+
+        request = factory.get("/catalog/", {"sort": "price_desc"})
+
+        with patch("catalog.views.render") as mock_render:
+            catalog_home(request)
+
+        _, template_name, context = mock_render.call_args[0]
+        books = list(context["page_obj"].object_list)
+
+        self.assertEqual(template_name, "catalog_home.html")
+        self.assertEqual(books, [expensive_book, middle_book, cheap_book])
+        self.assertEqual(context["sort"], "price_desc")
+        
 
 class bookdetailTests(TestCase):
     def setUp(self):
@@ -871,6 +986,112 @@ class bookdetailTests(TestCase):
 
         related_books = list(response.context["related_books"])
         self.assertEqual(related_books.count(related_book), 1)
+        
+    def test_book_detail_sets_user_review_for_authenticated_user(self):
+        factory = RequestFactory()
+
+        user = User.objects.create_user(
+            username="reader",
+            password="testpass123"
+        )
+
+        publisher = Publisher.objects.create(name="Test Publisher")
+        genre = Genre.objects.create(name="Fantasy", slug="fantasy-detail-auth")
+        author = Author.objects.create(
+            first_name="John",
+            last_name="Smith"
+        )
+
+        book = Book.objects.create(
+            title="Book Detail Auth",
+            slug="book-detail-auth",
+            description="Test description",
+            isbn="isbn-detail-auth",
+            price=Decimal("100.00"),
+            publisher=publisher,
+            is_active=True,
+        )
+        book.authors.add(author)
+        book.genres.add(genre)
+
+        Stock.objects.create(
+            book=book,
+            quantity=10,
+            reserved_quantity=3
+        )
+
+        review = Review.objects.create(
+            user=user,
+            book=book,
+            rating=5,
+            text="Great book"
+        )
+
+        request = factory.get("/catalog/book-detail-auth/")
+        request.user = user
+
+        with patch("catalog.views.render") as mock_render:
+            book_detail(request, slug="book-detail-auth")
+
+        mock_render.assert_called_once()
+        _, template_name, context = mock_render.call_args[0]
+
+        self.assertEqual(template_name, "book_detail.html")
+        self.assertEqual(context["book"], book)
+        self.assertEqual(context["user_review"], review)
+        
+    def test_book_detail_sets_user_review_none_for_anonymous_user(self):
+        factory = RequestFactory()
+
+        user = User.objects.create_user(
+            username="reader2",
+            password="testpass123"
+        )
+
+        publisher = Publisher.objects.create(name="Test Publisher")
+        genre = Genre.objects.create(name="Fantasy", slug="fantasy-detail-anon")
+        author = Author.objects.create(
+            first_name="Jane",
+            last_name="Smith"
+        )
+
+        book = Book.objects.create(
+            title="Book Detail Anon",
+            slug="book-detail-anon",
+            description="Test description",
+            isbn="isbn-detail-anon",
+            price=Decimal("120.00"),
+            publisher=publisher,
+            is_active=True,
+        )
+        book.authors.add(author)
+        book.genres.add(genre)
+
+        Stock.objects.create(
+            book=book,
+            quantity=5,
+            reserved_quantity=1
+        )
+
+        Review.objects.create(
+            user=user,
+            book=book,
+            rating=4,
+            text="Nice book"
+        )
+
+        request = factory.get("/catalog/book-detail-anon/")
+        request.user = AnonymousUser()
+
+        with patch("catalog.views.render") as mock_render:
+            book_detail(request, slug="book-detail-anon")
+
+        mock_render.assert_called_once()
+        _, template_name, context = mock_render.call_args[0]
+
+        self.assertEqual(template_name, "book_detail.html")
+        self.assertEqual(context["book"], book)
+        self.assertIsNone(context["user_review"])
         
 
 class booksbygenreTests(TestCase):

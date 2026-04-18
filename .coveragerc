@@ -6,6 +6,7 @@ source =
     catalog
     review_rating
     service_entities
+    support_chat
 
 [report]
 omit =
