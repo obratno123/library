@@ -7,6 +7,9 @@ import json
 from django.urls import reverse
 from unittest.mock import patch
 from django.db import IntegrityError
+from users.models import PasswordResetCode, EmailVerificationCode
+from django.utils import timezone
+from datetime import timedelta
 
 
 class rolemodelTests(TestCase):
@@ -30,6 +33,152 @@ class profilemodelTests(TestCase):
         )
 
         self.assertEqual(str(profile), "Иван Иванов")
+
+
+class PasswordResetCodeModelTest(TestCase):
+    def test_password_reset_code_str_returns_correct_string(self):
+        user = User.objects.create_user(
+            username="reset_user",
+            password="testpass123"
+        )
+
+        reset_code = PasswordResetCode.objects.create(
+            user=user,
+            code_hash="hashed_code"
+        )
+
+        self.assertEqual(str(reset_code), f"Reset code for {user}")
+
+    def test_password_reset_code_is_expired_returns_false_if_code_is_fresh(self):
+        user = User.objects.create_user(
+            username="reset_user_fresh",
+            password="testpass123"
+        )
+
+        reset_code = PasswordResetCode.objects.create(
+            user=user,
+            code_hash="hashed_code"
+        )
+
+        with patch("users.models.timezone.now", return_value=reset_code.created_at + timedelta(minutes=9)):
+            self.assertFalse(reset_code.is_expired())
+
+    def test_password_reset_code_is_expired_returns_true_if_more_than_10_minutes_passed(self):
+        user = User.objects.create_user(
+            username="reset_user_expired",
+            password="testpass123"
+        )
+
+        reset_code = PasswordResetCode.objects.create(
+            user=user,
+            code_hash="hashed_code"
+        )
+
+        with patch("users.models.timezone.now", return_value=reset_code.created_at + timedelta(minutes=11)):
+            self.assertTrue(reset_code.is_expired())
+
+    def test_password_reset_code_is_expired_returns_false_at_exactly_10_minutes(self):
+        user = User.objects.create_user(
+            username="reset_user_exact",
+            password="testpass123"
+        )
+
+        reset_code = PasswordResetCode.objects.create(
+            user=user,
+            code_hash="hashed_code"
+        )
+
+        with patch("users.models.timezone.now", return_value=reset_code.created_at + timedelta(minutes=10)):
+            self.assertFalse(reset_code.is_expired())
+
+    def test_password_reset_code_default_is_used_is_false(self):
+        user = User.objects.create_user(
+            username="reset_user_default",
+            password="testpass123"
+        )
+
+        reset_code = PasswordResetCode.objects.create(
+            user=user,
+            code_hash="hashed_code"
+        )
+
+        self.assertFalse(reset_code.is_used)
+
+
+class EmailVerificationCodeModelTest(TestCase):
+    def test_email_verification_code_str_returns_correct_string(self):
+        user = User.objects.create_user(
+            username="email_user",
+            password="testpass123"
+        )
+
+        verification_code = EmailVerificationCode.objects.create(
+            user=user,
+            email="test@example.com",
+            code_hash="hashed_code"
+        )
+
+        self.assertEqual(str(verification_code), f"Email verification for {user}")
+
+    def test_email_verification_code_is_expired_returns_false_if_code_is_fresh(self):
+        user = User.objects.create_user(
+            username="email_user_fresh",
+            password="testpass123"
+        )
+
+        verification_code = EmailVerificationCode.objects.create(
+            user=user,
+            email="fresh@example.com",
+            code_hash="hashed_code"
+        )
+
+        with patch("users.models.timezone.now", return_value=verification_code.created_at + timedelta(minutes=9)):
+            self.assertFalse(verification_code.is_expired())
+
+    def test_email_verification_code_is_expired_returns_true_if_more_than_10_minutes_passed(self):
+        user = User.objects.create_user(
+            username="email_user_expired",
+            password="testpass123"
+        )
+
+        verification_code = EmailVerificationCode.objects.create(
+            user=user,
+            email="expired@example.com",
+            code_hash="hashed_code"
+        )
+
+        with patch("users.models.timezone.now", return_value=verification_code.created_at + timedelta(minutes=11)):
+            self.assertTrue(verification_code.is_expired())
+
+    def test_email_verification_code_is_expired_returns_false_at_exactly_10_minutes(self):
+        user = User.objects.create_user(
+            username="email_user_exact",
+            password="testpass123"
+        )
+
+        verification_code = EmailVerificationCode.objects.create(
+            user=user,
+            email="exact@example.com",
+            code_hash="hashed_code"
+        )
+
+        with patch("users.models.timezone.now", return_value=verification_code.created_at + timedelta(minutes=10)):
+            self.assertFalse(verification_code.is_expired())
+
+    def test_email_verification_code_default_is_used_is_false(self):
+        user = User.objects.create_user(
+            username="email_user_default",
+            password="testpass123"
+        )
+
+        verification_code = EmailVerificationCode.objects.create(
+            user=user,
+            email="default@example.com",
+            code_hash="hashed_code"
+        )
+
+        self.assertFalse(verification_code.is_used)
+
         
 class registerTests(TestCase):
     def setUp(self):
