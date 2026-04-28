@@ -144,6 +144,11 @@ class Book(models.Model):
         default=True,
         verbose_name="Активна"
     )
+    embedding = models.JSONField(
+    blank=True,
+    null=True,
+    verbose_name="Вектор описания"
+    )
 
     class Meta:
         verbose_name = "Книга"
