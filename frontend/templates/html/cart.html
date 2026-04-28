@@ -158,10 +158,11 @@
             {% else %}
                 <div class="bg-surface-container-low p-8 rounded-sm shadow-sm">
                     <p class="text-xl font-body mb-4">Ваша корзина пока пуста.</p>
-                    <a href="/catalog/" class="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-3 rounded-md font-semibold">
-                        Перейти в каталог
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </a>
+                    <a href="{% url 'catalog:catalog_home' %}"
+                        class="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-3 rounded-md font-semibold">
+                            Перейти в каталог
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </a>
                 </div>
             {% endif %}
         </div>

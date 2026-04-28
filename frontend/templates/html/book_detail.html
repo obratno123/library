@@ -186,8 +186,9 @@
         <span>ДОБАВИТЬ В КОРЗИНУ</span>
     </button>
 </form>
-<a class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95 text-center" href="cart.html">
-КУПИТЬ В ОДИН КЛИК
+<a class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95 text-center"
+   href="{% url 'cart_order:cart_view' %}">
+    ПЕРЕЙТИ В КОРЗИНУ
 </a>
 <a href="{% url 'catalog:book_reader' book.slug %}?preview=1"
    class="border border-primary text-primary py-3 px-8 font-label font-bold hover:bg-primary/5 transition-all active:scale-95 text-center">
