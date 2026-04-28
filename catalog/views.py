@@ -10,7 +10,7 @@ from django.db.models import Avg
 from review_rating.models import Review
 from django.db.models import Count
 from cart_order.models import OrderItem
-
+import numpy as np
 def book_reader_view(request, slug):
     book = get_object_or_404(
         Book.objects.prefetch_related("authors"),
@@ -138,15 +138,19 @@ def book_detail(request, slug):
 
     stock = getattr(book, "stock", None)
     available_quantity = stock.available() if stock else 0
-
-    related_books = get_purchase_recommendations(book)
+    
+    related_books = get_embedding_recommendations(book)
+    
+    if not related_books:
+        related_books = list(get_purchase_recommendations(book))
 
     if not related_books:
-        related_books = Book.objects.filter(
-            is_active=True,
-            genres__in=book.genres.all()
-        ).exclude(id=book.id).distinct()[:4]
-
+        related_books = list(
+            Book.objects.filter(
+                is_active=True,
+                genres__in=book.genres.all()
+            ).exclude(id=book.id).distinct()[:4]
+        )
     reviews = book.reviews.select_related("user").order_by("-created_at")[:5]
     average_rating = reviews.aggregate(avg=Avg("rating"))["avg"]
     reviews_count = reviews.count()
@@ -238,3 +242,34 @@ def books_by_publisher(request, publisher_id):
         "page_obj": page_obj,
     }
     return render(request, "catalog/books_by_publisher.html", context)
+
+def cosine_similarity(a, b):
+    a = np.array(a)
+    b = np.array(b)
+
+    if np.linalg.norm(a) == 0 or np.linalg.norm(b) == 0:
+        return 0
+
+    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
+
+
+def get_embedding_recommendations(book, limit=4):
+    if not book.embedding:
+        return []
+
+    candidates = (
+        Book.objects
+        .filter(is_active=True, embedding__isnull=False)
+        .exclude(id=book.id)
+        .prefetch_related("authors")
+    )
+
+    scored_books = []
+
+    for candidate in candidates:
+        score = cosine_similarity(book.embedding, candidate.embedding)
+        scored_books.append((score, candidate))
+
+    scored_books.sort(key=lambda x: x[0], reverse=True)
+
+    return [candidate for score, candidate in scored_books[:limit]]
