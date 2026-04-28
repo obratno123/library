@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'users',
     'chat',
     'support_chat',
+    "analytics_dashboard",
 ]
 
 MIDDLEWARE = [

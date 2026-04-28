@@ -37,6 +37,7 @@ urlpatterns = [
     path("profile/edit/save/", update_profile, name="update_profile"),
     path("profile/verify-email/", verify_email_view, name="verify_email"),
     path("profile/verify-email/resend/", resend_verification_email_view, name="resend_verification_email"),
+    path("analytics/", include("analytics_dashboard.urls")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
