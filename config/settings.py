@@ -148,7 +148,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STRIPE_SECRET_KEY = ""
 STRIPE_PUBLISHABLE_KEY = ""
 STRIPE_WEBHOOK_SECRET = ""
-
 import os
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

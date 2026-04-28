@@ -292,12 +292,4 @@
 <script src="{% static 'js/auth-common.js' %}"></script>
 <script src="{% static 'js/auth-links.js' %}"></script>
 </body>
-{% if user.is_authenticated %}
-    <a href="{% url 'chat:dialog_list' %}">Чат</a>
-
-    {% if user.profile.role and user.profile.role.name == "support" %}
-        <a href="{% url 'support_chat:support_dialogs_list' %}">Саппорт</a>
-    {% else %}
-        <a href="{% url 'support_chat:chat_dialog' %}">Саппорт</a>
-    {% endif %}
-{% endif %}</html>
+</html>

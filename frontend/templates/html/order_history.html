@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Букинист — Мои заказы</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;600;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#fbf9f4] text-[#1b1c19] min-h-screen">
+
+{% include "includes/site_header.html" %}
+
+<main class="max-w-6xl mx-auto px-8 py-12">
+    <h1 class="text-5xl font-serif font-bold mb-10">Мои заказы</h1>
+
+    <div class="space-y-5">
+        {% for order in orders %}
+            <a href="{% url 'cart_order:order_detail' order.id %}"
+               class="block bg-[#f5f3ee] p-6 rounded-xl border-l-4 border-[#8d4b00] hover:bg-[#eae8e3] transition">
+                <div class="flex justify-between gap-6">
+                    <div>
+                        <h2 class="text-2xl font-serif font-bold">Заказ #{{ order.id }}</h2>
+                        <p class="text-sm text-[#554336] mt-1">
+                            {{ order.created_at|date:"d.m.Y H:i" }}
+                        </p>
+                    </div>
+
+                    <div class="text-right">
+                        <p class="text-xl font-bold">{{ order.total_price }} ₽</p>
+                        <p class="text-sm text-[#554336]">
+                            Оплата: {{ order.payment_status }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-sm">
+					{% with status=order.get_dynamic_delivery_status %}
+						{% if status == "preparing" %}
+							<span class="text-yellow-700">● Готовится к доставке</span>
+						{% elif status == "in_delivery" %}
+							<span class="text-blue-700">● В процессе доставки</span>
+						{% elif status == "ready" %}
+							<span class="text-green-700">● Готов к получению</span>
+						{% elif status == "completed" %}
+							{% if order.delivery_method == "digital" %}
+								<span class="text-green-700">● Доставлено</span>
+							{% else %}
+								<span class="text-gray-700">● Получен</span>
+							{% endif %}
+						{% endif %}
+					{% endwith %}
+                </div>
+            </a>
+        {% empty %}
+            <div class="bg-[#f5f3ee] p-8 rounded-xl text-[#554336]">
+                У вас пока нет заказов.
+            </div>
+        {% endfor %}
+    </div>
+</main>
+
+</body>
+</html>
