@@ -8,6 +8,7 @@ source =
     service_entities
     support_chat
     chat
+    analytics_dashboard
     
 
 [report]
