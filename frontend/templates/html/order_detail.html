@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Букинист — Заказ #{{ order.id }}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;600;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#fbf9f4] text-[#1b1c19] min-h-screen">
+
+{% include "includes/site_header.html" %}
+
+<main class="max-w-5xl mx-auto px-8 py-12">
+    <a href="{% url 'cart_order:order_history' %}" class="text-[#8d4b00] text-sm font-bold">
+        ← Назад к заказам
+    </a>
+
+    <section class="mt-8 bg-[#f5f3ee] p-8 rounded-xl border-l-4 border-[#8d4b00]">
+        <div class="flex flex-col md:flex-row md:justify-between gap-6 mb-8">
+            <div>
+                <h1 class="text-5xl font-serif font-bold">Заказ #{{ order.id }}</h1>
+                <p class="text-[#554336] mt-2">{{ order.created_at|date:"d.m.Y H:i" }}</p>
+            </div>
+
+            <div class="md:text-right">
+                <p class="text-3xl font-bold">{{ order.total_price }} ₽</p>
+                <p class="text-sm text-[#554336] mt-1">Общая сумма заказа</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div class="bg-white/60 p-5 rounded-lg">
+                <p class="text-xs uppercase tracking-widest text-[#887364] mb-2">Статус оплаты</p>
+                <p class="font-bold">{{ order.payment_status }}</p>
+            </div>
+
+            <div class="bg-white/60 p-5 rounded-lg">
+                <p class="text-xs uppercase tracking-widest text-[#887364] mb-2">Статус заказа</p>
+                <p class="font-bold">{{ order.status }}</p>
+            </div>
+
+            <div class="bg-white/60 p-5 rounded-lg">
+                <p class="text-xs uppercase tracking-widest text-[#887364] mb-2">Доставка</p>
+                {% if order.delivery_status == "preparing" %}
+                    <p class="font-bold text-yellow-700">Готовится к доставке</p>
+                {% elif order.delivery_status == "in_delivery" %}
+                    <p class="font-bold text-blue-700">В процессе доставки</p>
+                {% elif order.delivery_status == "ready" %}
+                    <p class="font-bold text-green-700">Готов к получению</p>
+				{% elif order.delivery_status == "completed" %}
+					{% if order.delivery_method == "digital" %}
+						<span class="text-green-700">Доставлено</span>
+					{% else %}
+						<span class="text-gray-700">Получен</span>
+					{% endif %}
+                {% else %}
+                    <p class="font-bold">Статус не указан</p>
+                {% endif %}
+            </div>
+
+            <div class="bg-white/60 p-5 rounded-lg">
+                <p class="text-xs uppercase tracking-widest text-[#887364] mb-2">Способ доставки</p>
+                <p class="font-bold">{{ order.delivery_method }}</p>
+            </div>
+        </div>
+
+        <div class="mb-10">
+            <p class="text-xs uppercase tracking-widest text-[#887364] mb-2">Адрес доставки</p>
+            <div class="bg-white/60 p-5 rounded-lg">
+                {{ order.delivery_address }}
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-serif font-bold mb-6">Состав заказа</h2>
+
+        <div class="space-y-4">
+            {% for item in order.items.all %}
+                <div class="flex justify-between items-start bg-white/60 p-5 rounded-lg">
+                    <div>
+                        <a href="{% url 'catalog:book_detail' item.book.slug %}"
+                           class="font-bold hover:text-[#8d4b00] transition">
+                            {{ item.book.title }}
+                        </a>
+                        <p class="text-sm text-[#554336] mt-1">
+                            Количество: {{ item.quantity }}
+                        </p>
+                    </div>
+
+                    <p class="font-bold">
+                        {{ item.price_at_time }} ₽
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

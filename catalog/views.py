@@ -8,6 +8,8 @@ from django.db.models import Q
 from .models import Book, Author, Genre, Publisher
 from django.db.models import Avg
 from review_rating.models import Review
+from django.db.models import Count
+from cart_order.models import OrderItem
 
 def book_reader_view(request, slug):
     book = get_object_or_404(
@@ -28,6 +30,27 @@ def book_reader_view(request, slug):
     }
     return render(request, "book_reader.html", context)
 
+
+def get_purchase_recommendations(book, limit=4):
+    buyer_ids = OrderItem.objects.filter(
+        book=book,
+        order__payment_status="paid"
+    ).values_list("order__user_id", flat=True).distinct()
+
+    recommendations = (
+        Book.objects.filter(
+            order_items__order__user_id__in=buyer_ids,
+            order_items__order__payment_status="paid",
+            is_active=True
+        )
+        .exclude(id=book.id)
+        .annotate(common_buyers=Count("order_items__order__user", distinct=True))
+        .order_by("-common_buyers", "title")
+        .prefetch_related("authors")
+        .distinct()[:limit]
+    )
+
+    return recommendations
 
 def catalog_home(request):
     books = Book.objects.filter(is_active=True).prefetch_related(
@@ -116,10 +139,13 @@ def book_detail(request, slug):
     stock = getattr(book, "stock", None)
     available_quantity = stock.available() if stock else 0
 
-    related_books = Book.objects.filter(
-        is_active=True,
-        genres__in=book.genres.all()
-    ).exclude(id=book.id).distinct()[:4]
+    related_books = get_purchase_recommendations(book)
+
+    if not related_books:
+        related_books = Book.objects.filter(
+            is_active=True,
+            genres__in=book.genres.all()
+        ).exclude(id=book.id).distinct()[:4]
 
     reviews = book.reviews.select_related("user").order_by("-created_at")[:5]
     average_rating = reviews.aggregate(avg=Avg("rating"))["avg"]

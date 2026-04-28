@@ -7,6 +7,7 @@
     <title>Букинист — Заказ оформлен</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 </head>
 <body class="bg-[#fbf9f4] text-[#1b1c19] min-h-screen">
     {% include "includes/site_header.html" %}
@@ -38,6 +39,10 @@
                    class="border border-[#8d4b00] text-[#8d4b00] px-6 py-3 rounded-md font-bold">
                     В ПРОФИЛЬ
                 </a>
+				<a href="{% url 'cart_order:order_detail' order.id %}"
+   class="border border-[#8d4b00] text-[#8d4b00] px-6 py-3 rounded-md font-bold">
+    ДЕТАЛИ ЗАКАЗА
+</a>
             </div>
         </section>
     </main>

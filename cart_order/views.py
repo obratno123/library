@@ -337,7 +337,18 @@ def stripe_webhook(request):
             order.status = "paid"
             order.payment_status = "paid"
             order.paid_at = timezone.now()
-            order.save(update_fields=["status", "payment_status", "paid_at"])
+
+            if order.delivery_method == "digital":
+                order.delivery_status = "completed"
+            else:
+                order.delivery_status = "preparing"
+
+            order.save(update_fields=[
+                "status",
+                "payment_status",
+                "paid_at",
+                "delivery_status",
+            ])
 
             Payment.objects.filter(
                 order=order,
@@ -359,3 +370,27 @@ def stripe_webhook(request):
             CartItem.objects.filter(cart__user=order.user).delete()
 
     return HttpResponse(status=200)
+@login_required
+def order_history(request):
+    orders = (
+        Order.objects.filter(user=request.user)
+        .prefetch_related("items__book")
+        .order_by("-created_at")
+    )
+
+    return render(request, "order_history.html", {
+        "orders": orders
+    })
+
+
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items__book"),
+        id=order_id,
+        user=request.user
+    )
+
+    return render(request, "order_detail.html", {
+        "order": order
+    })

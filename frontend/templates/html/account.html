@@ -8,7 +8,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -176,6 +175,11 @@
 <a href="{% url 'edit_profile_page' %}"
    class="bg-primary text-on-primary px-6 py-2.5 rounded-md font-medium text-sm hover:bg-primary-container transition-colors shadow-[inset_0px_1px_0px_rgba(255,255,255,0.2)]">
     Редактировать
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all"
+   href="{% url 'cart_order:order_history' %}">
+    <span class="material-symbols-outlined text-lg">receipt_long</span>
+    <span class="text-sm">Мои заказы</span>
 </a>
 </div>
 </section>

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 
 class Cart(models.Model):
     user = models.ForeignKey(
@@ -106,6 +106,19 @@ class Order(models.Model):
         null=True,
         verbose_name="Дата оплаты"
     )
+    DELIVERY_STATUS_CHOICES = [
+        ("preparing", "Готовится к доставке"),
+        ("in_delivery", "В процессе доставки"),
+        ("ready", "Готов к получению"),
+        ("completed", "Получен"),
+    ]
+
+    delivery_status = models.CharField(
+        max_length=20,
+        choices=DELIVERY_STATUS_CHOICES,
+        default="preparing",
+        verbose_name="Статус доставки"
+    )
 
     class Meta:
         verbose_name = "Заказ"
@@ -113,6 +126,25 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Заказ #{self.id} - {self.user.username}"
+        
+    def get_dynamic_delivery_status(self):
+        if self.delivery_method == "digital":
+            return "completed"
+
+        if not self.paid_at:
+            return "preparing"
+
+        delta = timezone.now() - self.paid_at
+        seconds = delta.total_seconds()
+
+        if seconds < 10:
+            return "preparing"
+        elif seconds < 20:
+            return "in_delivery"
+        elif seconds < 30:
+            return "ready"
+        else:
+            return "completed"
 
 
 class OrderItem(models.Model):
